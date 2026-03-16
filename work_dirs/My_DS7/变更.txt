@@ -1,0 +1,21 @@
+ ---
+  变更总结
+
+
+configs/_base_/base.py       │ SOD_LOOKUP: 95/96/97 → 5（多年冰），n_classes: 5→6；新增 unet_dropout: 0.0 默认配置
+loaders.py                   │ 删除两处 SOD=5→255 的重映射代码（训练集+验证集各一处）
+unet.py                      │ DoubleConv 末尾加 Dropout2d(p=unet_dropout)，通过 options.get 读取，向后兼容
+quickstart.py                │ 指标打印/wandb日志循环开头加 if weight==0: continue，跳过 SIC/FLOE
+configs/course_report/all.py │ 调度器改为 CosineAnnealingLR（lr_min=1e-5）；epoch_len: 100→200；SOD权重新增第6位 1.5；新增 unet_dropout: 0.25 │
+
+  ---
+  几点注意事项
+
+  SOD class 5 权重 1.5
+  初始值设为 1.5（略高于 class 4 的 0.5），属于偏保守估计。首轮训练后看 patch_sampling_log.csv 里 sod_5 的实际像素量，再参照其他类的权重比例调整。如果多年冰像素极少（< 1%），可考虑提高到 3.0~5.0。
+
+  Dropout 0.25
+  Dropout2d 对整个通道随机置零，效果强于普通 Dropout。0.25 是保守值，如果过拟合仍明显可提到 0.3~0.4，但不建议超过 0.5（会影响收敛）。
+
+  CosineAnnealingLR 的 T_max
+  在 functions.py 中 T_max = epochs * epoch_len = 70 × 200 = 14000 steps，LR 从 0.001 平滑衰减到 1e-5，全程无跳变。

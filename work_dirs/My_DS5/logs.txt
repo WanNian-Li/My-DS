@@ -1,0 +1,384 @@
+wandb: WARNING Symlinked 1 file into the W&B run directory; call wandb.save again to sync new files.
+Save Config File
+Options initialised
+100%|█| 96/96 [13:39<00:00,  8.54s/it]
+Data setup complete.
+-----------------------------------
+Starting Training
+-----------------------------------
+Training...
+100%|█| 300/300 [02:49<00:00,  1.77it/s]
+100%|█| 4/4 [00:18<00:00,  4.63s/it]
+Validating...
+wandb: WARNING Symlinked 1 file into the W&B run directory; call wandb.save again to sync new files.█| 4/4 [00:18<00:00,  3.52s/it]
+Computing Metrics on Val dataset
+
+Epoch 0 score:
+SIC r2_metric: -7.696000099182129%
+SIC F1 score: tensor([0.0018, 0.0000, 0.0009, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+        0.0159, 0.1096, 0.0000], device='cuda:0')
+SIC OA: 0.03759323060512543
+SIC mIoU: tensor(0.0056, device='cuda:0')
+SOD f1_metric: 42.19900131225586%
+SOD F1 score: tensor([0.8237, 0.0000, 0.5609, 0.3894, 0.0000, 0.0000], device='cuda:0')
+SOD OA: 0.4412071406841278
+SOD mIoU: tensor(0.2664, device='cuda:0')
+FLOE f1_metric: 12.612000465393066%
+FLOE F1 score: tensor([0.0000, 0.0000, 0.0000, 0.0000, 0.1147, 0.2120, 0.0000, 0.0000],
+       device='cuda:0')
+FLOE OA: 0.0841594859957695
+FLOE mIoU: tensor(0.0256, device='cuda:0')
+Combined score: 42.19900131225586%
+Train Epoch Loss: 1.174
+Train Cross Entropy Epoch Loss: 1.174
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.109
+Validation Cross Entropy Epoch Loss: 1.109
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.5684602856636047
+saving model....
+model saved successfully at ./work_dirs/My_DS5/best_model_My_DS5.pth
+100%|█| 300/300 [02:42<00:00,  1.85it/s]
+100%|█| 4/4 [00:09<00:00,  2.33s/it]
+Validating...
+100%|█| 300/300 [02:37<00:00,  1.90it/s]
+Computing Metrics on Val dataset
+
+Epoch 1 score:
+SIC r2_metric: -48.25600051879883%
+SIC F1 score: tensor([0.0047, 0.0000, 0.0008, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+        0.0010, 0.1320, 0.0000], device='cuda:0')
+SIC OA: 0.04302262142300606
+SIC mIoU: tensor(0.0067, device='cuda:0')
+SOD f1_metric: 37.95600128173828%
+SOD F1 score: tensor([0.8067, 0.0000, 0.4267, 0.3054, 0.0079, 0.0000], device='cuda:0')
+SOD OA: 0.4254302978515625
+SOD mIoU: tensor(0.2263, device='cuda:0')
+FLOE f1_metric: 4.986999988555908%
+FLOE F1 score: tensor([5.7631e-05, 0.0000e+00, 0.0000e+00, 0.0000e+00, 4.3435e-02, 8.4163e-02,
+        0.0000e+00, 0.0000e+00], device='cuda:0')
+FLOE OA: 0.03069041483104229
+FLOE mIoU: tensor(0.0095, device='cuda:0')
+Combined score: 37.95600128173828%
+Train Epoch Loss: 0.912
+Train Cross Entropy Epoch Loss: 0.912
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.205
+Validation Cross Entropy Epoch Loss: 1.205
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.35135823488235474
+100%|█| 4/4 [00:09<00:00,  2.33s/it]
+Validating...
+100%|█| 300/300 [02:35<00:00,  1.93it/s]
+Computing Metrics on Val dataset
+
+Epoch 2 score:
+SIC r2_metric: -118.40699768066406%
+SIC F1 score: tensor([0.0068, 0.0000, 0.0011, 0.0000, 0.0000, 0.0001, 0.0000, 0.0000, 0.0000,
+        0.0009, 0.0955, 0.0000], device='cuda:0')
+SIC OA: 0.029819363728165627
+SIC mIoU: tensor(0.0050, device='cuda:0')
+SOD f1_metric: 44.4109992980957%
+SOD F1 score: tensor([0.8769, 0.0000, 0.6441, 0.2905, 0.0092, 0.0000], device='cuda:0')
+SOD OA: 0.45952847599983215
+SOD mIoU: tensor(0.2861, device='cuda:0')
+FLOE f1_metric: 12.034000396728516%
+FLOE F1 score: tensor([5.5148e-05, 0.0000e+00, 0.0000e+00, 0.0000e+00, 4.2126e-01, 1.3769e-01,
+        0.0000e+00, 0.0000e+00], device='cuda:0')
+FLOE OA: 0.09963453561067581
+FLOE mIoU: tensor(0.0426, device='cuda:0')
+Combined score: 44.4109992980957%
+Train Epoch Loss: 0.809
+Train Cross Entropy Epoch Loss: 0.809
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.018
+Validation Cross Entropy Epoch Loss: 1.018
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.31920570135116577
+saving model....
+model saved successfully at ./work_dirs/My_DS5/best_model_My_DS5.pth
+100%|█| 4/4 [00:09<00:00,  2.38s/it]
+Validating...
+100%|█| 300/300 [02:39<00:00,  1.88it/s]
+Computing Metrics on Val dataset
+
+Epoch 3 score:
+SIC r2_metric: -47.08300018310547%
+SIC F1 score: tensor([0.0047, 0.0000, 0.0010, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+        0.0013, 0.1793, 0.0000], device='cuda:0')
+SIC OA: 0.05979304760694504
+SIC mIoU: tensor(0.0093, device='cuda:0')
+SOD f1_metric: 42.45600128173828%
+SOD F1 score: tensor([0.8154, 0.0000, 0.5663, 0.2957, 0.0510, 0.0000], device='cuda:0')
+SOD OA: 0.4620697498321533
+SOD mIoU: tensor(0.2566, device='cuda:0')
+FLOE f1_metric: 8.230999946594238%
+FLOE F1 score: tensor([0.0010, 0.0000, 0.0000, 0.0000, 0.3001, 0.0911, 0.0000, 0.0000],
+       device='cuda:0')
+FLOE OA: 0.07434485852718353
+FLOE mIoU: tensor(0.0321, device='cuda:0')
+Combined score: 42.45600128173828%
+Train Epoch Loss: 0.815
+Train Cross Entropy Epoch Loss: 0.815
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.148
+Validation Cross Entropy Epoch Loss: 1.148
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.3014160990715027
+100%|█| 4/4 [00:09<00:00,  2.32s/it]
+Validating...
+100%|█| 300/300 [02:30<00:00,  2.00it/s]
+Computing Metrics on Val dataset
+
+Epoch 4 score:
+SIC r2_metric: -21.82900047302246%
+SIC F1 score: tensor([4.6901e-04, 0.0000e+00, 6.5688e-05, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 1.7287e-01, 0.0000e+00],
+       device='cuda:0')
+SIC OA: 0.05733208730816841
+SIC mIoU: tensor(0.0086, device='cuda:0')
+SOD f1_metric: 38.6879997253418%
+SOD F1 score: tensor([0.8495, 0.0000, 0.4193, 0.2928, 0.0014, 0.0000], device='cuda:0')
+SOD OA: 0.3959467113018036
+SOD mIoU: tensor(0.2351, device='cuda:0')
+FLOE f1_metric: 5.478000164031982%
+FLOE F1 score: tensor([0.0000, 0.0000, 0.0000, 0.0000, 0.0266, 0.0969, 0.0000, 0.0000],
+       device='cuda:0')
+FLOE OA: 0.03522895649075508
+FLOE mIoU: tensor(0.0080, device='cuda:0')
+Combined score: 38.6879997253418%
+Train Epoch Loss: 0.783
+Train Cross Entropy Epoch Loss: 0.783
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.211
+Validation Cross Entropy Epoch Loss: 1.211
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.36055177450180054
+100%|█| 4/4 [00:09<00:00,  2.36s/it]
+Validating...
+100%|█| 300/300 [02:28<00:00,  2.02it/s]
+Computing Metrics on Val dataset
+
+Epoch 5 score:
+SIC r2_metric: -104.9739990234375%
+SIC F1 score: tensor([0.0027, 0.0000, 0.0108, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+        0.0000, 0.0651, 0.0000], device='cuda:0')
+SIC OA: 0.02153579518198967
+SIC mIoU: tensor(0.0034, device='cuda:0')
+SOD f1_metric: 34.00600051879883%
+SOD F1 score: tensor([0.8358, 0.0000, 0.1044, 0.2925, 0.0668, 0.0000], device='cuda:0')
+SOD OA: 0.38372603058815
+SOD mIoU: tensor(0.1958, device='cuda:0')
+FLOE f1_metric: 7.495999813079834%
+FLOE F1 score: tensor([0.0013, 0.0000, 0.0000, 0.0000, 0.1461, 0.1090, 0.0000, 0.0000],
+       device='cuda:0')
+FLOE OA: 0.04701538383960724
+FLOE mIoU: tensor(0.0171, device='cuda:0')
+Combined score: 34.00600051879883%
+Train Epoch Loss: 0.730
+Train Cross Entropy Epoch Loss: 0.730
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.213
+Validation Cross Entropy Epoch Loss: 1.213
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: -0.022537708282470703
+100%|█| 4/4 [00:09<00:00,  2.39s/it]
+Validating...
+100%|█| 300/300 [02:31<00:00,  1.97it/s]
+Computing Metrics on Val dataset
+
+Epoch 6 score:
+SIC r2_metric: -93.6520004272461%
+SIC F1 score: tensor([1.3056e-02, 0.0000e+00, 2.6009e-04, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 2.9417e-01, 0.0000e+00],
+       device='cuda:0')
+SIC OA: 0.1086590513586998
+SIC mIoU: tensor(0.0163, device='cuda:0')
+SOD f1_metric: 36.13100051879883%
+SOD F1 score: tensor([0.8861, 0.0000, 0.3219, 0.0909, 0.0387, 0.0000], device='cuda:0')
+SOD OA: 0.3574783504009247
+SOD mIoU: tensor(0.2109, device='cuda:0')
+FLOE f1_metric: 29.010000228881836%
+FLOE F1 score: tensor([1.2229e-04, 0.0000e+00, 0.0000e+00, 0.0000e+00, 1.1515e-01, 5.1821e-01,
+        0.0000e+00, 0.0000e+00], device='cuda:0')
+FLOE OA: 0.23445837199687958
+FLOE mIoU: tensor(0.0587, device='cuda:0')
+Combined score: 36.13100051879883%
+Train Epoch Loss: 0.684
+Train Cross Entropy Epoch Loss: 0.684
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.490
+Validation Cross Entropy Epoch Loss: 1.490
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.4634539484977722
+100%|█| 4/4 [00:09<00:00,  2.40s/it]
+Validating...
+100%|█| 300/300 [02:26<00:00,  2.05it/s]
+Computing Metrics on Val dataset
+
+Epoch 7 score:
+SIC r2_metric: -41.599998474121094%
+SIC F1 score: tensor([0.0018, 0.0000, 0.0006, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+        0.0000, 0.1062, 0.0000], device='cuda:0')
+SIC OA: 0.03247915580868721
+SIC mIoU: tensor(0.0048, device='cuda:0')
+SOD f1_metric: 38.766998291015625%
+SOD F1 score: tensor([0.8859, 0.0000, 0.2889, 0.2877, 0.0521, 0.0000], device='cuda:0')
+SOD OA: 0.4012777507305145
+SOD mIoU: tensor(0.2318, device='cuda:0')
+FLOE f1_metric: 12.098999977111816%
+FLOE F1 score: tensor([0.0010, 0.0000, 0.0000, 0.0000, 0.0302, 0.2192, 0.0000, 0.0000],
+       device='cuda:0')
+FLOE OA: 0.07568300515413284
+FLOE mIoU: tensor(0.0174, device='cuda:0')
+Combined score: 38.766998291015625%
+Train Epoch Loss: 0.662
+Train Cross Entropy Epoch Loss: 0.662
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.248
+Validation Cross Entropy Epoch Loss: 1.248
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.22455400228500366
+100%|█| 4/4 [00:09<00:00,  2.35s/it]
+Validating...
+100%|█| 300/300 [02:21<00:00,  2.12it/s]
+Computing Metrics on Val dataset
+
+Epoch 8 score:
+SIC r2_metric: -35.40299987792969%
+SIC F1 score: tensor([0.0122, 0.0000, 0.0054, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+        0.0000, 0.1007, 0.0000], device='cuda:0')
+SIC OA: 0.03267650678753853
+SIC mIoU: tensor(0.0056, device='cuda:0')
+SOD f1_metric: 40.56100082397461%
+SOD F1 score: tensor([0.9333, 0.0000, 0.2041, 0.3018, 0.1076, 0.0000], device='cuda:0')
+SOD OA: 0.4205486476421356
+SOD mIoU: tensor(0.2446, device='cuda:0')
+FLOE f1_metric: 4.080999851226807%
+FLOE F1 score: tensor([0.0040, 0.0000, 0.0000, 0.0000, 0.0095, 0.0717, 0.0000, 0.0000],
+       device='cuda:0')
+FLOE OA: 0.023462362587451935
+FLOE mIoU: tensor(0.0055, device='cuda:0')
+Combined score: 40.56100082397461%
+Train Epoch Loss: 0.591
+Train Cross Entropy Epoch Loss: 0.591
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.203
+Validation Cross Entropy Epoch Loss: 1.203
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.01908057928085327
+100%|█| 4/4 [00:09<00:00,  2.39s/it]
+Validating...
+100%|█| 300/300 [02:25<00:00,  2.06it/s]
+Computing Metrics on Val dataset
+
+Epoch 9 score:
+SIC r2_metric: -38.277000427246094%
+SIC F1 score: tensor([0.0031, 0.0000, 0.0008, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+        0.0000, 0.0836, 0.0000], device='cuda:0')
+SIC OA: 0.025269892066717148
+SIC mIoU: tensor(0.0041, device='cuda:0')
+SOD f1_metric: 42.983001708984375%
+SOD F1 score: tensor([0.9121, 0.0000, 0.3292, 0.2923, 0.1252, 0.0000], device='cuda:0')
+SOD OA: 0.4308476448059082
+SOD mIoU: tensor(0.2547, device='cuda:0')
+FLOE f1_metric: 7.126999855041504%
+FLOE F1 score: tensor([0.0001, 0.0000, 0.0000, 0.0000, 0.0520, 0.1223, 0.0000, 0.0000],
+       device='cuda:0')
+FLOE OA: 0.04359967261552811
+FLOE mIoU: tensor(0.0131, device='cuda:0')
+Combined score: 42.983001708984375%
+Train Epoch Loss: 0.594
+Train Cross Entropy Epoch Loss: 0.594
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.250
+Validation Cross Entropy Epoch Loss: 1.250
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.33445751667022705
+100%|█| 4/4 [00:09<00:00,  2.35s/it]
+Validating...
+100%|█| 300/300 [02:28<00:00,  2.01it/s]
+Computing Metrics on Val dataset
+
+Epoch 10 score:
+SIC r2_metric: -64.23300170898438%
+SIC F1 score: tensor([0.0056, 0.0000, 0.0110, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+        0.0000, 0.1089, 0.0000], device='cuda:0')
+SIC OA: 0.03505808115005493
+SIC mIoU: tensor(0.0055, device='cuda:0')
+SOD f1_metric: 43.24800109863281%
+SOD F1 score: tensor([0.9109, 0.0000, 0.1187, 0.2985, 0.2577, 0.0000], device='cuda:0')
+SOD OA: 0.44357091188430786
+SOD mIoU: tensor(0.2446, device='cuda:0')
+FLOE f1_metric: 7.394999980926514%
+FLOE F1 score: tensor([0.0006, 0.0000, 0.0000, 0.0000, 0.0343, 0.1307, 0.0000, 0.0000],
+       device='cuda:0')
+FLOE OA: 0.04741484299302101
+FLOE mIoU: tensor(0.0110, device='cuda:0')
+Combined score: 43.24800109863281%
+Train Epoch Loss: 0.530
+Train Cross Entropy Epoch Loss: 0.530
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.398
+Validation Cross Entropy Epoch Loss: 1.398
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.2438277006149292
+100%|█| 4/4 [00:09<00:00,  2.37s/it]
+Validating...
+100%|█| 300/300 [02:22<00:00,  2.10it/s]
+Computing Metrics on Val dataset
+
+Epoch 11 score:
+SIC r2_metric: -72.04900360107422%
+SIC F1 score: tensor([0.0080, 0.0000, 0.0216, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+        0.0000, 0.0841, 0.0000], device='cuda:0')
+SIC OA: 0.027287181466817856
+SIC mIoU: tensor(0.0053, device='cuda:0')
+SOD f1_metric: 46.8120002746582%
+SOD F1 score: tensor([0.9441, 0.0000, 0.3065, 0.3144, 0.2125, 0.0000], device='cuda:0')
+SOD OA: 0.46993154287338257
+SOD mIoU: tensor(0.2761, device='cuda:0')
+FLOE f1_metric: 4.947999954223633%
+FLOE F1 score: tensor([0.0001, 0.0000, 0.0000, 0.0000, 0.0054, 0.0913, 0.0000, 0.0000],
+       device='cuda:0')
+FLOE OA: 0.029118072241544724
+FLOE mIoU: tensor(0.0072, device='cuda:0')
+Combined score: 46.8120002746582%
+Train Epoch Loss: 0.519
+Train Cross Entropy Epoch Loss: 0.519
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.276
+Validation Cross Entropy Epoch Loss: 1.276
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.1073160171508789
+saving model....
+model saved successfully at ./work_dirs/My_DS5/best_model_My_DS5.pth
+100%|█| 4/4 [00:09<00:00,  2.35s/it]
+Validating...
+ 72%|█▋                                               | 216/300 [01:46<00:41,  2.03it/s]
+Computing Metrics on Val dataset
+
+Epoch 12 score:
+SIC r2_metric: -83.68800354003906%
+SIC F1 score: tensor([0.0080, 0.0000, 0.0015, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+        0.0000, 0.1116, 0.0000], device='cuda:0')
+SIC OA: 0.034663379192352295
+SIC mIoU: tensor(0.0058, device='cuda:0')
+SOD f1_metric: 40.481998443603516%
+SOD F1 score: tensor([0.9457, 0.0000, 0.1768, 0.2095, 0.1496, 0.0000], device='cuda:0')
+SOD OA: 0.40343016386032104
+SOD mIoU: tensor(0.2384, device='cuda:0')
+FLOE f1_metric: 10.029999732971191%
+FLOE F1 score: tensor([0.0015, 0.0000, 0.0000, 0.0000, 0.0018, 0.1861, 0.0000, 0.0000],
+       device='cuda:0')
+FLOE OA: 0.05959034338593483
+FLOE mIoU: tensor(0.0130, device='cuda:0')
+Combined score: 40.481998443603516%
+Train Epoch Loss: 0.441
+Train Cross Entropy Epoch Loss: 0.441
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.328
+Validation Cross Entropy Epoch Loss: 1.328
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.2623717784881592
+ 19%|█▏                                                                                                                                        | 13/70 [36:58<2:42:06, 170.64s/it]1.67it/s]
