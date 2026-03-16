@@ -1,0 +1,7 @@
+  ---
+  加入 class 5 时的恢复步骤
+
+  未来获取到多年冰样本后，只需：
+  1. base.py：n_classes 改回 6，95/96/97 的映射改回 5
+  2. all.py：weight 补充第 6 个权重值
+  3. loaders.py：删除两处 Remap SOD label 5 代码块，并将 range(n_sod) 改回 range(n_sod - 1)（如果要保持原来的 +1 约定）

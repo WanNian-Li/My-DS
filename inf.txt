@@ -1,0 +1,82 @@
+原项目采用了AI4arctic这个数据集进行海冰识别，现使用./process_sar文件夹里的制作数据集代码，生成的数据集称为MyDS。
+这个数据集和AI4arctic的区别：
+1. 输入数据通道不包含AI4arctic有关ASMR2、天气数据等辅助数据，仅有SAR的HH、HV极化图像、入射角信息、3种GLCM特征，且这些图像的分辨率是一致的（均为80m）；
+2. AI4arctic没有进行地理校正，但是我的代码中使用了该步骤。因此生成的输入数据通道会包含大量的三角形黑边，如果裁剪了大量的三角形黑边输入模型将是不好的操作。
+3. MyDS 数据集路径为：F:\ZJU\11_Ice\dataset_create\dataset_nc_zscore_new 
+    AI4arctic 数据集路径为： F:\ZJU\11_Ice\data_nc\train_part1
+
+MyDS 数据集和 AI4arctic 相同点：
+1. 都是.nc文件;
+2. 标签都分成了SIC、SOD、FLOE，具体可见 utils.py
+3. 主要的SAR图像都为HH、HV
+
+MyDS中某一nc文件的信息打印如下：
+全局属性:
+   - description: Training data file
+   - normalization: global_zscore
+   - normalization_nodata: -9999.0
+   - training_safe_output: 1
+   - training_safe_mask_layer: global_valid_mask
+   - training_safe_invalid_mapped_to: 0.0
+
+   变量列表（含维度/形状/类型/属性）:
+   - nersc_sar_primary: dims=('y', 'x'), shape=(6015, 12853), dtype=float32
+       * description: Sigma0 in dB
+       * polarisation: HH
+       * zscore_mean: -15.896388095466788
+       * zscore_std: 5.824070512759382
+       * zscore_applied: 1
+       * invalid_value_mapped_to: 0.0
+       * training_safe_output: 1
+   - nersc_sar_secondary: dims=('y', 'x'), shape=(6015, 12853), dtype=float32
+       * description: Sigma0 in dB
+       * polarisation: HV
+       * zscore_mean: -29.43852020653711
+       * zscore_std: 4.747358234132588
+       * zscore_applied: 1
+       * invalid_value_mapped_to: 0.0
+       * training_safe_output: 1
+   - sar_incidenceangle: dims=('y', 'x'), shape=(6015, 12853), dtype=float32
+       * description: Incidence angle
+       * units: degrees
+       * zscore_mean: 34.39641374874911
+       * zscore_std: 7.724315931294674
+       * zscore_applied: 1
+       * invalid_value_mapped_to: 0.0
+       * training_safe_output: 1
+   - SIC: dims=('y', 'x'), shape=(6015, 12853), dtype=uint8
+       * description: Sea Ice Concentration
+       * chart_fill_value: 255
+   - SOD: dims=('y', 'x'), shape=(6015, 12853), dtype=uint8
+       * description: Stage of Development
+       * chart_fill_value: 255
+   - FLOE: dims=('y', 'x'), shape=(6015, 12853), dtype=uint8
+       * description: Floe Size
+       * chart_fill_value: 255
+   - glcm_sigma0_hh_contrast: dims=('y', 'x'), shape=(6015, 12853), dtype=float32
+       * description: GLCM texture feature from Sigma0_HH_corrected
+       * zscore_mean: 152.46829969097317
+       * zscore_std: 142.68364674167216
+       * zscore_applied: 1
+       * invalid_value_mapped_to: 0.0
+       * training_safe_output: 1
+   - glcm_sigma0_hh_dissimilarity: dims=('y', 'x'), shape=(6015, 12853), dtype=float32
+       * description: GLCM texture feature from Sigma0_HH_corrected
+       * zscore_mean: 11.76334817750489
+       * zscore_std: 6.214919356379123
+       * zscore_applied: 1
+       * invalid_value_mapped_to: 0.0
+       * training_safe_output: 1
+   - glcm_sigma0_hh_homogeneity: dims=('y', 'x'), shape=(6015, 12853), dtype=float32
+       * description: GLCM texture feature from Sigma0_HH_corrected
+       * zscore_mean: 0.4761680997425359
+       * zscore_std: 0.31535602026588894
+       * zscore_applied: 1
+       * invalid_value_mapped_to: 0.0
+       * training_safe_output: 1
+   - global_valid_mask: dims=('y', 'x'), shape=(6015, 12853), dtype=float32
+       * long_name: Global valid mask for all input features
+       * flag_values: [0 1]
+       * flag_meanings: invalid valid
+任务：
+分析这个项目内容，了解并确认上面的背景信息。此外，你需要修改代码，将这个原本适用AI4arctic的项目改为仅适用于MyDS，其他涉及到AI4arctic但与MyDS无关的内容都可以删除。在做此项任务之前，你可以向我说明我还需要做什么工作可以更好地满足这个项目要求。
