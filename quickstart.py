@@ -179,7 +179,20 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
         #===============================================================#
         #===========================验证循环=============================#
         #===============================================================#
+        val_freq = train_options.get('val_freq', 1)
+        do_validate = (epoch % val_freq == 0) or (epoch == train_options['epochs'] - 1)
+
+        if not do_validate:
+            # 跳过验证，只记录训练指标
+            wandb.log({"Train Epoch Loss": train_loss_epoch,
+                       "Train Cross Entropy Epoch Loss": cross_entropy_epoch,
+                       "Train Water Consistency Epoch Loss": edge_consistency_epoch,
+                       "Learning Rate": optimizer.param_groups[0]["lr"]}, step=epoch)
+            print(f"Train Epoch Loss: {train_loss_epoch:.3f}")
+            continue
+
         # - Stores the output and the reference pixels to calculate the scores after inference on all the scenes.
+        torch.cuda.empty_cache()  # 释放训练残留的缓存显存，为滑窗推理腾出空间
         outputs_flat = {chart: torch.Tensor().to(device) for chart in train_options['charts']}
         inf_ys_flat = {chart: torch.Tensor().to(device) for chart in train_options['charts']}
         # Outputs mask by train fill values
@@ -202,7 +215,8 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
                 inf_x = inf_x.to(device, non_blocking=True)
 
                 #==================根据model_selection选择swin滑动推理还是普通模型的直接推理
-                if train_options['model_selection'] == 'swin':
+                if (train_options['model_selection'] == 'swin' or
+                        train_options['down_sample_scale'] == 1):
                     output = slide_inference(inf_x, net, train_options, 'val')
                     # output = batched_slide_inference(inf_x, net, train_options, 'val')
                 else:

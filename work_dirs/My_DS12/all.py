@@ -40,34 +40,31 @@ train_options = {
         'SOD': {
             'type': 'FocalLoss',
             'ignore_index': 255,
-            'gamma': 1.5,
+            # 类别权重：根据像素频率倒数设定，水体(0)主动压低，新冰(1)/幼冰(2)大幅提高
             # 频率参考（DS8/DS9实测）: 0=31% 1=3% 2=6% 3=12% 4=39% 5=9%
-            'weight': [0.8, 3.0, 2.5, 1.2, 1.0, 1.0],  # per-class alpha
+            'weight': [0.8, 3.0, 2.0, 1.2, 1.0, 1.0],  # 6 classes (0-5)；水体采样已由Filter2控制，loss weight不再额外压低
         },
         'FLOE': {
-            'type': 'CrossEntropyLoss',
+            'type': 'FocalLoss',
             'ignore_index': 255,
-
+            'weight': [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],  # 6 classes (0-5)
         },
     },
 
     'task_weights': [0, 1, 0],
 # 
     'seed': 10,
-    'epochs': 200,
-    'epoch_len': 12,   # 每epoch采样100个batch，梯度估计更稳定
+    'epochs': 70,
+    'epoch_len': 100,   # 每epoch采样100个batch，梯度估计更稳定
 
     'num_workers': 12,  # Number of parallel processes to fetch data.
-    'num_workers_val': 1,  # Number of parallel processes during validation.
+    'num_workers_val': 4,  # Number of parallel processes during validation.
     'prefetch_factor': 4,  # 每个 worker 预取 4 个 batch，保持 GPU 流水线饱满
     'patch_size': 256,
-    'batch_size':16,  # 从16提高至64：down_sample_scale=1时patch仅256×256，大batch才能填满GPU
-    'down_sample_scale': 1, # TODO 尝试不同的下采样比例，看看对性能的影响
-    'val_freq': 4,  # 每4个epoch验证一次（最后一个epoch强制验证）；scale=1时节省验证时间
-    'val_downsample_scale': 4,  # 验证时对场景降采样4倍，避免大场景GPU OOM；训练仍用scale=1
-
+    'batch_size':64,  # 从16提高至64：down_sample_scale=1时patch仅256×256，大batch才能填满GPU
+    'down_sample_scale': 10, # TODO 尝试不同的下采样比例，看看对性能的影响
     'swin_hp': {
-        'val_stride': [256, 256],   # UNet scale=1时滑窗步长：256=无重叠，验证速度优先
+        'val_stride': [128, 128],   # UNet scale=1时滑窗步长：128=50%重叠，速度/质量平衡
         'test_stride': [64, 64],
     },
     'unet_conv_filters': [64, 64, 128, 128],

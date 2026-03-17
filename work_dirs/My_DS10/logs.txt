@@ -1,0 +1,214 @@
+wandb: WARNING Symlinked 1 file into the W&B run directory; call wandb.save again to sync new files.
+Save Config File
+Options initialised
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 55/55 [09:49<00:00, 10.73s/it]
+Data setup complete.
+-----------------------------------
+Starting Training
+-----------------------------------
+Training...
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:41<00:00,  2.38it/s]
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:41<00:00,  4.29it/s]W0316 17:32:38.086000 16723 site-packages/torch/_dynamo/convert_frame.py:1358] [0/8] torch._dynamo hit config.recompile_limit (8)
+Validating...
+W0316 17:32:38.086000 16723 site-packages/torch/_dynamo/convert_frame.py:1358] [0/8]    function: 'forward' (/root/code/MySeaIce/unet.py:55) [00:26<00:19,  2.80s/it]
+W0316 17:32:38.086000 16723 site-packages/torch/_dynamo/convert_frame.py:1358] [0/8]    last reason: 0/7: (((-2) + x.size()[3]) % 2) == 0  # return F.max_pool2d(  # nn/modules/pooling.py:226 in forward (_meta_registrations.py:4405 in div_rtn)
+W0316 17:32:38.086000 16723 site-packages/torch/_dynamo/convert_frame.py:1358] [0/8] To log all recompilation reasons, use TORCH_LOGS="recompiles".
+W0316 17:32:38.086000 16723 site-packages/torch/_dynamo/convert_frame.py:1358] [0/8] To diagnose recompilation issues, see https://pytorch.org/docs/main/torch.compiler_troubleshooting.html
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14/14 [00:46<00:00,  3.34s/it]
+wandb: WARNING Symlinked 1 file into the W&B run directory; call wandb.save again to sync new files.███████| 14/14 [00:46<00:00,  3.34s/it]
+Computing Metrics on Val dataset
+
+Epoch 0 score:
+SOD f1_metric: 17.457000732421875%
+SOD F1 score: tensor([0.4049, 0.1357, 0.1427, 0.0000, 0.0000, 0.0026], device='cuda:0')
+SOD OA: 0.17178167402744293
+SOD mIoU: tensor(0.0675, device='cuda:0')
+Combined score: 17.457000732421875%
+Train Epoch Loss: 1.598
+Train Cross Entropy Epoch Loss: 1.598
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 2.316
+Validation Cross Entropy Epoch Loss: 2.316
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.4381793737411499
+saving model....
+model saved successfully at ./work_dirs/My_DS10/best_model_My_DS10.pth
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:39<00:00,  2.51it/s]
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14/14 [00:47<00:00,  3.40s/it]
+Validating...
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:39<00:00,  2.52it/s]
+Computing Metrics on Val dataset
+
+Epoch 1 score:
+SOD f1_metric: 8.140000343322754%
+SOD F1 score: tensor([0.0000, 0.1627, 0.0795, 0.0000, 0.0000, 0.2457], device='cuda:0')
+SOD OA: 0.08900164812803268
+SOD mIoU: tensor(0.0450, device='cuda:0')
+Combined score: 8.140000343322754%
+Train Epoch Loss: 1.470
+Train Cross Entropy Epoch Loss: 1.470
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.717
+Validation Cross Entropy Epoch Loss: 1.717
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.21495026350021362
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14/14 [00:47<00:00,  3.41s/it]
+Validating...
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:38<00:00,  2.57it/s]
+Computing Metrics on Val dataset
+
+Epoch 2 score:
+SOD f1_metric: 13.371000289916992%
+SOD F1 score: tensor([0.0000e+00, 1.9398e-01, 1.2061e-01, 3.2254e-05, 0.0000e+00, 4.1493e-01],
+       device='cuda:0')
+SOD OA: 0.14130595326423645
+SOD mIoU: tensor(0.0722, device='cuda:0')
+Combined score: 13.371000289916992%
+Train Epoch Loss: 1.424
+Train Cross Entropy Epoch Loss: 1.424
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.687
+Validation Cross Entropy Epoch Loss: 1.687
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.5470020771026611
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14/14 [00:46<00:00,  3.31s/it]
+Validating...
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:38<00:00,  2.59it/s]
+Computing Metrics on Val dataset
+
+Epoch 3 score:
+SOD f1_metric: 18.54800033569336%
+SOD F1 score: tensor([4.4477e-04, 1.5922e-01, 9.6468e-02, 2.2915e-02, 0.0000e+00, 5.9442e-01],
+       device='cuda:0')
+SOD OA: 0.17516736686229706
+SOD mIoU: tensor(0.0953, device='cuda:0')
+Combined score: 18.54800033569336%
+Train Epoch Loss: 1.371
+Train Cross Entropy Epoch Loss: 1.371
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.648
+Validation Cross Entropy Epoch Loss: 1.648
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.4367682933807373
+saving model....
+model saved successfully at ./work_dirs/My_DS10/best_model_My_DS10.pth
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14/14 [00:47<00:00,  3.37s/it]
+Validating...
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:37<00:00,  2.65it/s]
+Computing Metrics on Val dataset
+
+Epoch 4 score:
+SOD f1_metric: 20.284000396728516%
+SOD F1 score: tensor([0.0380, 0.1616, 0.1385, 0.0021, 0.0000, 0.6033], device='cuda:0')
+SOD OA: 0.2005620300769806
+SOD mIoU: tensor(0.1024, device='cuda:0')
+Combined score: 20.284000396728516%
+Train Epoch Loss: 1.323
+Train Cross Entropy Epoch Loss: 1.323
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.636
+Validation Cross Entropy Epoch Loss: 1.636
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.10065072774887085
+saving model....
+model saved successfully at ./work_dirs/My_DS10/best_model_My_DS10.pth
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14/14 [00:48<00:00,  3.45s/it]
+Validating...
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:40<00:00,  2.47it/s]
+Computing Metrics on Val dataset
+
+Epoch 5 score:
+SOD f1_metric: 19.759000778198242%
+SOD F1 score: tensor([0.0000e+00, 1.5661e-01, 1.4178e-01, 1.6665e-04, 0.0000e+00, 6.3783e-01],
+       device='cuda:0')
+SOD OA: 0.20402272045612335
+SOD mIoU: tensor(0.1049, device='cuda:0')
+Combined score: 19.759000778198242%
+Train Epoch Loss: 1.312
+Train Cross Entropy Epoch Loss: 1.312
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.623
+Validation Cross Entropy Epoch Loss: 1.623
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: -0.34971022605895996
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14/14 [00:46<00:00,  3.35s/it]
+Validating...
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:40<00:00,  2.46it/s]
+Computing Metrics on Val dataset
+
+Epoch 6 score:
+SOD f1_metric: 21.351999282836914%
+SOD F1 score: tensor([0.0000e+00, 1.4993e-01, 1.5159e-01, 3.2786e-04, 0.0000e+00, 6.9194e-01],
+       device='cuda:0')
+SOD OA: 0.22350655496120453
+SOD mIoU: tensor(0.1154, device='cuda:0')
+Combined score: 21.351999282836914%
+Train Epoch Loss: 1.298
+Train Cross Entropy Epoch Loss: 1.298
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.599
+Validation Cross Entropy Epoch Loss: 1.599
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: -0.29169678688049316
+saving model....
+model saved successfully at ./work_dirs/My_DS10/best_model_My_DS10.pth
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14/14 [00:48<00:00,  3.44s/it]
+Validating...
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:36<00:00,  2.72it/s]
+Computing Metrics on Val dataset
+
+Epoch 7 score:
+SOD f1_metric: 22.006000518798828%
+SOD F1 score: tensor([1.2713e-04, 1.4032e-01, 1.6660e-01, 1.1559e-04, 0.0000e+00, 7.1228e-01],
+       device='cuda:0')
+SOD OA: 0.23487508296966553
+SOD mIoU: tensor(0.1199, device='cuda:0')
+Combined score: 22.006000518798828%
+Train Epoch Loss: 1.296
+Train Cross Entropy Epoch Loss: 1.296
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.544
+Validation Cross Entropy Epoch Loss: 1.544
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: -0.19866418838500977
+saving model....
+model saved successfully at ./work_dirs/My_DS10/best_model_My_DS10.pth
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14/14 [00:47<00:00,  3.41s/it]
+Validating...
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:38<00:00,  2.59it/s]
+Computing Metrics on Val dataset
+
+Epoch 8 score:
+SOD f1_metric: 20.97100067138672%
+SOD F1 score: tensor([3.1780e-04, 1.3082e-01, 1.6652e-01, 5.3774e-06, 0.0000e+00, 6.7704e-01],
+       device='cuda:0')
+SOD OA: 0.22269542515277863
+SOD mIoU: tensor(0.1121, device='cuda:0')
+Combined score: 20.97100067138672%
+Train Epoch Loss: 1.265
+Train Cross Entropy Epoch Loss: 1.265
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.609
+Validation Cross Entropy Epoch Loss: 1.609
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: -0.09109735488891602
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14/14 [00:48<00:00,  3.43s/it]
+Validating...
+ 12%|██████████████▏                                                                                                       | 12/100 [00:08<01:02,  1.41it/s]
+Computing Metrics on Val dataset
+
+Epoch 9 score:
+SOD f1_metric: 21.944000244140625%
+SOD F1 score: tensor([3.4107e-03, 1.2659e-01, 1.6494e-01, 2.7406e-04, 0.0000e+00, 7.0761e-01],
+       device='cuda:0')
+SOD OA: 0.23148660361766815
+SOD mIoU: tensor(0.1178, device='cuda:0')
+Combined score: 21.944000244140625%
+Train Epoch Loss: 1.248
+Train Cross Entropy Epoch Loss: 1.248
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 1.560
+Validation Cross Entropy Epoch Loss: 1.560
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: -0.06429636478424072
+ 14%|████████████████▋                                                                                                    | 10/70 [14:37<1:27:45, 87.75s/it]3.45it/s]

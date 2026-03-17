@@ -347,6 +347,24 @@ class AI4ArcticChallengeDataset(Dataset):
                         if water_ratio > water_max_ratio and np.random.rand() < water_reject_prob:
                             continue  # discard patch, resample
 
+                # Filter 3 — Rare-class weighted sampling: patches containing rare SOD
+                # classes are accepted more often, proportional to their pixel fraction.
+                # Acceptance probability = (1 - alpha) + alpha * rare_frac, so:
+                #   rare_frac=0  → accepted with probability (1 - alpha)
+                #   rare_frac=1  → always accepted
+                # Config: rare_sampling_classes (list[int], default [] = disabled),
+                #         rare_sampling_alpha   (float [0,1], default 0.0 = disabled).
+                _rare_classes = self.options.get('rare_sampling_classes', [])
+                _rare_alpha = self.options.get('rare_sampling_alpha', 0.0)
+                if _rare_classes and _rare_alpha > 0.0:
+                    _valid_sod = sod_flat[sod_flat != 255]
+                    if len(_valid_sod) > 0:
+                        _rare_count = float(sum((_valid_sod == c).sum() for c in _rare_classes))
+                        _rare_frac = _rare_count / len(_valid_sod)
+                        _accept_prob = (1.0 - _rare_alpha) + _rare_alpha * _rare_frac
+                        if np.random.rand() > _accept_prob:
+                            continue  # discard patch, resample
+
                 if self.do_transform:
                     x_patch, y_patch = self.transform(x_patch, y_patch)
 
@@ -476,9 +494,15 @@ class AI4ArcticChallengeTestDataset(Dataset):
             scene[self.options['train_variables']].to_array().values).unsqueeze(0).float()
 
         # Downscale if needed
-        if self.options['down_sample_scale'] != 1:
+        # 验证/测试时可用 val_downsample_scale 单独控制分辨率，避免大场景 GPU OOM
+        if self.mode in ('train', 'test', 'test_no_gt') and self.options.get('val_downsample_scale', 1) != 1:
+            effective_scale = self.options['val_downsample_scale']
+        else:
+            effective_scale = self.options['down_sample_scale']
+
+        if effective_scale != 1:
             x = torch.nn.functional.interpolate(
-                x, scale_factor=1/self.options['down_sample_scale'],
+                x, scale_factor=1/effective_scale,
                 mode=self.options['loader_downsampling'])
 
         if self.mode != 'test_no_gt':
@@ -486,7 +510,7 @@ class AI4ArcticChallengeTestDataset(Dataset):
             y_charts = torch.from_numpy(
                 scene_for_y[self.options['charts']].isel().to_array().values).unsqueeze(0)
             y_charts = torch.nn.functional.interpolate(
-                y_charts, scale_factor=1/self.options['down_sample_scale'], mode='nearest')
+                y_charts, scale_factor=1/effective_scale, mode='nearest')
 
             y = {}
             for idx, chart in enumerate(self.options['charts']):

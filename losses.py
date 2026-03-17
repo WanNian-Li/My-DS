@@ -90,6 +90,47 @@ class MSELossFromLogits(nn.Module):
 
         return loss
 
+class FocalLoss(nn.Module):
+    """Alpha-weighted Focal Loss for multi-class segmentation.
+
+    FL(p_t) = -alpha_t * (1 - p_t)^gamma * log(p_t)
+
+    Args:
+        gamma: focusing parameter >= 0. gamma=0 degenerates to weighted CE.
+        weight: per-class alpha weights, list/tuple or 1-D FloatTensor [C].
+        ignore_index: pixels with this label are excluded from loss.
+    """
+
+    def __init__(self, gamma: float = 2.0, weight=None, ignore_index: int = 255):
+        super().__init__()
+        self.gamma = gamma
+        self.ignore_index = ignore_index
+        if weight is not None:
+            self.register_buffer('weight', torch.FloatTensor(weight))
+        else:
+            self.weight = None
+
+    def forward(self, inputs: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+        # inputs : [B, C, H, W] logits
+        # targets: [B, H, W]   class indices
+        valid_mask = targets != self.ignore_index          # [B, H, W]
+        targets_safe = targets.clone()
+        targets_safe[~valid_mask] = 0                      # prevent gather OOB
+
+        log_prob = F.log_softmax(inputs, dim=1)            # [B, C, H, W]
+        log_pt = log_prob.gather(1, targets_safe.unsqueeze(1)).squeeze(1)  # [B, H, W]
+        pt = log_pt.exp()
+
+        if self.weight is not None:
+            alpha_t = self.weight[targets_safe]            # [B, H, W]
+        else:
+            alpha_t = inputs.new_ones(targets.shape)
+
+        loss = -alpha_t * (1.0 - pt) ** self.gamma * log_pt   # [B, H, W]
+        loss = loss * valid_mask.float()
+        return loss.sum() / valid_mask.float().sum().clamp(min=1.0)
+
+
 class WaterConsistencyLoss(nn.Module):
 
     def __init__(self):

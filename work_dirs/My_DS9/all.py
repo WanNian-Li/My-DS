@@ -8,7 +8,7 @@ train_options = {
     'path_to_train_data': '/root/autodl-tmp/My_dataset/',
     'path_to_test_data': '/root/autodl-tmp/My_dataset/',
 
-    'train_list_path': 'datalists/train_list_small.json',
+    'train_list_path': 'datalists/train_list.json',
     'val_path': 'datalists/val_list.json',
     'test_path': 'datalists/test_list.json',
 
@@ -38,11 +38,9 @@ train_options = {
             'ignore_index': 255,
         },
         'SOD': {
-            'type': 'FocalLoss',
+            'type': 'CrossEntropyLoss',
             'ignore_index': 255,
-            'gamma': 1.5,
-            # 频率参考（DS8/DS9实测）: 0=31% 1=3% 2=6% 3=12% 4=39% 5=9%
-            'weight': [0.8, 3.0, 2.5, 1.2, 1.0, 1.0],  # per-class alpha
+            'weight': [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],  # 6 classes (0-5)
         },
         'FLOE': {
             'type': 'CrossEntropyLoss',
@@ -54,22 +52,15 @@ train_options = {
     'task_weights': [0, 1, 0],
 # 
     'seed': 10,
-    'epochs': 200,
-    'epoch_len': 12,   # 每epoch采样100个batch，梯度估计更稳定
+    'epochs': 70,
+    'epoch_len': 200,   # 每epoch采样200个batch，梯度估计更稳定
 
     'num_workers': 12,  # Number of parallel processes to fetch data.
-    'num_workers_val': 1,  # Number of parallel processes during validation.
+    'num_workers_val': 0,  # Number of parallel processes during validation.
     'prefetch_factor': 4,  # 每个 worker 预取 4 个 batch，保持 GPU 流水线饱满
     'patch_size': 256,
-    'batch_size':16,  # 从16提高至64：down_sample_scale=1时patch仅256×256，大batch才能填满GPU
-    'down_sample_scale': 1, # TODO 尝试不同的下采样比例，看看对性能的影响
-    'val_freq': 4,  # 每4个epoch验证一次（最后一个epoch强制验证）；scale=1时节省验证时间
-    'val_downsample_scale': 4,  # 验证时对场景降采样4倍，避免大场景GPU OOM；训练仍用scale=1
-
-    'swin_hp': {
-        'val_stride': [256, 256],   # UNet scale=1时滑窗步长：256=无重叠，验证速度优先
-        'test_stride': [64, 64],
-    },
+    'batch_size':32,  # 从16提高至64：down_sample_scale=10时patch仅256×256，大batch才能填满GPU
+    'down_sample_scale': 5, # TODO 尝试不同的下采样比例，看看对性能的影响
     'unet_conv_filters': [64, 64, 128, 128],
     'unet_dropout': 0.25,  # 添加Dropout2d缓解过拟合（每个DoubleConv块末尾）
 
@@ -88,15 +79,6 @@ train_options = {
     # 设 water_rejection_prob=0.0 或 water_patch_max_ratio=1.0 可关闭此过滤。
     'water_patch_max_ratio': 0.80,   # 水体占有效像素 > 80% 时触发拒绝
     'water_rejection_prob': 0.85,    # 触发后以 85% 的概率丢弃该 patch
-
-    # --- 稀有类加权采样 ---
-    # Filter 3: 根据 patch 内稀有 SOD 类的像素占比，对 patch 进行概率性接受。
-    # 接受概率 = (1 - alpha) + alpha * rare_frac
-    #   rare_frac=0 时，patch 以 (1-alpha) 的概率被接受（非零保留，保持模型见过非稀有patch）
-    #   rare_frac=1 时，patch 始终被接受
-    # 设 rare_sampling_alpha=0.0 或 rare_sampling_classes=[] 可关闭此过滤。
-    'rare_sampling_classes': [1, 2],  # 新冰(1)、幼冰(2) 为稀有类目标
-    'rare_sampling_alpha': 0.3,       # 0=均匀采样, 1=完全按稀有类密度采样
 
     'data_augmentations': {
         'Random_h_flip': 0.5,

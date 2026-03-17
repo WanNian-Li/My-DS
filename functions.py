@@ -328,10 +328,17 @@ def slide_inference(img, net, options, mode):
     FLOE_channels = options['n_classes']['FLOE']
     h_grids = max(h_img - h_crop + h_stride - 1, 0) // h_stride + 1
     w_grids = max(w_img - w_crop + w_stride - 1, 0) // w_stride + 1
+
     preds_SIC = img.new_zeros((batch_size, SIC_channels, h_img, w_img))
     preds_SOD = img.new_zeros((batch_size, SOD_channels, h_img, w_img))
     preds_FLOE = img.new_zeros((batch_size, FLOE_channels, h_img, w_img))
     count_mat = img.new_zeros((batch_size, 1, h_img, w_img))
+    
+    # 累积张量放 CPU，避免大场景下 GPU OOM；每个 crop 的 forward 仍在 GPU 上执行
+    # preds_SIC  = torch.zeros((batch_size, SIC_channels,  h_img, w_img), dtype=img.dtype)
+    # preds_SOD  = torch.zeros((batch_size, SOD_channels,  h_img, w_img), dtype=img.dtype)
+    # preds_FLOE = torch.zeros((batch_size, FLOE_channels, h_img, w_img), dtype=img.dtype)
+    # count_mat  = torch.zeros((batch_size, 1,             h_img, w_img), dtype=img.dtype)
     for h_idx in range(h_grids):
         for w_idx in range(w_grids):
             y1 = h_idx * h_stride
@@ -383,6 +390,10 @@ def slide_inference(img, net, options, mode):
     preds_SIC = preds_SIC / count_mat
     preds_SOD = preds_SOD / count_mat
     preds_FLOE = preds_FLOE / count_mat
+    # device = img.device
+    # preds_SIC  = (preds_SIC  / count_mat).to(device)
+    # preds_SOD  = (preds_SOD  / count_mat).to(device)
+    # preds_FLOE = (preds_FLOE / count_mat).to(device)
 
     return {'SIC': preds_SIC,
             'SOD': preds_SOD,
@@ -693,8 +704,9 @@ def get_loss(loss, chart=None, **kwargs):
         kwargs.pop('type')
         loss = smp.losses.DiceLoss(**kwargs)
     elif loss == 'FocalLoss':
+        from losses import FocalLoss as _FocalLoss
         kwargs.pop('type')
-        loss = smp.losses.FocalLoss(**kwargs)
+        loss = _FocalLoss(**kwargs)
     elif loss == 'JaccardLoss':
         raise NotImplementedError
         kwargs.pop('type')
