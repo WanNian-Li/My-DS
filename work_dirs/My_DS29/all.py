@@ -9,11 +9,9 @@ train_options = {
     'path_to_test_data': '/root/autodl-tmp/My_dataset/',
 
     'train_list_path': 'datalists/train_list_small.json',
-    'val_path': 'datalists/val_list.json',
+    'val_path': 'datalists/val_list2.json',
     'test_path': 'datalists/test_list.json',
 
-    # 'model_selection': 'dbunet',
-    # 'dbunet_sar_channels': 3,   # 可选，默认就是 3
 
     'compute_classwise_f1score': True,
     'plot_confusion_matrix':True,
@@ -27,18 +25,16 @@ train_options = {
         'nesterov': False,
         'weight_decay': 0.01
     },
+    # 'optimizer': {
+    #   'type': 'Adam',
+    #   'lr': 1e-3,
+    #   'weight_decay': 1e-4,
+    # },
 
     'scheduler': {
-        'type': 'CosineAnnealingLR',  # 去掉热重启，使用平滑衰减至 lr_min
-        'lr_min': 1e-5,              # 最终学习率下限
+        'type': 'CosineAnnealingLR',
+        'lr_min': 1e-5,
     },
-    # 'scheduler': {
-    #     'type': 'ReduceLROnPlateau',
-    #     'factor': 0.5,      # 触发时 lr 减半
-    #     'patience': 5,      # 连续 5 个 epoch 无改善触发
-    #     'min_lr': 1e-5,     # lr 下限
-    #     'threshold': 1e-4,  # 改善量低于此值视为未改善（combined_score 单位：%）
-    # },
 
     'chart_loss': {  # Loss for the task
         'SIC': {
@@ -62,7 +58,7 @@ train_options = {
 # 
     'seed': 10,
     'epochs': 200,
-    'epoch_len': 100,  # scale=10时场景预加载入内存，裁剪极快，可采样更多batch
+    'epoch_len': 150,  # scale=10时场景预加载入内存，裁剪极快，可采样更多batch
 
     'num_workers': 18,  # Number of parallel processes to fetch data.
     'num_workers_val': 6,  # Number of parallel processes during validation.

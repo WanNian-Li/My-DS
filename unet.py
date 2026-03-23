@@ -23,7 +23,8 @@ class UNet(torch.nn.Module):
     def __init__(self, options):
         super().__init__()
 
-        self.input_block = DoubleConv(options, input_n=len(options['train_variables']),
+        _in_ch = len(options['train_variables']) + (2 if options.get('month_encoding', False) else 0)
+        self.input_block = DoubleConv(options, input_n=_in_ch,
                                       output_n=options['unet_conv_filters'][0])
 
         self.contract_blocks = torch.nn.ModuleList()

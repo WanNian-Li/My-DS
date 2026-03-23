@@ -25,13 +25,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--config",
         type=str,
-        default="configs/course_report/all.py",
+        default="work_dirs/My_DS14/all.py",
         help="Path to config file.",
     )
     parser.add_argument(
         "--checkpoint",
         type=str,
-        default="work_dirs/My_DS8/best_model_My_DS8.pth",
+        default="work_dirs/My_DS14/best_model_My_DS14.pth",
         help="Path to .pth checkpoint.",
     )
     parser.add_argument(
@@ -55,7 +55,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--device",
         type=str,
-        default= "cpu",
+        default= "cuda:0",
         help="Device, e.g. cuda:0 or cpu. Default: auto.",
     )
     parser.add_argument(
@@ -78,25 +78,25 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-csv",
         type=str,
-        default="work_dirs/My_DS8/train_scene_metrics.csv",
+        default="work_dirs/My_DS14/train_scene_metrics.csv",
         help="CSV path for all scene metrics.",
     )
     parser.add_argument(
         "--bad-scenes-csv",
         type=str,
-        default="work_dirs/My_DS8/val_bad_scenes.csv",
+        default="work_dirs/My_DS14/val_bad_scenes.csv",
         help="CSV path for low-score scenes.",
     )
     parser.add_argument(
         "--filtered-val-list",
         type=str,
-        default="work_dirs/My_DS8/val_list_filtered.json",
+        default="work_dirs/My_DS14/val_list_filtered.json",
         help="JSON path for filtered val scenes after removing bad scenes.",
     )
     parser.add_argument(
         "--bad-scenes-json",
         type=str,
-        default="work_dirs/My_DS8/bad_scenes.json",
+        default="work_dirs/My_DS14/bad_scenes.json",
         help="JSON path for bad scene filenames.",
     )
     return parser.parse_args()

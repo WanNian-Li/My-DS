@@ -54,22 +54,22 @@ SOD_LOOKUP = {
     80: 0,  # No stage of development
     81: 1,  # New ice
     82: 1,  # Nilas, ring ice
-    83: 2,  # Young ice
-    84: 2,  # Grey ice
-    85: 2,  # White ice
-    86: 4,  # First-year ice, overall categary
-    87: 3,  # Thin first-year ice
-    88: 3,  # Thin first-year ice, stage 1
-    89: 3,  # Thin first-year ice, stage 2
-    91: 4,  # Medium first-year ice
-    93: 4,  # Thick first-year ice
-    95: 5,    # Old ice        → 多年冰类别
-    96: 5,    # Second year ice → 多年冰类别
-    97: 5,    # Multi-year ice  → 多年冰类别
+    83: 1,  # Young ice       → 合并入新冰/幼冰类(1)
+    84: 1,  # Grey ice        → 合并入新冰/幼冰类(1)
+    85: 1,  # White ice       → 合并入新冰/幼冰类(1)
+    86: 3,  # First-year ice, overall categary
+    87: 2,  # Thin first-year ice
+    88: 2,  # Thin first-year ice, stage 1
+    89: 2,  # Thin first-year ice, stage 2
+    91: 3,  # Medium first-year ice
+    93: 3,  # Thick first-year ice
+    95: 4,  # Old ice        → 多年冰类别
+    96: 4,  # Second year ice → 多年冰类别
+    97: 4,  # Multi-year ice  → 多年冰类别
     98: 255,  # Glacier ice     → 忽略
     99: 255,
     'mask': 255,
-    'n_classes': 6  # 0=水体, 1=新冰, 2=幼冰, 3=薄一年冰, 4=一年冰, 5=多年冰
+    'n_classes': 5  # 0=水体, 1=新冰/幼冰(合并), 2=薄一年冰, 3=厚一年冰, 4=多年冰
 }
 
 # Ice floe/form code to class conversion lookup table.

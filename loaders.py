@@ -3,6 +3,7 @@
 import os
 import os.path as osp
 import csv
+import math
 from tqdm import tqdm
 
 # -- Third-party modules -- #
@@ -14,6 +15,18 @@ import torchvision.transforms.functional as TF
 
 # -- Proprietary modules -- #
 from functions import rand_bbox
+
+
+def _month_sin_cos(filename):
+    """Extract month from scene filename and return (sin, cos) cyclic encoding.
+
+    Filename format: S1A_EW_GRDM_1SDH_YYYYMMDDTHHMMSS_...nc
+    Month digits are at filename[21:23].
+    """
+    month = int(filename[21:23])
+    angle = 2 * math.pi * month / 12
+    return math.sin(angle), math.cos(angle)
+
 
 class AI4ArcticChallengeDataset(Dataset):
     """Pytorch dataset for loading batches of patches of scenes from the ASID
@@ -131,6 +144,13 @@ class AI4ArcticChallengeDataset(Dataset):
                 y=range(row_rand, row_rand + self.options['patch_size']),
                 x=range(col_rand, col_rand + self.options['patch_size'])).to_array().values
 
+            # Remap SOD labels in-place: merge old class 2 (young ice) into class 1
+            # (new/young ice). All old labels >=2 (excluding mask=255) shift down by 1:
+            # old 2→1, old 3→2, old 4→3, old 5→4.
+            sod_ch = patch[self._sod_chart_idx]
+            valid = sod_ch != 255
+            sod_ch[valid & (sod_ch >= 2)] -= 1
+
             x_patch = torch.from_numpy(
                 patch[len(self.options['charts']):, :]).type(torch.float).unsqueeze(0)
             y_patch = torch.from_numpy(patch[:len(self.options['charts']), :, :]).unsqueeze(0)
@@ -187,6 +207,12 @@ class AI4ArcticChallengeDataset(Dataset):
             patch[0:len(self.options['full_variables']), :, :] = \
                 self.scenes[idx][:, row_rand:row_rand + int(self.options['patch_size']),
                                  col_rand:col_rand + int(self.options['patch_size'])].numpy()
+
+            # Remap SOD labels in-place: merge old class 2 (young ice) into class 1
+            # (new/young ice). All old labels >=2 (excluding mask=255) shift down by 1.
+            sod_ch = patch[self._sod_chart_idx]
+            valid = sod_ch != 255
+            sod_ch[valid & (sod_ch >= 2)] -= 1
 
             x_patch = torch.from_numpy(
                 patch[len(self.options['charts']):, :]).type(torch.float).unsqueeze(0)
@@ -278,8 +304,9 @@ class AI4ArcticChallengeDataset(Dataset):
             Dictionary with 3D torch tensors for each chart; reference data for training data x.
         """
         # Placeholder to fill with data.
-
-        x_patches = torch.zeros((self.options['batch_size'], len(self.options['train_variables']),
+        _use_month = self.options.get('month_encoding', False)
+        _n_channels = len(self.options['train_variables']) + (2 if _use_month else 0)
+        x_patches = torch.zeros((self.options['batch_size'], _n_channels,
                                  self.options['patch_size'], self.options['patch_size']))
         y_patches = torch.zeros((self.options['batch_size'], len(self.options['charts']),
                                  self.options['patch_size'], self.options['patch_size']))
@@ -320,6 +347,13 @@ class AI4ArcticChallengeDataset(Dataset):
                     continue
 
             if x_patch is not None:
+                # Append sin/cos month encoding as 2 constant spatial channels.
+                if _use_month:
+                    s, c = _month_sin_cos(self.files[scene_id])
+                    H, W = x_patch.shape[-2], x_patch.shape[-1]
+                    month_ch = torch.tensor([s, c], dtype=torch.float).view(1, 2, 1, 1).expand(1, 2, H, W)
+                    x_patch = torch.cat([x_patch, month_ch], dim=1)
+
                 # Compute SOD label flat array once; reused by both filters and patch log.
                 sod_flat = y_patch[0, self._sod_chart_idx].numpy().flatten()
 
@@ -470,7 +504,7 @@ class AI4ArcticChallengeTestDataset(Dataset):
         """
         return len(self.files)
 
-    def prep_scene(self, scene, scene_y=None):
+    def prep_scene(self, scene, scene_y=None, filename=None):
         """
         Load a full scene for inference/validation. For MyDS, all variables are at
         the same 80m resolution, so no upsampling is needed.
@@ -515,8 +549,23 @@ class AI4ArcticChallengeTestDataset(Dataset):
             y = {}
             for idx, chart in enumerate(self.options['charts']):
                 y[chart] = y_charts[:, idx].squeeze().numpy()
+
+            # Remap SOD labels: merge old class 2 (young ice) into class 1 (new/young ice).
+            # All old labels >=2 (excluding mask=255) shift down by 1.
+            if 'SOD' in y:
+                sod = y['SOD'].copy()
+                valid = sod != 255
+                sod[valid & (sod >= 2)] -= 1
+                y['SOD'] = sod
         else:
             y = None
+
+        # Append sin/cos month encoding as 2 constant spatial channels.
+        if self.options.get('month_encoding', False) and filename is not None:
+            s, c = _month_sin_cos(filename)
+            H, W = x.shape[-2], x.shape[-1]
+            month_ch = torch.tensor([s, c], dtype=torch.float).view(1, 2, 1, 1).expand(1, 2, H, W)
+            x = torch.cat([x, month_ch], dim=1)
 
         return x.float(), y
 
@@ -552,7 +601,7 @@ class AI4ArcticChallengeTestDataset(Dataset):
             scene = xr.open_dataset(os.path.join(
                 self.options['path_to_train_data'], self.files[idx]), engine='h5netcdf', mask_and_scale=False)
 
-        x, y = self.prep_scene(scene, scene_y)
+        x, y = self.prep_scene(scene, scene_y, filename=self.files[idx])
         name = self.files[idx]
 
         if self.mode != 'test_no_gt':

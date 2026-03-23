@@ -42,11 +42,12 @@ def chart_cbar(ax, n_classes, chart, cmap='vridis'):
     chart: str
         The relevant chart.
     """
-    arranged = np.arange(0, n_classes)
-    cmap = plt.get_cmap(cmap, n_classes - 1)
+    n_labels = len(GROUP_NAMES[chart])  # number of labelled (non-mask) classes
+    arranged = np.arange(0, n_labels + 1)
+    cmap = plt.get_cmap(cmap, n_labels)
     # Get colour boundaries. -0.5 to center ticks for each color.
     norm = mpl.colors.BoundaryNorm(arranged - 0.5, cmap.N)
-    arranged = arranged[:-1]  # Discount the mask class.
+    arranged = arranged[:-1]  # Discount the boundary sentinel.
     cbar = plt.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap), ticks=arranged, fraction=0.0485, pad=0.049, ax=ax)
     cbar.set_label(label=ICE_STRINGS[chart])
     cbar.set_ticklabels(list(GROUP_NAMES[chart].values()))
@@ -619,6 +620,28 @@ def compute_mIoU(true, pred, charts, num_classes):
     return scores
 
 
+def compute_classwise_IoU(true, pred, charts, num_classes):
+    """Computes per-class IoU for each task.
+
+    Args:
+        true (dictionary): The true tensor as value and chart tensor as key
+        pred (dictionary): The pred tensor as value and chart tensor as key
+        charts (list): list of charts
+        num_classes (dictionary): key = chart , value = num_class
+
+    Returns:
+        dictionary: per-class IoU tensor for each chart
+    """
+    scores = {}
+    for chart in charts:
+        scores[chart] = jaccard_index(
+            target=true[chart], preds=pred[chart],
+            task='multiclass', num_classes=num_classes[chart],
+            average='none'
+        )
+    return scores
+
+
 def create_train_validation_and_test_scene_list(train_options):
     '''
     Creates the train, validation, and test scene lists from JSON datalist files.
@@ -665,6 +688,16 @@ def get_scheduler(train_options, optimizer):
                                                                          last_epoch=-1
                                                                         #  verbose=False
                                                                          )
+    elif train_options['scheduler']['type'] == 'ReduceLROnPlateau':
+        # 每 epoch 验证后调用 scheduler.step(val_score)，无需 per-batch 步进
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer,
+            mode='max',                                               # 监控的指标越大越好（combined_score）
+            factor=train_options['scheduler'].get('factor', 0.5),    # 触发时 lr *= factor
+            patience=train_options['scheduler'].get('patience', 5),  # 连续多少个验证epoch无改善后触发
+            min_lr=train_options['scheduler'].get('min_lr', 1e-5),   # lr 下限
+            threshold=train_options['scheduler'].get('threshold', 1e-4),  # 判定"改善"的最小变化量
+        )
     else:
         scheduler = torch.optim.lr_scheduler.ConstantLR(optimizer, factor=1, total_iters=5, last_epoch=- 1,
                                                         # verbose=False
@@ -759,7 +792,10 @@ def get_loss(loss, chart=None, **kwargs):
 
 
 def get_model(train_options, device):
-    if train_options['model_selection'] == 'unet':
+    if train_options['model_selection'] in ['dbunet', 'DBUNet']:
+        from DBU_Net import DBUNet_ASPP
+        net = DBUNet_ASPP(options=train_options).to(device)
+    elif train_options['model_selection'] == 'unet':
         net = UNet(options=train_options).to(device)
     elif train_options['model_selection'] == 'swin':
         from swin_transformer import SwinTransformer

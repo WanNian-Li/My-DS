@@ -8,6 +8,7 @@ import shutil
 from icecream import ic
 import pathlib
 import warnings
+import torchmetrics
 
 warnings.filterwarnings("ignore")
 
@@ -20,7 +21,7 @@ import wandb
 # Functions to calculate metrics and show the relevant chart colorbar.
 from functions import compute_metrics, save_best_model, load_model, slide_inference, \
     batched_slide_inference, water_edge_metric, class_decider, create_train_validation_and_test_scene_list, \
-    get_scheduler, get_optimizer, get_loss, get_model
+    get_scheduler, get_optimizer, get_loss, get_model, compute_classwise_IoU
 
 # Load consutme loss function
 from losses import WaterConsistencyLoss
@@ -77,6 +78,21 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
 
     '''
     best_combined_score = -np.Inf  # Best weighted model score.
+
+    # Early stopping
+    early_stop_patience = train_options.get('early_stop_patience', 10)
+    early_stop_counter = 0
+
+    # 验证时使用原始（未编译）模型，避免动态形状触发 recompile 警告
+    net_val = net._orig_mod if train_options.get('compile_model') and hasattr(net, '_orig_mod') else net
+
+    # 训练集 IoU（仅对有效任务）
+    sod_idx = train_options['charts'].index('SOD')
+    compute_train_sod_iou = (train_options['task_weights'][sod_idx] != 0)
+    sod_n_classes = train_options['n_classes']['SOD']
+    if compute_train_sod_iou:
+        train_iou_metric = torchmetrics.classification.MulticlassJaccardIndex(
+            num_classes=sod_n_classes, average='none', ignore_index=255).to(device)
 
     loss_ce_functions = {chart: get_loss(train_options['chart_loss'][chart]['type'], chart=chart, **train_options['chart_loss'][chart]).to(device)
                          for chart in train_options['charts']}
@@ -155,13 +171,20 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
             train_loss_batch.backward()
             # - Optimizer step
             optimizer.step()
-            # - Scheduler step
-            scheduler.step()
+            # - Scheduler step（ReduceLROnPlateau 改为 per-epoch，其余类型仍 per-batch）
+            if not isinstance(scheduler, torch.optim.lr_scheduler.ReduceLROnPlateau):
+                scheduler.step()
 
             # - Add batch loss.
             train_loss_sum += train_loss_batch.detach().item()
             cross_entropy_loss_sum += cross_entropy_loss.detach().item()
             edge_consistency_loss_sum += edge_consistency_loss.detach().item()
+
+            # 更新训练集 SOD IoU 统计
+            if compute_train_sod_iou:
+                with torch.no_grad():
+                    sod_pred_train = output['SOD'].detach().float().argmax(dim=1)
+                    train_iou_metric.update(sod_pred_train, batch_y['SOD'].to(device))
 
         #===========一个Epoch结束，计算平均损失
         train_loss_epoch = torch.true_divide(train_loss_sum, i + 1).detach().item()
@@ -175,6 +198,17 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
             epoch,
             sod_epoch_class_counts,
             sod_epoch_mask_count)
+
+        # 计算并打印/记录训练集 SOD IoU
+        if compute_train_sod_iou:
+            train_iou_per_class = train_iou_metric.compute()  # shape: (n_classes,)
+            train_miou = train_iou_per_class.mean()
+            train_iou_metric.reset()
+            print(f"Train SOD mIoU: {train_miou:.4f}")
+            print(f"Train SOD IoU per class: {train_iou_per_class}")
+            wandb.log({"Train SOD mIoU": train_miou.item()}, step=epoch)
+            for c, iou_c in enumerate(train_iou_per_class):
+                wandb.log({f"Train SOD/IoU Class {c}": iou_c.item()}, step=epoch)
 
         #===============================================================#
         #===========================验证循环=============================#
@@ -217,10 +251,10 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
                 #==================根据model_selection选择swin滑动推理还是普通模型的直接推理
                 if (train_options['model_selection'] == 'swin' or
                         train_options['down_sample_scale'] == 1):
-                    output = slide_inference(inf_x, net, train_options, 'val')
-                    # output = batched_slide_inference(inf_x, net, train_options, 'val')
+                    output = slide_inference(inf_x, net_val, train_options, 'val')
+                    # output = batched_slide_inference(inf_x, net_val, train_options, 'val')
                 else:
-                    output = net(inf_x)
+                    output = net_val(inf_x)
 
                 for chart, weight in zip(train_options['charts'], train_options['task_weights']):
 
@@ -260,18 +294,20 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
         water_edge_accuarcy = water_edge_metric(outputs_tfv_mask, train_options)
 
         if train_options['compute_classwise_f1score']:
-            from functions import compute_classwise_f1score, compute_overall_accuracy, compute_mIoU # 修改：引入 compute_mIoU
-            
+            from functions import compute_classwise_f1score, compute_overall_accuracy, compute_mIoU
+
             # 计算每类的 F1
             classwise_scores = compute_classwise_f1score(true=inf_ys_flat, pred=outputs_flat,
                                                          charts=train_options['charts'], num_classes=train_options['n_classes'])
-            
+
             # 计算 OA
             oa_scores = compute_overall_accuracy(true=inf_ys_flat, pred=outputs_flat, charts=train_options['charts'])
-            
-            # 计算 mIoU
-            miou_scores = compute_mIoU(true=inf_ys_flat, pred=outputs_flat, 
+
+            # 计算 mIoU 和 per-class IoU
+            miou_scores = compute_mIoU(true=inf_ys_flat, pred=outputs_flat,
                                        charts=train_options['charts'], num_classes=train_options['n_classes'])
+            classwise_iou_scores = compute_classwise_IoU(true=inf_ys_flat, pred=outputs_flat,
+                                                         charts=train_options['charts'], num_classes=train_options['n_classes'])
             
         print("")
         print(f"Epoch {epoch} score:")
@@ -296,9 +332,22 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
                 print(f"{chart} OA:", oa_scores[chart])
                 wandb.log({f"{chart}/OA": oa_scores[chart]}, step=epoch)
 
-                # 新增：打印或记录 mIoU
+                # 打印/记录 mIoU
                 print(f"{chart} mIoU:", miou_scores[chart])
                 wandb.log({f"{chart}/mIoU": miou_scores[chart]}, step=epoch)
+
+                # 打印/记录 per-class IoU
+                print(f"{chart} IoU per class:", classwise_iou_scores[chart])
+                for c, iou_c in enumerate(classwise_iou_scores[chart]):
+                    wandb.log({f"{chart}/IoU Class {c}": iou_c.item()}, step=epoch)
+
+        # ReduceLROnPlateau：用验证得分驱动 lr 调整
+        if isinstance(scheduler, torch.optim.lr_scheduler.ReduceLROnPlateau):
+            lr_before = optimizer.param_groups[0]['lr']
+            scheduler.step(combined_score)
+            lr_after = optimizer.param_groups[0]['lr']
+            if lr_after < lr_before:
+                print(f"ReduceLROnPlateau: lr {lr_before:.2e} → {lr_after:.2e}")
 
         print(f"Combined score: {combined_score}%")
         print(f"Train Epoch Loss: {train_loss_epoch:.3f}")
@@ -308,6 +357,7 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
         print(f"Validation Cross Entropy Epoch Loss: {val_cross_entropy_epoch:.3f}")
         print(f"Validation val_edge_consistency_loss: {val_edge_consistency_epoch:.3f}")
         print(f"Water edge Accuarcy: {water_edge_accuarcy}")
+        print(f"Learning Rate: {optimizer.param_groups[0]['lr']:.2e}")
 
         # Log combine score and epoch loss to wandb
         wandb.log({"Combined score": combined_score,    # 综合得分（验证集）
@@ -324,6 +374,7 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
 
         if combined_score > best_combined_score:
             best_combined_score = combined_score
+            early_stop_counter = 0
 
             # Log the best combine score, and the metrics that make that best combine score in summary in wandb.
             wandb.run.summary[f"While training/Best Combined Score"] = best_combined_score
@@ -336,6 +387,12 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
             model_path = save_best_model(cfg, train_options, net, optimizer, scheduler, epoch)
 
             wandb.save(model_path)
+        else:
+            early_stop_counter += 1
+            print(f"Early stopping counter: {early_stop_counter}/{early_stop_patience}")
+            if early_stop_counter >= early_stop_patience:
+                print(f"Early stopping triggered at epoch {epoch}. Best score: {best_combined_score:.3f}%")
+                break
 
     del inf_ys_flat, outputs_flat  # Free memory.
     return model_path

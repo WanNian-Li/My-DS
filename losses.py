@@ -47,8 +47,8 @@ class MSELossFromLogits(nn.Module):
             self.replace_value = 11
             self.num_classes = 12
         elif self.chart == 'SOD':
-            self.replace_value = 6
-            self.num_classes = 7
+            self.replace_value = 4
+            self.num_classes = 5
         elif self.chart == 'FLOE':
             self.replace_value = 7
             self.num_classes = 8
