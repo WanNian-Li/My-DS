@@ -21,7 +21,7 @@ import wandb
 # Functions to calculate metrics and show the relevant chart colorbar.
 from functions import compute_metrics, save_best_model, load_model, slide_inference, \
     batched_slide_inference, water_edge_metric, class_decider, create_train_validation_and_test_scene_list, \
-    get_scheduler, get_optimizer, get_loss, get_model, compute_classwise_IoU
+    get_scheduler, get_optimizer, get_loss, get_model, compute_classwise_IoU, compute_mIoU
 
 # Load consutme loss function
 from losses import WaterConsistencyLoss
@@ -77,7 +77,7 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
     Trains the model.
 
     '''
-    best_combined_score = -np.Inf  # Best weighted model score.
+    best_sod_miou = -np.Inf  # Best validation SOD mIoU.
 
     # Early stopping
     early_stop_patience = train_options.get('early_stop_patience', 10)
@@ -248,9 +248,11 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
             with torch.no_grad(), torch.cuda.amp.autocast():
                 inf_x = inf_x.to(device, non_blocking=True)
 
-                #==================根据model_selection选择swin滑动推理还是普通模型的直接推理
-                if (train_options['model_selection'] == 'swin' or
-                        train_options['down_sample_scale'] == 1):
+                #==================当场景尺寸超过patch_size时走滑窗推理，避免整场景一次性前向OOM
+                _needs_slide = (train_options['model_selection'] == 'swin' or
+                                inf_x.shape[2] > train_options['patch_size'] or
+                                inf_x.shape[3] > train_options['patch_size'])
+                if _needs_slide:
                     output = slide_inference(inf_x, net_val, train_options, 'val')
                     # output = batched_slide_inference(inf_x, net_val, train_options, 'val')
                 else:
@@ -291,10 +293,15 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
         combined_score, scores = compute_metrics(true=inf_ys_flat, pred=outputs_flat, charts=train_options['charts'],
                                                  metrics=train_options['chart_metric'], num_classes=train_options['n_classes'])
 
+        # 始终计算 mIoU，用于按 SOD mIoU 保存最佳模型。
+        miou_scores = compute_mIoU(true=inf_ys_flat, pred=outputs_flat,
+                                   charts=train_options['charts'], num_classes=train_options['n_classes'])
+        sod_miou = miou_scores['SOD']
+
         water_edge_accuarcy = water_edge_metric(outputs_tfv_mask, train_options)
 
         if train_options['compute_classwise_f1score']:
-            from functions import compute_classwise_f1score, compute_overall_accuracy, compute_mIoU
+            from functions import compute_classwise_f1score, compute_overall_accuracy
 
             # 计算每类的 F1
             classwise_scores = compute_classwise_f1score(true=inf_ys_flat, pred=outputs_flat,
@@ -303,9 +310,7 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
             # 计算 OA
             oa_scores = compute_overall_accuracy(true=inf_ys_flat, pred=outputs_flat, charts=train_options['charts'])
 
-            # 计算 mIoU 和 per-class IoU
-            miou_scores = compute_mIoU(true=inf_ys_flat, pred=outputs_flat,
-                                       charts=train_options['charts'], num_classes=train_options['n_classes'])
+            # 计算 per-class IoU
             classwise_iou_scores = compute_classwise_IoU(true=inf_ys_flat, pred=outputs_flat,
                                                          charts=train_options['charts'], num_classes=train_options['n_classes'])
             
@@ -357,10 +362,12 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
         print(f"Validation Cross Entropy Epoch Loss: {val_cross_entropy_epoch:.3f}")
         print(f"Validation val_edge_consistency_loss: {val_edge_consistency_epoch:.3f}")
         print(f"Water edge Accuarcy: {water_edge_accuarcy}")
+        print(f"Validation SOD mIoU: {sod_miou.item():.4f}")
         print(f"Learning Rate: {optimizer.param_groups[0]['lr']:.2e}")
 
         # Log combine score and epoch loss to wandb
         wandb.log({"Combined score": combined_score,    # 综合得分（验证集）
+                   "Validation SOD mIoU": sod_miou.item(),
                    "Train Epoch Loss": train_loss_epoch,
                    "Train Cross Entropy Epoch Loss": cross_entropy_epoch,
                    "Train Water Consistency Epoch Loss": edge_consistency_epoch,
@@ -370,17 +377,17 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
                    "Water Consistency Accuarcy": water_edge_accuarcy,
                    "Learning Rate": optimizer.param_groups[0]["lr"]}, step=epoch)
 
-        # If the scores is better than the previous epoch, then save the model and rename the image to best_validation.
-
-        if combined_score > best_combined_score:
-            best_combined_score = combined_score
+        # If SOD mIoU is better than previous epochs, save best model.
+        if sod_miou.item() > best_sod_miou:
+            best_sod_miou = sod_miou.item()
             early_stop_counter = 0
 
-            # Log the best combine score, and the metrics that make that best combine score in summary in wandb.
-            wandb.run.summary[f"While training/Best Combined Score"] = best_combined_score
+            # Log key metrics for the current best SOD mIoU model.
+            wandb.run.summary[f"While training/Best SOD mIoU"] = best_sod_miou
             wandb.run.summary[f"While training/Water Consistency Accuarcy"] = water_edge_accuarcy
             for chart in train_options['charts']:
                 wandb.run.summary[f"While training/{chart} {train_options['chart_metric'][chart]['func'].__name__}"] = scores[chart]
+            wandb.run.summary[f"While training/Validation SOD mIoU"] = sod_miou.item()
             wandb.run.summary[f"While training/Train Epoch Loss"] = train_loss_epoch
 
             # Save the best model in work_dirs
@@ -391,7 +398,7 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
             early_stop_counter += 1
             print(f"Early stopping counter: {early_stop_counter}/{early_stop_patience}")
             if early_stop_counter >= early_stop_patience:
-                print(f"Early stopping triggered at epoch {epoch}. Best score: {best_combined_score:.3f}%")
+                print(f"Early stopping triggered at epoch {epoch}. Best SOD mIoU: {best_sod_miou:.4f}")
                 break
 
     del inf_ys_flat, outputs_flat  # Free memory.
@@ -542,6 +549,7 @@ def main():
     wandb.define_metric("SIC r2_metric", summary="none") # SIC的R2指标
     wandb.define_metric("SOD f1_metric", summary="none") # SOD的F1指标
     wandb.define_metric("FLOE f1_metric", summary="none") # FLOE的F1指标
+    wandb.define_metric("Validation SOD mIoU", summary="none") # 验证集SOD的mIoU
     wandb.define_metric("Water Consistency Accuarcy", summary="none") # 水体一致性准确率
     wandb.define_metric("Learning Rate", summary="none") # 学习率
     wandb.save(str(args.config))
@@ -584,6 +592,12 @@ def main():
     print('-----------------------------------')
     print('Staring Validation with best model')
     print('-----------------------------------')
+
+    # 释放训练占用的 GPU 内存，避免最终验证时 OOM
+    del dataloader_train, dataloader_val
+    import gc
+    gc.collect()
+    torch.cuda.empty_cache()
 
     # this is for valset 1 visualization along with gt
     test('val', net, checkpoint_path, device, cfg.deepcopy(), train_options['validate_list'], 'Cross Validation')

@@ -104,7 +104,10 @@ def test(mode: str, net: torch.nn.modules, checkpoint: str, device: str, cfg, te
 
         inf_x = inf_x.to(device, non_blocking=True)
         with torch.no_grad(), torch.cuda.amp.autocast():
-            if train_options['model_selection'] == 'swin':
+            _needs_slide = (train_options['model_selection'] == 'swin' or
+                            inf_x.shape[2] > train_options['patch_size'] or
+                            inf_x.shape[3] > train_options['patch_size'])
+            if _needs_slide:
                 output = slide_inference(inf_x, net, train_options, 'test')
                 # output = batched_slide_inference(inf_x, net, train_options, 'test')
             else:
@@ -142,8 +145,10 @@ def test(mode: str, net: torch.nn.modules, checkpoint: str, device: str, cfg, te
                             output[chart], size=original_size, mode='nearest')
                         output[chart] = output[chart].permute(0, 2, 3, 1)
                     else:
+                        # 先 argmax 降维（5ch→1ch），再上采样，节省 ~5x 显存
+                        output[chart] = class_decider(output[chart], train_options, chart).unsqueeze(0).unsqueeze(0).float()
                         output[chart] = torch.nn.functional.interpolate(
-                            output[chart], size=original_size, mode='nearest')
+                            output[chart], size=original_size, mode='nearest').squeeze().to(torch.int64)
 
                     # upscale the output
                     # if not test:
@@ -171,7 +176,11 @@ def test(mode: str, net: torch.nn.modules, checkpoint: str, device: str, cfg, te
             #     inf_ys_flat[chart] = torch.cat((inf_ys_flat[chart], torch.tensor(inf_y[chart]
             #                                     [~masks[chart]]).to(device, non_blocking=True)))
         for chart in train_options['charts']:
-            output_class[chart] = class_decider(output[chart], train_options, chart).detach()
+            # down_sample_scale != 1 の場合は upsample ブロック内で既に argmax 済み
+            if train_options['down_sample_scale'] != 1 and output[chart].dim() == 2:
+                output_class[chart] = output[chart].detach()
+            else:
+                output_class[chart] = class_decider(output[chart], train_options, chart).detach()
             outputs_flat[chart] = torch.cat(
                         (outputs_flat[chart], output_class[chart][~cfv_masks[chart]]))
             outputs_tfv_mask[chart] = torch.cat(
@@ -184,61 +193,77 @@ def test(mode: str, net: torch.nn.modules, checkpoint: str, device: str, cfg, te
             output_class[chart] = output_class[chart].squeeze().cpu().numpy()
 
         # - Show the scene inference.
-        # if test:
-        #     fig, axs2d = plt.subplots(nrows=2, ncols=3, figsize=(20, 20))
-        # else:
-        fig, axs2d = plt.subplots(nrows=3, ncols=3, figsize=(20, 20))
-
+        # Layout: 2×3
+        #   Row 0: HH | HV | GLCM Contrast
+        #   Row 1: GLCM Homogeneity | SOD Prediction | SOD Ground Truth
+        fig, axs2d = plt.subplots(nrows=2, ncols=3, figsize=(18, 11))
         axs = axs2d.flat
 
-        for j in range(0, 2):
-            ax = axs[j]
-            img = torch.squeeze(inf_x, dim=0).cpu().numpy()[j]
-            if j == 0:
-                ax.set_title(f'Scene {scene_name}, HH')
-            else:
-                ax.set_title(f'Scene {scene_name}, HV')
-            ax.set_xticks([])
-            ax.set_yticks([])
-            ax.imshow(img, cmap='gray')
+        img_data = torch.squeeze(inf_x, dim=0).cpu().numpy()
 
+        def pclip(arr, lo=2, hi=98):
+            """Percentile-based vmin/vmax to suppress outliers."""
+            finite = arr[np.isfinite(arr)]
+            if finite.size == 0:
+                return arr.min(), arr.max()
+            return np.percentile(finite, lo), np.percentile(finite, hi)
+
+        # --- Row 0, Col 0: HH ---
+        ax = axs[0]
+        hh = img_data[0]
+        vmin, vmax = pclip(hh)
+        ax.imshow(hh, cmap='gray', vmin=vmin, vmax=vmax, interpolation='nearest')
+        ax.set_title('SAR HH', fontsize=12, fontweight='bold')
+        ax.set_xticks([]); ax.set_yticks([])
+
+        # --- Row 0, Col 1: HV ---
+        ax = axs[1]
+        hv = img_data[1]
+        vmin, vmax = pclip(hv)
+        ax.imshow(hv, cmap='gray', vmin=vmin, vmax=vmax, interpolation='nearest')
+        ax.set_title('SAR HV', fontsize=12, fontweight='bold')
+        ax.set_xticks([]); ax.set_yticks([])
+
+        # --- Row 0, Col 2: GLCM Contrast ---
         ax = axs[2]
-        ax.set_title('Water Edge SIC: Red, SOD: Green,Floe: Blue')
-        edge_water_output = water_edge_plot_overlay(output_class, tfv_mask.cpu().numpy(), train_options)
+        glcm_contrast = img_data[3]   # index 3: glcm_sigma0_hh_contrast
+        vmin, vmax = pclip(glcm_contrast)
+        im = ax.imshow(glcm_contrast, cmap='viridis', vmin=vmin, vmax=vmax, interpolation='nearest')
+        ax.set_title('GLCM Contrast (HH)', fontsize=12, fontweight='bold')
+        ax.set_xticks([]); ax.set_yticks([])
+        plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
 
-        ax.imshow(edge_water_output, vmin=0, vmax=1, interpolation='nearest')
+        # --- Row 1, Col 0: GLCM Homogeneity ---
+        ax = axs[3]
+        glcm_homogeneity = img_data[5]   # index 5: glcm_sigma0_hh_homogeneity
+        vmin, vmax = pclip(glcm_homogeneity)
+        im = ax.imshow(glcm_homogeneity, cmap='viridis', vmin=vmin, vmax=vmax, interpolation='nearest')
+        ax.set_title('GLCM Homogeneity (HH)', fontsize=12, fontweight='bold')
+        ax.set_xticks([]); ax.set_yticks([])
+        plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
 
-        for idx, chart in enumerate(train_options['charts']):
+        # --- Row 1, Col 1: SOD Prediction ---
+        ax = axs[4]
+        sod_pred = output_class['SOD'].astype(float)
+        sod_pred[cfv_masks['SOD'].numpy()] = np.nan
+        ax.imshow(sod_pred, vmin=0, vmax=train_options['n_classes']['SOD'] - 2,
+                  cmap='jet', interpolation='nearest')
+        ax.set_title('SOD: Prediction', fontsize=12, fontweight='bold')
+        ax.set_xticks([]); ax.set_yticks([])
+        chart_cbar(ax=ax, n_classes=train_options['n_classes']['SOD'], chart='SOD', cmap='jet')
 
-            ax = axs[idx+3]
-            output_class[chart] = output_class[chart].astype(float)
-            # if test is False:
-            output_class[chart][cfv_masks[chart]] = np.nan
-            # else:
-            #     output[chart][masks.cpu().numpy()] = np.nan
-            ax.imshow(output_class[chart], vmin=0, vmax=train_options['n_classes']
-                      [chart] - 2, cmap='jet', interpolation='nearest')
-            ax.set_xticks([])
-            ax.set_yticks([])
-            ax.set_title([f'Scene {scene_name}, {chart}: Model Prediction'])
-            chart_cbar(ax=ax, n_classes=train_options['n_classes'][chart], chart=chart, cmap='jet')
+        # --- Row 1, Col 2: SOD Ground Truth ---
+        ax = axs[5]
+        sod_gt = inf_y['SOD'].astype(float)
+        sod_gt[cfv_masks['SOD'].numpy()] = np.nan
+        ax.imshow(sod_gt, vmin=0, vmax=train_options['n_classes']['SOD'] - 2,
+                  cmap='jet', interpolation='nearest')
+        ax.set_title('SOD: Ground Truth', fontsize=12, fontweight='bold')
+        ax.set_xticks([]); ax.set_yticks([])
+        chart_cbar(ax=ax, n_classes=train_options['n_classes']['SOD'], chart='SOD', cmap='jet')
 
-        for idx, chart in enumerate(train_options['charts']):
-
-            ax = axs[idx+6]
-            inf_y[chart] = inf_y[chart].astype(float)
-            inf_y[chart][cfv_masks[chart]] = np.nan
-            ax.imshow(inf_y[chart], vmin=0, vmax=train_options['n_classes']
-                      [chart] - 2, cmap='jet', interpolation='nearest')
-            ax.set_xticks([])
-            ax.set_yticks([])
-            ax.set_title([f'Scene {scene_name}, {chart}: Ground Truth'])
-            chart_cbar(ax=ax, n_classes=train_options['n_classes'][chart], chart=chart, cmap='jet')
-
-        # plt.suptitle(f"Scene: {scene_name}", y=0.65)
-        # plt.suptitle(f"Scene: {scene_name}", y=0)
-        # plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0.5, hspace=-0)
-        plt.subplots_adjust(left=0, bottom=0, right=1, top=0.75, wspace=0.5, hspace=-0)
+        fig.suptitle(f'Scene: {scene_name}', fontsize=13, y=1.01)
+        plt.tight_layout()
         fig.savefig(f"{osp.join(cfg.work_dir,inference_name,scene_name)}.png",
                     format='png', dpi=128, bbox_inches="tight")
         plt.close('all')

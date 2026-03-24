@@ -9,7 +9,7 @@ train_options = {
     'path_to_test_data': '/root/autodl-tmp/My_dataset/',
 
     'train_list_path': 'datalists/train_list_small.json',
-    'val_path': 'datalists/val_list.json',
+    'val_path': 'datalists/val_list2.json',
     'test_path': 'datalists/test_list.json',
 
     # 'model_selection': 'dbunet',
@@ -71,9 +71,9 @@ train_options = {
     'prefetch_factor': 4,  # 每个 worker 预取 4 个 batch，保持 GPU 流水线饱满
     'patch_size': 256,
     'batch_size': 64,  # scale=10时patch对应204km范围，预加载路径下可用大batch
-    'down_sample_scale': 1,  # 训练降采样10倍：80m→800m，场景预加载入RAM，裁剪速度极快
+    'down_sample_scale': 3,  # 训练降采样10倍：80m→800m，场景预加载入RAM，裁剪速度极快
     'val_freq': 2,   # scale=10时验证场景小（直接整场景推理），可每epoch验证
-    'val_downsample_scale': 1,  # 设为1：验证自动沿用down_sample_scale=10，与训练分辨率一致
+    'val_downsample_scale': 3,  # 设为1：验证自动沿用down_sample_scale=10，与训练分辨率一致
 
     'swin_hp': {
         'val_stride': [128, 128],   # 仅Swin模型使用；UNet+scale=10时整场景直接推理，不走滑窗

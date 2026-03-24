@@ -139,18 +139,17 @@ def f1_metric(true, pred, num_classes):
 
 
 def water_edge_metric(outputs, options):
+    # 需要至少3个任务才能计算跨任务水体一致性；单任务模式返回0
+    if len(options['charts']) < 3:
+        return torch.tensor(0.0)
 
     # Convert ouput into water and not water
     for chart in options['charts']:
-
         outputs[chart] = torch.where(outputs[chart] > 0.0, 1.0, 0.0)
 
-    # subtract them and absolute
-    # perform mean
     water_edge_accuracy = 1 - torch.mean(torch.abs(outputs[options['charts'][0]]-outputs[options['charts'][1]])
                                          + torch.abs(outputs[options['charts'][1]]-outputs[options['charts'][2]])
                                          + torch.abs(outputs[options['charts'][2]]-outputs[options['charts'][0]]))
-
     return water_edge_accuracy
 
 
@@ -324,22 +323,16 @@ def slide_inference(img, net, options, mode):
     w_crop = options['patch_size']
 
     batch_size, _, h_img, w_img = img.size()
-    SIC_channels = options['n_classes']['SIC']
-    SOD_channels = options['n_classes']['SOD']
-    FLOE_channels = options['n_classes']['FLOE']
+    device = img.device
+    charts = options['charts']
     h_grids = max(h_img - h_crop + h_stride - 1, 0) // h_stride + 1
     w_grids = max(w_img - w_crop + w_stride - 1, 0) // w_stride + 1
 
-    preds_SIC = img.new_zeros((batch_size, SIC_channels, h_img, w_img))
-    preds_SOD = img.new_zeros((batch_size, SOD_channels, h_img, w_img))
-    preds_FLOE = img.new_zeros((batch_size, FLOE_channels, h_img, w_img))
-    count_mat = img.new_zeros((batch_size, 1, h_img, w_img))
-    
     # 累积张量放 CPU，避免大场景下 GPU OOM；每个 crop 的 forward 仍在 GPU 上执行
-    # preds_SIC  = torch.zeros((batch_size, SIC_channels,  h_img, w_img), dtype=img.dtype)
-    # preds_SOD  = torch.zeros((batch_size, SOD_channels,  h_img, w_img), dtype=img.dtype)
-    # preds_FLOE = torch.zeros((batch_size, FLOE_channels, h_img, w_img), dtype=img.dtype)
-    # count_mat  = torch.zeros((batch_size, 1,             h_img, w_img), dtype=img.dtype)
+    preds = {chart: torch.zeros((batch_size, options['n_classes'][chart], h_img, w_img),
+                                dtype=img.dtype) for chart in charts}
+    count_mat = torch.zeros((batch_size, 1, h_img, w_img), dtype=img.dtype)
+
     for h_idx in range(h_grids):
         for w_idx in range(w_grids):
             y1 = h_idx * h_stride
@@ -350,15 +343,8 @@ def slide_inference(img, net, options, mode):
             x1 = max(x2 - w_crop, 0)
             crop_img = img[:, :, y1:y2, x1:x2]
             crop_img_size = crop_img.size()
-            if crop_img_size[2] < options['patch_size']:
-                crop_height_pad = options['patch_size'] - crop_img_size[2]
-            else:
-                crop_height_pad = 0
-
-            if crop_img_size[3] < options['patch_size']:
-                crop_width_pad = options['patch_size'] - crop_img_size[3]
-            else:
-                crop_width_pad = 0
+            crop_height_pad = max(options['patch_size'] - crop_img_size[2], 0)
+            crop_width_pad  = max(options['patch_size'] - crop_img_size[3], 0)
 
             if crop_height_pad > 0 or crop_width_pad > 0:
                 crop_img = torch.nn.functional.pad(
@@ -366,39 +352,25 @@ def slide_inference(img, net, options, mode):
 
             crop_seg_logit = net(crop_img)
 
-            if crop_height_pad > 0:
-                crop_seg_logit['SIC'] = crop_seg_logit['SIC'][:, :, :-crop_height_pad, :]
-                crop_seg_logit['SOD'] = crop_seg_logit['SOD'][:, :, :-crop_height_pad, :]
-                crop_seg_logit['FLOE'] = crop_seg_logit['FLOE'][:, :, :-crop_height_pad, :]
-            if crop_width_pad > 0:
-                crop_seg_logit['SIC'] = crop_seg_logit['SIC'][:, :, :, :-crop_width_pad]
-                crop_seg_logit['SOD'] = crop_seg_logit['SOD'][:, :, :, :-crop_width_pad]
-                crop_seg_logit['FLOE'] = crop_seg_logit['FLOE'][:, :, :, :-crop_width_pad]
-
-            preds_SIC += torch.nn.functional.pad(crop_seg_logit['SIC'],
-                                                 (int(x1), int(preds_SIC.shape[3] - x2), int(y1),
-                                                  int(preds_SIC.shape[2] - y2)))
-            preds_SOD += torch.nn.functional.pad(crop_seg_logit['SOD'],
-                                                 (int(x1), int(preds_SOD.shape[3] - x2), int(y1),
-                                                  int(preds_SOD.shape[2] - y2)))
-            preds_FLOE += torch.nn.functional.pad(crop_seg_logit['FLOE'],
-                                                  (int(x1), int(preds_FLOE.shape[3] - x2), int(y1),
-                                                   int(preds_FLOE.shape[2] - y2)))
+            for chart in charts:
+                logit = crop_seg_logit[chart]
+                if crop_height_pad > 0:
+                    logit = logit[:, :, :-crop_height_pad, :]
+                if crop_width_pad > 0:
+                    logit = logit[:, :, :, :-crop_width_pad]
+                # pad 到全场景尺寸后移至 CPU 累积，避免 GPU 上创建全场景临时张量
+                pad_logit = torch.nn.functional.pad(
+                    logit.cpu(),
+                    (int(x1), int(preds[chart].shape[3] - x2),
+                     int(y1),  int(preds[chart].shape[2] - y2)))
+                preds[chart] += pad_logit
 
             count_mat[:, :, y1:y2, x1:x2] += 1
+
     assert (count_mat == 0).sum() == 0
 
-    preds_SIC = preds_SIC / count_mat
-    preds_SOD = preds_SOD / count_mat
-    preds_FLOE = preds_FLOE / count_mat
-    # device = img.device
-    # preds_SIC  = (preds_SIC  / count_mat).to(device)
-    # preds_SOD  = (preds_SOD  / count_mat).to(device)
-    # preds_FLOE = (preds_FLOE / count_mat).to(device)
-
-    return {'SIC': preds_SIC,
-            'SOD': preds_SOD,
-            'FLOE': preds_FLOE}
+    # 归一化后送回 GPU
+    return {chart: (preds[chart] / count_mat).to(device) for chart in charts}
 
 
 class Slide_patches_index(data.Dataset):

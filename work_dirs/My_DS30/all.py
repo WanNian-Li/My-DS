@@ -9,11 +9,9 @@ train_options = {
     'path_to_test_data': '/root/autodl-tmp/My_dataset/',
 
     'train_list_path': 'datalists/train_list_small.json',
-    'val_path': 'datalists/val_list.json',
+    'val_path': 'datalists/val_list2.json',
     'test_path': 'datalists/test_list.json',
 
-    # 'model_selection': 'dbunet',
-    # 'dbunet_sar_channels': 3,   # 可选，默认就是 3
 
     'compute_classwise_f1score': True,
     'plot_confusion_matrix':True,
@@ -27,18 +25,16 @@ train_options = {
         'nesterov': False,
         'weight_decay': 0.01
     },
+    # 'optimizer': {
+    #   'type': 'Adam',
+    #   'lr': 1e-3,
+    #   'weight_decay': 1e-4,
+    # },
 
     'scheduler': {
-        'type': 'CosineAnnealingLR',  # 去掉热重启，使用平滑衰减至 lr_min
-        'lr_min': 1e-5,              # 最终学习率下限
+        'type': 'CosineAnnealingLR',
+        'lr_min': 1e-5,
     },
-    # 'scheduler': {
-    #     'type': 'ReduceLROnPlateau',
-    #     'factor': 0.5,      # 触发时 lr 减半
-    #     'patience': 5,      # 连续 5 个 epoch 无改善触发
-    #     'min_lr': 1e-5,     # lr 下限
-    #     'threshold': 1e-4,  # 改善量低于此值视为未改善（combined_score 单位：%）
-    # },
 
     'chart_loss': {  # Loss for the task
         'SIC': {
@@ -49,7 +45,7 @@ train_options = {
             'type': 'FocalLoss',
             'ignore_index': 255,
             'gamma': 1.5,
-            'weight': [1, 1, 1, 1.8, 1],  # per-class alpha，5 classes (0-4)
+            'weight': [1, 1, 1.5, 1.8, 1],  # per-class alpha，5 classes (0-4)
         },
         'FLOE': {
             'type': 'CrossEntropyLoss',
@@ -58,28 +54,26 @@ train_options = {
         },
     },
 
-    'task_weights': [1],
-
+    'task_weights': [0, 1, 0],
     'early_stop_patience': 20,  # 早停轮次：连续20次验证无改善则停止
-
     'seed': 10,
     'epochs': 200,
-    'epoch_len': 100,  # scale=10时场景预加载入内存，裁剪极快，可采样更多batch
+    'epoch_len': 150,  # scale=10时场景预加载入内存，裁剪极快，可采样更多batch
 
     'num_workers': 18,  # Number of parallel processes to fetch data.
     'num_workers_val': 6,  # Number of parallel processes during validation.
     'prefetch_factor': 4,  # 每个 worker 预取 4 个 batch，保持 GPU 流水线饱满
     'patch_size': 256,
     'batch_size': 64,  # scale=10时patch对应204km范围，预加载路径下可用大batch
-    'down_sample_scale': 1,  # 训练降采样10倍：80m→800m，场景预加载入RAM，裁剪速度极快
-    'val_freq': 2,   # scale=10时验证场景小（直接整场景推理），可每epoch验证
+    'down_sample_scale': 10,  # 训练降采样10倍：80m→800m，场景预加载入RAM，裁剪速度极快
+    'val_freq': 1,   # scale=10时验证场景小（直接整场景推理），可每epoch验证
     'val_downsample_scale': 1,  # 设为1：验证自动沿用down_sample_scale=10，与训练分辨率一致
 
     'swin_hp': {
         'val_stride': [128, 128],   # 仅Swin模型使用；UNet+scale=10时整场景直接推理，不走滑窗
         'test_stride': [64, 64],
     },
-    'unet_conv_filters': [32, 32, 64, 64],
+    'unet_conv_filters': [64, 64, 128, 128],
     'unet_dropout': 0.25,  # 添加Dropout2d缓解过拟合（每个DoubleConv块末尾）
 
     'patch_log_mode': 'per_epoch', # 'per_epoch' 或者 'per_patch'
@@ -94,10 +88,6 @@ train_options = {
     # --- 稀有类加权采样 ---
     'rare_sampling_classes': [2],  # 新冰/幼冰(1, 合并后) 为稀有类目标
     'rare_sampling_alpha': 0.25,       # 0=均匀采样, 1=完全按稀有类密度采样， 设 rare_sampling_alpha=0.0 或 rare_sampling_classes=[] 可关闭此过滤。
-
-    # HH/HV polarization ratio channel (HH_dB - HV_dB).
-    # Comment out the line below to disable this extra input channel.
-    'pol_ratio_channel': True,
 
     'data_augmentations': {
         'Random_h_flip': 0.5,

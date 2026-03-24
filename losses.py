@@ -137,11 +137,15 @@ class WaterConsistencyLoss(nn.Module):
         super().__init__()
         self.keys = ['SIC', 'SOD', 'FLOE']
         self.activation = nn.Softmax(dim=1)
-    
+
     def forward(self, output):
-        sic = self.activation(output[self.keys[0]])[:, 0, :, :]
-        sod = self.activation(output[self.keys[1]])[:, 0, :, :]
-        floe = self.activation(output[self.keys[2]])[:, 0, :, :]
+        # 需要至少3个任务才能计算跨任务水体一致性；单任务模式直接返回0
+        available = [k for k in self.keys if k in output]
+        if len(available) < 3:
+            return torch.tensor(0.0, device=next(iter(output.values())).device)
+        sic = self.activation(output[available[0]])[:, 0, :, :]
+        sod = self.activation(output[available[1]])[:, 0, :, :]
+        floe = self.activation(output[available[2]])[:, 0, :, :]
         return torch.mean((sic-sod)**2 + (sod-floe)**2 + (floe-sic)**2)
 
 # only applicable to regression outputs

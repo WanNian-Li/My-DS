@@ -305,7 +305,10 @@ class AI4ArcticChallengeDataset(Dataset):
         """
         # Placeholder to fill with data.
         _use_month = self.options.get('month_encoding', False)
-        _n_channels = len(self.options['train_variables']) + (2 if _use_month else 0)
+        _use_pol_ratio = self.options.get('pol_ratio_channel', False)
+        _n_channels = (len(self.options['train_variables'])
+                       + (2 if _use_month else 0)
+                       + (1 if _use_pol_ratio else 0))
         x_patches = torch.zeros((self.options['batch_size'], _n_channels,
                                  self.options['patch_size'], self.options['patch_size']))
         y_patches = torch.zeros((self.options['batch_size'], len(self.options['charts']),
@@ -353,6 +356,12 @@ class AI4ArcticChallengeDataset(Dataset):
                     H, W = x_patch.shape[-2], x_patch.shape[-1]
                     month_ch = torch.tensor([s, c], dtype=torch.float).view(1, 2, 1, 1).expand(1, 2, H, W)
                     x_patch = torch.cat([x_patch, month_ch], dim=1)
+
+                # Append HH-HV polarization ratio channel (dB difference).
+                # nersc_sar_primary (HH) is channel 0, nersc_sar_secondary (HV) is channel 1.
+                if _use_pol_ratio:
+                    pol_ratio = x_patch[:, 0:1, :, :] - x_patch[:, 1:2, :, :]
+                    x_patch = torch.cat([x_patch, pol_ratio], dim=1)
 
                 # Compute SOD label flat array once; reused by both filters and patch log.
                 sod_flat = y_patch[0, self._sod_chart_idx].numpy().flatten()
@@ -566,6 +575,12 @@ class AI4ArcticChallengeTestDataset(Dataset):
             H, W = x.shape[-2], x.shape[-1]
             month_ch = torch.tensor([s, c], dtype=torch.float).view(1, 2, 1, 1).expand(1, 2, H, W)
             x = torch.cat([x, month_ch], dim=1)
+
+        # Append HH-HV polarization ratio channel (dB difference).
+        # nersc_sar_primary (HH) is channel 0, nersc_sar_secondary (HV) is channel 1.
+        if self.options.get('pol_ratio_channel', False):
+            pol_ratio = x[:, 0:1, :, :] - x[:, 1:2, :, :]
+            x = torch.cat([x, pol_ratio], dim=1)
 
         return x.float(), y
 

@@ -1,7 +1,7 @@
 from functions import f1_metric, r2_metric
 import torch.nn as nn
 # Charts in the dataset
-CHARTS = ['SIC', 'SOD', 'FLOE']
+CHARTS = ['SOD']
 
 
 SCENE_VARIABLES = [
