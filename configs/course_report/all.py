@@ -46,10 +46,10 @@ train_options = {
             'ignore_index': 255,
         },
         'SOD': {
-            'type': 'FocalLoss',
+            'type': 'CELovaszLoss',
             'ignore_index': 255,
-            'gamma': 1.5,
-            'weight': [1, 1, 1, 1.8, 1],  # per-class alpha，5 classes (0-4)
+            'lovasz_lambda': 0.5,   # total = CE + 0.5 * Lovász
+            'weight': [1, 1, 1, 2.0, 1],  # CE per-class weight: boost class3 (thick FYI)
         },
         'FLOE': {
             'type': 'CrossEntropyLoss',
@@ -92,7 +92,7 @@ train_options = {
     'water_rejection_prob': 0.90,    # 触发后以 90% 的概率丢弃该 patch
 
     # --- 稀有类加权采样 ---
-    'rare_sampling_classes': [2],  # 新冰/幼冰(1, 合并后) 为稀有类目标
+    'rare_sampling_classes': [2, 3],  # 薄一年冰(2)和厚一年冰(3)均为稀有类目标，缓解类3欠采样
     'rare_sampling_alpha': 0.25,       # 0=均匀采样, 1=完全按稀有类密度采样， 设 rare_sampling_alpha=0.0 或 rare_sampling_classes=[] 可关闭此过滤。
 
     # HH/HV polarization ratio channel (HH_dB - HV_dB).

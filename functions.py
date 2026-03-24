@@ -742,6 +742,10 @@ def get_loss(loss, chart=None, **kwargs):
         raise NotImplementedError
         kwargs.pop('type')
         loss = torch.nn.BCELoss(**kwargs)
+    elif loss == 'CELovaszLoss':
+        from losses import CELovaszLoss
+        kwargs.pop('type')
+        loss = CELovaszLoss(**kwargs)
     elif loss == 'OrderedCrossEntropyLoss':
         from losses import OrderedCrossEntropyLoss
         kwargs.pop('type')

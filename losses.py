@@ -161,15 +161,26 @@ class MSELossWithIgnoreIndex(nn.MSELoss):
         loss = torch.sum(diff ** 2) / mask.sum()
         return loss
 
-# only applicable to regression outputs
-class MSELossWithIgnoreIndex(nn.MSELoss):
-    def __init__(self, ignore_index=255, reduction='mean'):
-        super(MSELossWithIgnoreIndex, self).__init__(reduction=reduction)
-        self.ignore_index = ignore_index
 
-    def forward(self, input, target):
-        mask = (target != self.ignore_index).type_as(input)
-        diff = input.squeeze(-1) - target
-        diff = diff * mask
-        loss = torch.sum(diff ** 2) / mask.sum()
-        return loss
+class CELovaszLoss(nn.Module):
+    """Cross Entropy + Lovász-Softmax combined loss.
+
+    CE provides stable per-pixel gradients; Lovász aligns the optimisation
+    direction with the mIoU evaluation metric.
+
+    Args:
+        lovasz_lambda: weight of the Lovász term (total = CE + lambda * Lovász).
+        weight: per-class alpha weights for the CE term (list/tuple → FloatTensor).
+        ignore_index: label value to ignore (mask pixels).
+    """
+
+    def __init__(self, lovasz_lambda: float = 0.5, weight=None, ignore_index: int = 255):
+        super().__init__()
+        import segmentation_models_pytorch as smp
+        ce_weight = torch.FloatTensor(weight) if weight is not None else None
+        self.ce     = nn.CrossEntropyLoss(weight=ce_weight, ignore_index=ignore_index)
+        self.lovasz = smp.losses.LovaszLoss(mode='multiclass', ignore_index=ignore_index)
+        self.lam    = lovasz_lambda
+
+    def forward(self, inputs: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+        return self.ce(inputs, targets) + self.lam * self.lovasz(inputs, targets)
