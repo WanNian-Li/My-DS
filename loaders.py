@@ -12,9 +12,40 @@ import torch
 import xarray as xr
 from torch.utils.data import Dataset
 import torchvision.transforms.functional as TF
+from scipy.ndimage import binary_erosion as _scipy_binary_erosion
 
 # -- Proprietary modules -- #
 from functions import rand_bbox
+
+
+def _erode_sod_boundaries(sod_patch, erosion_iters, ignore_val=255):
+    """将SOD标签各类别的边界像素设为 ignore_val，只保留类别核心区域参与训练。
+
+    CIS冰蛋图polygon与Sentinel-1 SAR存在时空错位，交界处像素标签最不可信。
+    对每个类别的区域向内腐蚀 erosion_iters 像素，被腐蚀掉的边界部分设为 ignore_val。
+
+    Parameters
+    ----------
+    sod_patch : ndarray, shape (H, W)
+        SOD标签数组，ignore_val 表示无效像素。
+    erosion_iters : int
+        向内腐蚀的像素数，对应CIS对齐误差估计（建议3-7）。
+    ignore_val : int
+        无效像素的标记值，默认255。
+
+    Returns
+    -------
+    result : ndarray, shape (H, W)
+        边界像素已替换为 ignore_val 的标签数组。
+    """
+    result = sod_patch.copy()
+    valid_mask = sod_patch != ignore_val
+    for cls_id in np.unique(sod_patch[valid_mask]):
+        cls_mask = (sod_patch == cls_id)
+        eroded = _scipy_binary_erosion(cls_mask, iterations=erosion_iters)
+        boundary = cls_mask & ~eroded
+        result[boundary] = ignore_val
+    return result
 
 
 def _month_sin_cos(filename):
@@ -89,10 +120,175 @@ class AI4ArcticChallengeDataset(Dataset):
 
         # Kept for backward compatibility; epoch-level logging is handled in quickstart.py.
         self.patch_log = []
-        self._sod_chart_idx = self.options['charts'].index('SOD')
+        self._target_chart = self.options.get('target_chart', 'SOD')
+        self._target_chart_idx = self.options['charts'].index(self._target_chart)
+
+        # Two-phase sampling: pre-build class location bank if enabled.
+        if self.options.get('two_phase_sampling', False):
+            self.class_location_bank = self._build_class_location_bank()
+        else:
+            self.class_location_bank = {}
 
     def __len__(self):
         return self.options['epoch_len']
+
+    # ------------------------------------------------------------------ #
+    # Two-phase sampling helpers                                           #
+    # ------------------------------------------------------------------ #
+
+    def _build_class_location_bank(self):
+        """Scan all scenes at coarse stride to build a class→location index.
+
+        For each valid patch crop position, records (scene_id, row, col) under
+        every mapped class present in that patch. Used by Phase 2 of two-phase
+        sampling to efficiently retrieve patches containing rare classes.
+
+        Stride = patch_size * class_bank_stride_factor (default 0.5).
+
+        Returns
+        -------
+        bank : dict
+            {class_id (int): [(scene_id, row, col), ...]}
+        """
+        stride_factor = self.options.get('class_bank_stride_factor', 0.5)
+        stride = max(1, int(self.options['patch_size'] * stride_factor))
+        patch_size = self.options['patch_size']
+        fill_val = self.options['class_fill_values'][self._target_chart]
+
+        bank = {}
+
+        for scene_id, file in enumerate(tqdm(self.files, desc='Building class location bank')):
+            if self.downsample:
+                label_map = self.scenes[scene_id][self._target_chart_idx].numpy().copy()
+            else:
+                try:
+                    scene = xr.open_dataset(
+                        os.path.join(self.options['path_to_train_data'], file),
+                        engine='h5netcdf', mask_and_scale=False)
+                    label_map = scene[self._target_chart].values.copy()
+                    scene.close()
+                except Exception:
+                    continue
+
+            # Apply same label remapping as random_crop so bank indexes mapped classes.
+            if self._target_chart == 'SOD':
+                valid = label_map != 255
+                label_map[valid & (label_map >= 2)] -= 1
+            elif self._target_chart == 'FLOE':
+                label_map[(label_map >= 1) & (label_map <= 3)] = 255
+                label_map[label_map == 6] = 255
+                label_map[label_map == 4] = 1
+                label_map[label_map == 5] = 2
+
+            H, W = label_map.shape
+            for row in range(0, H - patch_size, stride):
+                for col in range(0, W - patch_size, stride):
+                    patch_label = label_map[row:row + patch_size, col:col + patch_size]
+                    valid_pixels = patch_label[patch_label != fill_val]
+                    if len(valid_pixels) == 0:
+                        continue
+                    for cls in np.unique(valid_pixels):
+                        cls = int(cls)
+                        if cls not in bank:
+                            bank[cls] = []
+                        bank[cls].append((scene_id, row, col))
+
+        summary = ', '.join(f'cls{c}:{len(v)}' for c, v in sorted(bank.items()))
+        print(f'Class location bank built: {summary}')
+        return bank
+
+    def _crop_at(self, scene_id, row, col):
+        """Crop a patch at a fixed (scene_id, row, col).
+
+        Applies the same label remapping, erosion, and validity checks as
+        random_crop / random_crop_downsample.
+
+        Returns
+        -------
+        (x_patch, y_patch) or (None, None) if the location is invalid.
+        """
+        patch_size = self.options['patch_size']
+        patch = np.zeros((len(self.options['full_variables']), patch_size, patch_size))
+        fill_val = self.options['class_fill_values'][self._target_chart]
+
+        if self.downsample:
+            if self.global_valid_mask_idx is not None:
+                vm = self.scenes[scene_id][
+                    self.global_valid_mask_idx,
+                    row:row + patch_size, col:col + patch_size].numpy()
+                if float(np.mean(vm)) < self.options.get('valid_mask_threshold', 0.5):
+                    return None, None
+
+            label_patch = self.scenes[scene_id][
+                self._target_chart_idx,
+                row:row + patch_size, col:col + patch_size].numpy()
+            if np.sum(label_patch != fill_val) <= 1:
+                return None, None
+
+            patch[:] = self.scenes[scene_id][
+                :, row:row + patch_size, col:col + patch_size].numpy()
+        else:
+            try:
+                scene = xr.open_dataset(
+                    os.path.join(self.options['path_to_train_data'], self.files[scene_id]),
+                    engine='h5netcdf', mask_and_scale=False)
+            except Exception:
+                return None, None
+
+            if 'global_valid_mask' in self.options['train_variables']:
+                vm = scene['global_valid_mask'].isel(
+                    y=slice(row, row + patch_size),
+                    x=slice(col, col + patch_size)).values
+                if float(np.mean(vm)) < self.options.get('valid_mask_threshold', 0.5):
+                    scene.close()
+                    return None, None
+
+            label_patch = scene[self._target_chart].isel(
+                y=slice(row, row + patch_size),
+                x=slice(col, col + patch_size)).values
+            if np.sum(label_patch != fill_val) <= 1:
+                scene.close()
+                return None, None
+
+            patch[:] = scene[self.options['full_variables']].isel(
+                y=range(row, row + patch_size),
+                x=range(col, col + patch_size)).to_array().values
+            scene.close()
+
+        # Apply same label remapping as random_crop.
+        if self._target_chart == 'SOD':
+            sod_ch = patch[self._target_chart_idx]
+            valid = sod_ch != 255
+            sod_ch[valid & (sod_ch >= 2)] -= 1
+        elif self._target_chart == 'FLOE':
+            floe_ch = patch[self._target_chart_idx]
+            floe_ch[(floe_ch >= 1) & (floe_ch <= 3)] = 255
+            floe_ch[floe_ch == 6] = 255
+            floe_ch[floe_ch == 4] = 1
+            floe_ch[floe_ch == 5] = 2
+
+        _erode_iters = self.options.get('boundary_erosion_iters', 0)
+        if _erode_iters > 0:
+            patch[self._target_chart_idx] = _erode_sod_boundaries(
+                patch[self._target_chart_idx], erosion_iters=_erode_iters)
+
+        x_patch = torch.from_numpy(
+            patch[len(self.options['charts']):, :]).type(torch.float).unsqueeze(0)
+        y_patch = torch.from_numpy(
+            patch[:len(self.options['charts']), :, :]).unsqueeze(0)
+        return x_patch, y_patch
+
+    def _augment_x(self, x_patch, scene_id):
+        """Append month encoding and/or HH-HV polarization ratio channels to x_patch."""
+        if self.options.get('month_encoding', False):
+            s, c = _month_sin_cos(self.files[scene_id])
+            H, W = x_patch.shape[-2], x_patch.shape[-1]
+            month_ch = torch.tensor([s, c], dtype=torch.float).view(1, 2, 1, 1).expand(1, 2, H, W)
+            x_patch = torch.cat([x_patch, month_ch], dim=1)
+        if self.options.get('pol_ratio_channel', False):
+            pol_ratio = x_patch[:, 0:1, :, :] - x_patch[:, 1:2, :, :]
+            x_patch = torch.cat([x_patch, pol_ratio], dim=1)
+        return x_patch
 
     def random_crop(self, scene):
         """
@@ -118,10 +314,10 @@ class AI4ArcticChallengeDataset(Dataset):
 
         # Get random index to crop from.
         row_rand = np.random.randint(
-            low=0, high=scene['SOD'].values.shape[0]
+            low=0, high=scene[self._target_chart].values.shape[0]
             - self.options['patch_size'])
         col_rand = np.random.randint(
-            low=0, high=scene['SOD'].values.shape[1]
+            low=0, high=scene[self._target_chart].values.shape[1]
             - self.options['patch_size'])
 
         # Discard patches with too many black border (georrectification artifact) pixels.
@@ -133,10 +329,10 @@ class AI4ArcticChallengeDataset(Dataset):
             if valid_ratio < self.options.get('valid_mask_threshold', 0.5):
                 return None, None
 
-        sod_patch = scene['SOD'].isel(
+        target_patch = scene[self._target_chart].isel(
             y=slice(row_rand, row_rand + self.options['patch_size']),
             x=slice(col_rand, col_rand + self.options['patch_size'])).values
-        if np.sum(sod_patch != self.options['class_fill_values']['SOD']) > 1:
+        if np.sum(target_patch != self.options['class_fill_values'][self._target_chart]) > 1:
 
             # Crop all full-resolution variables (MyDS: all variables at same 80m resolution).
             patch[0:len(self.options['full_variables']), :, :] = \
@@ -144,12 +340,29 @@ class AI4ArcticChallengeDataset(Dataset):
                 y=range(row_rand, row_rand + self.options['patch_size']),
                 x=range(col_rand, col_rand + self.options['patch_size'])).to_array().values
 
-            # Remap SOD labels in-place: merge old class 2 (young ice) into class 1
-            # (new/young ice). All old labels >=2 (excluding mask=255) shift down by 1:
-            # old 2→1, old 3→2, old 4→3, old 5→4.
-            sod_ch = patch[self._sod_chart_idx]
-            valid = sod_ch != 255
-            sod_ch[valid & (sod_ch >= 2)] -= 1
+            # SOD-specific: remap labels in-place: merge old class 2 (young ice) into
+            # class 1 (new/young ice). All old labels >=2 (excluding mask=255) shift down by 1.
+            if self._target_chart == 'SOD':
+                sod_ch = patch[self._target_chart_idx]
+                valid = sod_ch != 255
+                sod_ch[valid & (sod_ch >= 2)] -= 1
+
+            # FLOE-specific label remapping:
+            #   1(冰块), 2(小浮冰), 3(中浮冰), 6(冰山) → 255 (忽略)
+            #   4(大浮冰) → 1, 5(巨浮冰) → 2
+            elif self._target_chart == 'FLOE':
+                floe_ch = patch[self._target_chart_idx]
+                floe_ch[(floe_ch >= 1) & (floe_ch <= 3)] = 255
+                floe_ch[floe_ch == 6] = 255
+                floe_ch[floe_ch == 4] = 1
+                floe_ch[floe_ch == 5] = 2
+
+            # Boundary erosion: mask out class-boundary pixels that are most likely
+            # mislabeled due to spatial misalignment between CIS ice charts and SAR.
+            _erode_iters = self.options.get('boundary_erosion_iters', 0)
+            if _erode_iters > 0:
+                patch[self._target_chart_idx] = _erode_sod_boundaries(
+                    patch[self._target_chart_idx], erosion_iters=_erode_iters)
 
             x_patch = torch.from_numpy(
                 patch[len(self.options['charts']):, :]).type(torch.float).unsqueeze(0)
@@ -200,19 +413,38 @@ class AI4ArcticChallengeDataset(Dataset):
                 return None, None
 
         # Discard patches with too many label fill (masked) pixels.
-        if np.sum(self.scenes[idx][0, row_rand: row_rand + self.options['patch_size'],
+        if np.sum(self.scenes[idx][self._target_chart_idx,
+                                   row_rand: row_rand + self.options['patch_size'],
                                    col_rand: col_rand + self.options['patch_size']].numpy()
-                  != self.options['class_fill_values']['SOD']) > 1:
+                  != self.options['class_fill_values'][self._target_chart]) > 1:
 
             patch[0:len(self.options['full_variables']), :, :] = \
                 self.scenes[idx][:, row_rand:row_rand + int(self.options['patch_size']),
                                  col_rand:col_rand + int(self.options['patch_size'])].numpy()
 
-            # Remap SOD labels in-place: merge old class 2 (young ice) into class 1
-            # (new/young ice). All old labels >=2 (excluding mask=255) shift down by 1.
-            sod_ch = patch[self._sod_chart_idx]
-            valid = sod_ch != 255
-            sod_ch[valid & (sod_ch >= 2)] -= 1
+            # SOD-specific: remap labels in-place: merge old class 2 (young ice) into
+            # class 1 (new/young ice). All old labels >=2 (excluding mask=255) shift down by 1.
+            if self._target_chart == 'SOD':
+                sod_ch = patch[self._target_chart_idx]
+                valid = sod_ch != 255
+                sod_ch[valid & (sod_ch >= 2)] -= 1
+
+            # FLOE-specific label remapping:
+            #   1(冰块), 2(小浮冰), 3(中浮冰), 6(冰山) → 255 (忽略)
+            #   4(大浮冰) → 1, 5(巨浮冰) → 2
+            elif self._target_chart == 'FLOE':
+                floe_ch = patch[self._target_chart_idx]
+                floe_ch[(floe_ch >= 1) & (floe_ch <= 3)] = 255
+                floe_ch[floe_ch == 6] = 255
+                floe_ch[floe_ch == 4] = 1
+                floe_ch[floe_ch == 5] = 2
+
+            # Boundary erosion: mask out class-boundary pixels that are most likely
+            # mislabeled due to spatial misalignment between CIS ice charts and SAR.
+            _erode_iters = self.options.get('boundary_erosion_iters', 0)
+            if _erode_iters > 0:
+                patch[self._target_chart_idx] = _erode_sod_boundaries(
+                    patch[self._target_chart_idx], erosion_iters=_erode_iters)
 
             x_patch = torch.from_numpy(
                 patch[len(self.options['charts']):, :]).type(torch.float).unsqueeze(0)
@@ -296,6 +528,13 @@ class AI4ArcticChallengeDataset(Dataset):
         """
         Get batch. Function required by Pytorch dataset.
 
+        When two_phase_sampling is enabled:
+          Phase 1 — fills base_ratio of the batch with random crops (same filters
+                    as before).
+          Phase 2 — inspects the Phase 1 pixel distribution, computes per-class
+                    deficit against target_class_ratio, then draws compensatory
+                    patches from class_location_bank to cover the shortfall.
+
         Returns
         -------
         x :
@@ -303,118 +542,159 @@ class AI4ArcticChallengeDataset(Dataset):
         y : Dict
             Dictionary with 3D torch tensors for each chart; reference data for training data x.
         """
-        # Placeholder to fill with data.
-        _use_month = self.options.get('month_encoding', False)
-        _use_pol_ratio = self.options.get('pol_ratio_channel', False)
         _n_channels = (len(self.options['train_variables'])
-                       + (2 if _use_month else 0)
-                       + (1 if _use_pol_ratio else 0))
+                       + (2 if self.options.get('month_encoding', False) else 0)
+                       + (1 if self.options.get('pol_ratio_channel', False) else 0))
         x_patches = torch.zeros((self.options['batch_size'], _n_channels,
                                  self.options['patch_size'], self.options['patch_size']))
         y_patches = torch.zeros((self.options['batch_size'], len(self.options['charts']),
                                  self.options['patch_size'], self.options['patch_size']))
         sample_n = 0
 
-        # Continue until batch is full.
-        while sample_n < self.options['batch_size']:
-            # - Open memory location of scene. Uses 'Lazy Loading'.
-            scene_id = np.random.randint(
-                low=0, high=len(self.files), size=1).item()
+        _two_phase = (self.options.get('two_phase_sampling', False)
+                      and len(self.class_location_bank) > 0)
+        base_n = (max(1, int(self.options['batch_size'] * self.options.get('base_ratio', 0.6)))
+                  if _two_phase else self.options['batch_size'])
 
-            # - Extract patches
+        # ------------------------------------------------------------------ #
+        # Phase 1 — random sampling (same logic as before).                   #
+        # ------------------------------------------------------------------ #
+        while sample_n < base_n:
+            scene_id = np.random.randint(low=0, high=len(self.files), size=1).item()
             try:
                 if self.downsample:
                     x_patch, y_patch = self.random_crop_downsample(scene_id)
                 else:
                     scene = xr.open_dataset(os.path.join(
-                        self.options['path_to_train_data'], self.files[scene_id]), engine='h5netcdf', mask_and_scale=False)
+                        self.options['path_to_train_data'], self.files[scene_id]),
+                        engine='h5netcdf', mask_and_scale=False)
                     x_patch, y_patch = self.random_crop(scene)
                     scene.close()
             except FileNotFoundError:
                 print(f"File {self.files[scene_id]} not found. Skipping scene.")
                 continue
-
-            except Exception as e:
+            except Exception:
                 if self.downsample:
-                    print(f"Cropping in {self.files[scene_id]} failed.")
-                    print(f"Scene size: {self.scenes[scene_id][0].shape} for crop shape: \
-                        ({self.options['patch_size']}, {self.options['patch_size']})")
-                    print('Skipping scene.')
+                    print(f"Cropping in {self.files[scene_id]} failed. "
+                          f"Scene size: {self.scenes[scene_id][0].shape}. Skipping.")
                     continue
                 else:
-                    print(f"Cropping in {self.files[scene_id]} failed.")
-                    print(f"Scene size: {scene['SOD'].shape} for crop shape: \
-                        ({self.options['patch_size']}, {self.options['patch_size']})")
+                    print(f"Cropping in {self.files[scene_id]} failed. "
+                          f"Scene size: {scene[self._target_chart].shape}. Skipping.")
                     scene.close()
-                    print('Skipping scene.')
                     continue
 
             if x_patch is not None:
-                # Append sin/cos month encoding as 2 constant spatial channels.
-                if _use_month:
-                    s, c = _month_sin_cos(self.files[scene_id])
-                    H, W = x_patch.shape[-2], x_patch.shape[-1]
-                    month_ch = torch.tensor([s, c], dtype=torch.float).view(1, 2, 1, 1).expand(1, 2, H, W)
-                    x_patch = torch.cat([x_patch, month_ch], dim=1)
+                x_patch = self._augment_x(x_patch, scene_id)
+                target_flat = y_patch[0, self._target_chart_idx].numpy().flatten()
 
-                # Append HH-HV polarization ratio channel (dB difference).
-                # nersc_sar_primary (HH) is channel 0, nersc_sar_secondary (HV) is channel 1.
-                if _use_pol_ratio:
-                    pol_ratio = x_patch[:, 0:1, :, :] - x_patch[:, 1:2, :, :]
-                    x_patch = torch.cat([x_patch, pol_ratio], dim=1)
-
-                # Compute SOD label flat array once; reused by both filters and patch log.
-                sod_flat = y_patch[0, self._sod_chart_idx].numpy().flatten()
-
-                # Filter 1 — SOD label coverage: discard patches where the fraction of
-                # invalid SOD pixels (==255, i.e. no label) exceeds sod_invalid_max_ratio.
-                # This handles the case where SAR data exists but labels are absent.
-                # Config: sod_invalid_max_ratio (float [0,1], default 1.0 = disabled).
+                # Filter 1 — Label coverage.
                 sod_invalid_max = self.options.get('sod_invalid_max_ratio', 1.0)
                 if sod_invalid_max < 1.0:
-                    invalid_ratio = float((sod_flat == 255).sum()) / len(sod_flat)
-                    if invalid_ratio > sod_invalid_max:
-                        continue  # discard patch, resample
+                    if float((target_flat == 255).sum()) / len(target_flat) > sod_invalid_max:
+                        continue
 
-                # Filter 2 — Water patch rejection: reduce over-sampling of patches that
-                # are almost entirely water (SOD=0), computed over valid (non-255) pixels.
-                # Config: water_patch_max_ratio (float [0,1], default 1.0 = disabled),
-                #         water_rejection_prob  (float [0,1], default 0.0 = disabled).
+                # Filter 2 — Water patch rejection.
                 water_max_ratio = self.options.get('water_patch_max_ratio', 1.0)
                 water_reject_prob = self.options.get('water_rejection_prob', 0.0)
                 if water_reject_prob > 0.0 and water_max_ratio < 1.0:
-                    valid_mask = sod_flat != 255
+                    valid_mask = target_flat != 255
                     valid_count = valid_mask.sum()
                     if valid_count > 0:
-                        water_ratio = float((sod_flat[valid_mask] == 0).sum()) / valid_count
+                        water_ratio = float((target_flat[valid_mask] == 0).sum()) / valid_count
                         if water_ratio > water_max_ratio and np.random.rand() < water_reject_prob:
-                            continue  # discard patch, resample
+                            continue
 
-                # Filter 3 — Rare-class weighted sampling: patches containing rare SOD
-                # classes are accepted more often, proportional to their pixel fraction.
-                # Acceptance probability = (1 - alpha) + alpha * rare_frac, so:
-                #   rare_frac=0  → accepted with probability (1 - alpha)
-                #   rare_frac=1  → always accepted
-                # Config: rare_sampling_classes (list[int], default [] = disabled),
-                #         rare_sampling_alpha   (float [0,1], default 0.0 = disabled).
+                # Filter 3 — Rare-class weighted sampling.
                 _rare_classes = self.options.get('rare_sampling_classes', [])
                 _rare_alpha = self.options.get('rare_sampling_alpha', 0.0)
                 if _rare_classes and _rare_alpha > 0.0:
-                    _valid_sod = sod_flat[sod_flat != 255]
-                    if len(_valid_sod) > 0:
-                        _rare_count = float(sum((_valid_sod == c).sum() for c in _rare_classes))
-                        _rare_frac = _rare_count / len(_valid_sod)
+                    _valid_target = target_flat[target_flat != 255]
+                    if len(_valid_target) > 0:
+                        _rare_count = float(sum((_valid_target == c).sum() for c in _rare_classes))
+                        _rare_frac = _rare_count / len(_valid_target)
                         _accept_prob = (1.0 - _rare_alpha) + _rare_alpha * _rare_frac
                         if np.random.rand() > _accept_prob:
-                            continue  # discard patch, resample
+                            continue
 
                 if self.do_transform:
                     x_patch, y_patch = self.transform(x_patch, y_patch)
 
-                # -- Stack the scene patches in patches
                 x_patches[sample_n, :, :, :] = x_patch
                 y_patches[sample_n, :, :, :] = y_patch
-                sample_n += 1  # Update the index.
+                sample_n += 1
+
+        # ------------------------------------------------------------------ #
+        # Phase 2 — compensatory sampling to cover class deficits.            #
+        # ------------------------------------------------------------------ #
+        if _two_phase and sample_n < self.options['batch_size']:
+            n_classes = self.options['n_classes'][self._target_chart]
+            target_ratio = np.array(self.options.get(
+                'target_class_ratio', [1.0 / n_classes] * n_classes), dtype=float)
+
+            # Count pixel distribution across Phase 1 patches.
+            phase1_labels = y_patches[:base_n, self._target_chart_idx].numpy().flatten()
+            valid_pixels = phase1_labels[phase1_labels != 255]
+            if len(valid_pixels) > 0:
+                actual_counts = np.array(
+                    [float((valid_pixels == c).sum()) for c in range(n_classes)])
+                actual_ratio = actual_counts / actual_counts.sum()
+            else:
+                actual_ratio = np.ones(n_classes) / n_classes
+
+            # Deficit = how much each class is below its target share.
+            deficit = np.maximum(0.0, target_ratio - actual_ratio)
+
+            n_supplement = self.options['batch_size'] - base_n
+            if deficit.sum() > 0:
+                weights = deficit / deficit.sum()
+                supplement_assignments = np.random.choice(
+                    n_classes, size=n_supplement, p=weights)
+            else:
+                supplement_assignments = np.random.randint(n_classes, size=n_supplement)
+
+            max_retries = self.options.get('phase2_max_retries', 20)
+            for target_cls in supplement_assignments:
+                success = False
+                for _ in range(max_retries):
+                    bank = self.class_location_bank
+                    if int(target_cls) in bank and bank[int(target_cls)]:
+                        idx_b = np.random.randint(len(bank[int(target_cls)]))
+                        s_id, row, col = bank[int(target_cls)][idx_b]
+                        x_patch, y_patch = self._crop_at(s_id, row, col)
+                        scene_id = s_id
+                    else:
+                        x_patch, y_patch = None, None
+
+                    if x_patch is None:
+                        # Fall back to random crop if bank entry is invalid.
+                        scene_id = np.random.randint(low=0, high=len(self.files))
+                        try:
+                            if self.downsample:
+                                x_patch, y_patch = self.random_crop_downsample(scene_id)
+                            else:
+                                scene = xr.open_dataset(os.path.join(
+                                    self.options['path_to_train_data'],
+                                    self.files[scene_id]),
+                                    engine='h5netcdf', mask_and_scale=False)
+                                x_patch, y_patch = self.random_crop(scene)
+                                scene.close()
+                        except Exception:
+                            continue
+
+                    if x_patch is not None:
+                        x_patch = self._augment_x(x_patch, scene_id)
+                        if self.do_transform:
+                            x_patch, y_patch = self.transform(x_patch, y_patch)
+                        x_patches[sample_n, :, :, :] = x_patch
+                        y_patches[sample_n, :, :, :] = y_patch
+                        sample_n += 1
+                        success = True
+                        break
+
+                if not success:
+                    # Max retries exceeded; skip slot (leave as zeros).
+                    sample_n += 1
 
         if self.do_transform and torch.rand(1) < self.options['data_augmentations']['Cutmix_prob']:
             lam = np.random.beta(self.options['data_augmentations']['Cutmix_beta'],
@@ -424,10 +704,7 @@ class AI4ArcticChallengeDataset(Dataset):
             x_patches[:, :, bbx1:bbx2, bby1:bby2] = x_patches[rand_index, :, bbx1:bbx2, bby1:bby2]
             y_patches[:, :, bbx1:bbx2, bby1:bby2] = y_patches[rand_index, :, bbx1:bbx2, bby1:bby2]
 
-        # Prepare training arrays
-
         x, y = self.prep_dataset(x_patches, y_patches)
-
         return x, y
 
 
@@ -451,13 +728,14 @@ class AI4ArcticChallengeDataset(Dataset):
             Current epoch number (written into every row).
         """
         mode = self.options.get('patch_log_mode', 'per_epoch')
-        n_sod = self.options['n_classes']['SOD']  # e.g. 5 (classes 0-4)
-        real_classes = list(range(n_sod))          # [0,1,2,3,4]
+        prefix = self._target_chart.lower()
+        n_classes = self.options['n_classes'][self._target_chart]
+        real_classes = list(range(n_classes))
 
         if mode == 'per_epoch':
-            fieldnames = ['epoch'] + [f'sod_{c}' for c in real_classes] + ['sod_mask']
+            fieldnames = ['epoch'] + [f'{prefix}_{c}' for c in real_classes] + [f'{prefix}_mask']
         else:  # per_patch
-            fieldnames = ['epoch', 'file'] + [f'sod_{c}' for c in real_classes] + ['sod_mask']
+            fieldnames = ['epoch', 'file'] + [f'{prefix}_{c}' for c in real_classes] + [f'{prefix}_mask']
 
         write_header = not osp.exists(save_path)
         with open(save_path, 'a', newline='') as f:
@@ -475,16 +753,16 @@ class AI4ArcticChallengeDataset(Dataset):
                     totals[255] += entry['sod_dist'].get(255, 0)
                 row = {'epoch': epoch}
                 for c in real_classes:
-                    row[f'sod_{c}'] = totals[c]
-                row['sod_mask'] = totals[255]
+                    row[f'{prefix}_{c}'] = totals[c]
+                row[f'{prefix}_mask'] = totals[255]
                 writer.writerow(row)
             else:
                 # One row per patch.
                 for entry in self.patch_log:
                     row = {'epoch': epoch, 'file': entry['file']}
                     for c in real_classes:
-                        row[f'sod_{c}'] = entry['sod_dist'].get(c, 0)
-                    row['sod_mask'] = entry['sod_dist'].get(255, 0)
+                        row[f'{prefix}_{c}'] = entry['sod_dist'].get(c, 0)
+                    row[f'{prefix}_mask'] = entry['sod_dist'].get(255, 0)
                     writer.writerow(row)
 
         self.patch_log.clear()
@@ -559,13 +837,34 @@ class AI4ArcticChallengeTestDataset(Dataset):
             for idx, chart in enumerate(self.options['charts']):
                 y[chart] = y_charts[:, idx].squeeze().numpy()
 
-            # Remap SOD labels: merge old class 2 (young ice) into class 1 (new/young ice).
-            # All old labels >=2 (excluding mask=255) shift down by 1.
-            if 'SOD' in y:
+            target_chart = self.options.get('target_chart', 'SOD')
+
+            # SOD-specific: remap labels: merge old class 2 (young ice) into class 1
+            # (new/young ice). All old labels >=2 (excluding mask=255) shift down by 1.
+            if target_chart == 'SOD' and 'SOD' in y:
                 sod = y['SOD'].copy()
                 valid = sod != 255
                 sod[valid & (sod >= 2)] -= 1
                 y['SOD'] = sod
+
+            # FLOE-specific label remapping:
+            #   1(冰块), 2(小浮冰), 3(中浮冰), 6(冰山) → 255 (忽略)
+            #   4(大浮冰) → 1, 5(巨浮冰) → 2
+            elif target_chart == 'FLOE' and 'FLOE' in y:
+                floe = y['FLOE'].copy()
+                floe[(floe >= 1) & (floe <= 3)] = 255
+                floe[floe == 6] = 255
+                floe[floe == 4] = 1
+                floe[floe == 5] = 2
+                y['FLOE'] = floe
+
+            # Boundary erosion on validation labels: mask out class-boundary pixels that
+            # are most likely mislabeled due to spatial misalignment between CIS ice
+            # charts and SAR. Controlled by 'boundary_erosion_iters' (default 0 = off).
+            _erode_iters = self.options.get('boundary_erosion_iters', 0)
+            if _erode_iters > 0 and target_chart in y:
+                y[target_chart] = _erode_sod_boundaries(
+                    y[target_chart], erosion_iters=_erode_iters)
         else:
             y = None
 
@@ -656,6 +955,16 @@ def get_variable_options(train_options: dict):
     train_options: dict
         Updated with variable category lists.
     """
+    # Derive active charts and task weights from target_chart.
+    # Set 'target_chart' in config to 'SOD' or 'FLOE' to switch the detection target.
+    target_chart = train_options.get('target_chart', 'SOD')
+    train_options['charts'] = [target_chart]
+    train_options['task_weights'] = [1]
+
+    # Update chart_metric weights: 1 for target, 0 for others.
+    for chart in train_options.get('chart_metric', {}):
+        train_options['chart_metric'][chart]['weight'] = 1 if chart == target_chart else 0
+
     # All train variables in MyDS are full-resolution (80m) - no separate AMSR/env grids.
     train_options['sar_variables'] = list(train_options['train_variables'])
     train_options['full_variables'] = list(train_options['charts']) + train_options['sar_variables']

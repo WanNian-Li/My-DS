@@ -1,0 +1,1701 @@
+wandb: WARNING Symlinked 1 file into the W&B run directory; call wandb.save again to sync new files.
+Save Config File
+Options initialised
+100%|| 56/56 [09:18<00:00,  9.97s/it]
+Data setup complete.
+-----------------------------------
+Starting Training
+-----------------------------------
+Training...
+100%|| 100/100 [00:45<00:00,  2.18it/s]
+100%|| 12/12 [00:35<00:00,  2.95s/it]
+Train SOD mIoU: 0.2845
+Train SOD IoU per class: tensor([0.4206, 0.1584, 0.2799, 0.0206, 0.5429], device='cuda:0')
+Validating...
+wandb: WARNING Symlinked 1 file into the W&B run directory; call wandb.save again to sync new files.| 12/12 [00:34<00:00,  1.79s/it]
+Computing Metrics on Val dataset
+
+Epoch 0 score:
+SOD f1_metric: 67.68599700927734%
+SOD F1 score: tensor([0.8783, 0.4795, 0.2099, 0.2027, 0.8874], device='cuda:0')
+SOD OA: 0.6718693375587463
+SOD mIoU: tensor(0.4252, device='cuda:0')
+SOD IoU per class: tensor([0.7831, 0.3154, 0.1172, 0.1128, 0.7976], device='cuda:0')
+Combined score: 67.68599700927734%
+Train Epoch Loss: 1.024
+Train Cross Entropy Epoch Loss: 1.024
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.663
+Validation Cross Entropy Epoch Loss: 0.663
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 1.00e-03
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:37<00:00,  2.69it/s]
+100%|| 100/100 [00:37<00:00,  2.67it/s]
+Train SOD mIoU: 0.3919
+Train SOD IoU per class: tensor([0.5908, 0.2867, 0.2934, 0.1402, 0.6483], device='cuda:0')
+Train Epoch Loss: 0.819
+100%|| 12/12 [00:34<00:00,  2.90s/it]
+Train SOD mIoU: 0.4066
+Train SOD IoU per class: tensor([0.5941, 0.3134, 0.2979, 0.1667, 0.6609], device='cuda:0')
+Validating...
+100%|| 100/100 [00:41<00:00,  2.43it/s]
+Computing Metrics on Val dataset
+
+Epoch 2 score:
+SOD f1_metric: 72.84600067138672%
+SOD F1 score: tensor([0.8732, 0.4175, 0.0815, 0.6029, 0.8958], device='cuda:0')
+SOD OA: 0.723791241645813
+SOD mIoU: tensor(0.4648, device='cuda:0')
+SOD IoU per class: tensor([0.7749, 0.2639, 0.0425, 0.4315, 0.8112], device='cuda:0')
+Combined score: 72.84600067138672%
+Train Epoch Loss: 0.759
+Train Cross Entropy Epoch Loss: 0.759
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.536
+Validation Cross Entropy Epoch Loss: 0.536
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.99e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:40<00:00,  2.44it/s]
+Train SOD mIoU: 0.4302
+Train SOD IoU per class: tensor([0.6513, 0.3366, 0.3097, 0.1879, 0.6653], device='cuda:0')
+Train Epoch Loss: 0.730
+100%|| 12/12 [00:35<00:00,  2.94s/it]
+Train SOD mIoU: 0.4363
+Train SOD IoU per class: tensor([0.6723, 0.3560, 0.3035, 0.2042, 0.6454], device='cuda:0')
+Validating...
+100%|| 100/100 [00:40<00:00,  2.44it/s]
+Computing Metrics on Val dataset
+
+Epoch 4 score:
+SOD f1_metric: 73.86000061035156%
+SOD F1 score: tensor([0.8553, 0.4673, 0.1032, 0.6642, 0.8908], device='cuda:0')
+SOD OA: 0.7389556169509888
+SOD mIoU: tensor(0.4814, device='cuda:0')
+SOD IoU per class: tensor([0.7471, 0.3049, 0.0544, 0.4972, 0.8032], device='cuda:0')
+Combined score: 73.86000061035156%
+Train Epoch Loss: 0.710
+Train Cross Entropy Epoch Loss: 0.710
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.503
+Validation Cross Entropy Epoch Loss: 0.503
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.98e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:41<00:00,  2.42it/s]
+Train SOD mIoU: 0.4306
+Train SOD IoU per class: tensor([0.6625, 0.3625, 0.2529, 0.2237, 0.6515], device='cuda:0')
+Train Epoch Loss: 0.685
+100%|| 12/12 [00:35<00:00,  2.94s/it]
+Train SOD mIoU: 0.4426
+Train SOD IoU per class: tensor([0.6749, 0.3902, 0.3064, 0.1945, 0.6470], device='cuda:0')
+Validating...
+100%|| 100/100 [00:26<00:00,  3.73it/s]
+Computing Metrics on Val dataset
+
+Epoch 6 score:
+SOD f1_metric: 73.05999755859375%
+SOD F1 score: tensor([0.8789, 0.4796, 0.1333, 0.5343, 0.8914], device='cuda:0')
+SOD OA: 0.7074059247970581
+SOD mIoU: tensor(0.4679, device='cuda:0')
+SOD IoU per class: tensor([0.7839, 0.3154, 0.0714, 0.3645, 0.8041], device='cuda:0')
+Combined score: 73.05999755859375%
+Train Epoch Loss: 0.670
+Train Cross Entropy Epoch Loss: 0.670
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.487
+Validation Cross Entropy Epoch Loss: 0.487
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.97e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:27<00:00,  3.68it/s]
+Train SOD mIoU: 0.4459
+Train SOD IoU per class: tensor([0.6875, 0.4076, 0.2756, 0.2185, 0.6402], device='cuda:0')
+Train Epoch Loss: 0.647
+100%|| 12/12 [00:34<00:00,  2.87s/it]
+Train SOD mIoU: 0.4408
+Train SOD IoU per class: tensor([0.6974, 0.4026, 0.2157, 0.2542, 0.6338], device='cuda:0')
+Validating...
+100%|| 100/100 [00:25<00:00,  3.86it/s]
+Computing Metrics on Val dataset
+
+Epoch 8 score:
+SOD f1_metric: 75.71700286865234%
+SOD F1 score: tensor([0.8686, 0.5039, 0.1231, 0.7045, 0.8864], device='cuda:0')
+SOD OA: 0.754402220249176
+SOD mIoU: tensor(0.5020, device='cuda:0')
+SOD IoU per class: tensor([0.7677, 0.3368, 0.0656, 0.5438, 0.7961], device='cuda:0')
+Combined score: 75.71700286865234%
+Train Epoch Loss: 0.645
+Train Cross Entropy Epoch Loss: 0.645
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.470
+Validation Cross Entropy Epoch Loss: 0.470
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.95e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:26<00:00,  3.76it/s]
+Train SOD mIoU: 0.4451
+Train SOD IoU per class: tensor([0.6962, 0.4106, 0.1955, 0.2720, 0.6512], device='cuda:0')
+Train Epoch Loss: 0.628
+100%|| 12/12 [00:33<00:00,  2.80s/it]
+Train SOD mIoU: 0.4494
+Train SOD IoU per class: tensor([0.6981, 0.3969, 0.2710, 0.2341, 0.6469], device='cuda:0')
+Validating...
+100%|| 100/100 [00:26<00:00,  3.71it/s]
+Computing Metrics on Val dataset
+
+Epoch 10 score:
+SOD f1_metric: 76.96900177001953%
+SOD F1 score: tensor([0.8986, 0.5340, 0.1522, 0.6630, 0.8867], device='cuda:0')
+SOD OA: 0.7606145143508911
+SOD mIoU: tensor(0.5110, device='cuda:0')
+SOD IoU per class: tensor([0.8159, 0.3643, 0.0824, 0.4958, 0.7965], device='cuda:0')
+Combined score: 76.96900177001953%
+Train Epoch Loss: 0.611
+Train Cross Entropy Epoch Loss: 0.611
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.442
+Validation Cross Entropy Epoch Loss: 0.442
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.93e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:27<00:00,  3.64it/s]
+Train SOD mIoU: 0.4403
+Train SOD IoU per class: tensor([0.7119, 0.3876, 0.1934, 0.2712, 0.6377], device='cuda:0')
+Train Epoch Loss: 0.605
+100%|| 12/12 [00:34<00:00,  2.87s/it]
+Train SOD mIoU: 0.4541
+Train SOD IoU per class: tensor([0.7161, 0.3999, 0.2300, 0.2700, 0.6548], device='cuda:0')
+Validating...
+100%|| 100/100 [00:25<00:00,  3.89it/s]
+Computing Metrics on Val dataset
+
+Epoch 12 score:
+SOD f1_metric: 78.6989974975586%
+SOD F1 score: tensor([0.9062, 0.5448, 0.1090, 0.7291, 0.9017], device='cuda:0')
+SOD OA: 0.7884025573730469
+SOD mIoU: tensor(0.5310, device='cuda:0')
+SOD IoU per class: tensor([0.8284, 0.3744, 0.0576, 0.5737, 0.8210], device='cuda:0')
+Combined score: 78.6989974975586%
+Train Epoch Loss: 0.587
+Train Cross Entropy Epoch Loss: 0.587
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.423
+Validation Cross Entropy Epoch Loss: 0.423
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.90e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:26<00:00,  3.76it/s]
+Train SOD mIoU: 0.4565
+Train SOD IoU per class: tensor([0.7013, 0.4085, 0.2620, 0.2427, 0.6678], device='cuda:0')
+Train Epoch Loss: 0.571
+100%|| 12/12 [00:34<00:00,  2.91s/it]
+Train SOD mIoU: 0.4531
+Train SOD IoU per class: tensor([0.7139, 0.4139, 0.1645, 0.3019, 0.6711], device='cuda:0')
+Validating...
+100%|| 100/100 [00:41<00:00,  2.43it/s]
+Computing Metrics on Val dataset
+
+Epoch 14 score:
+SOD f1_metric: 79.1050033569336%
+SOD F1 score: tensor([0.9135, 0.5467, 0.1564, 0.7268, 0.8962], device='cuda:0')
+SOD OA: 0.7901784181594849
+SOD mIoU: tensor(0.5369, device='cuda:0')
+SOD IoU per class: tensor([0.8409, 0.3761, 0.0848, 0.5709, 0.8119], device='cuda:0')
+Combined score: 79.1050033569336%
+Train Epoch Loss: 0.565
+Train Cross Entropy Epoch Loss: 0.565
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.402
+Validation Cross Entropy Epoch Loss: 0.402
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.86e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:43<00:00,  2.30it/s]
+Train SOD mIoU: 0.4688
+Train SOD IoU per class: tensor([0.7238, 0.4083, 0.2753, 0.2664, 0.6699], device='cuda:0')
+Train Epoch Loss: 0.558
+100%|| 12/12 [00:35<00:00,  2.93s/it]
+Train SOD mIoU: 0.4712
+Train SOD IoU per class: tensor([0.7168, 0.4018, 0.3188, 0.2408, 0.6778], device='cuda:0')
+Validating...
+100%|| 100/100 [00:26<00:00,  3.74it/s]
+Computing Metrics on Val dataset
+
+Epoch 16 score:
+SOD f1_metric: 76.552001953125%
+SOD F1 score: tensor([0.8985, 0.5056, 0.1599, 0.6401, 0.9084], device='cuda:0')
+SOD OA: 0.7513363361358643
+SOD mIoU: tensor(0.5088, device='cuda:0')
+SOD IoU per class: tensor([0.8157, 0.3383, 0.0869, 0.4707, 0.8321], device='cuda:0')
+Combined score: 76.552001953125%
+Train Epoch Loss: 0.552
+Train Cross Entropy Epoch Loss: 0.552
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.421
+Validation Cross Entropy Epoch Loss: 0.421
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.82e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:25<00:00,  3.88it/s]
+Train SOD mIoU: 0.4779
+Train SOD IoU per class: tensor([0.7330, 0.4150, 0.2948, 0.2752, 0.6713], device='cuda:0')
+Train Epoch Loss: 0.544
+100%|| 12/12 [00:34<00:00,  2.90s/it]
+Train SOD mIoU: 0.4686
+Train SOD IoU per class: tensor([0.6977, 0.4184, 0.2831, 0.2783, 0.6653], device='cuda:0')
+Validating...
+100%|| 100/100 [00:26<00:00,  3.75it/s]
+Computing Metrics on Val dataset
+
+Epoch 18 score:
+SOD f1_metric: 80.15799713134766%
+SOD F1 score: tensor([0.9146, 0.5679, 0.1685, 0.7474, 0.9112], device='cuda:0')
+SOD OA: 0.7969166040420532
+SOD mIoU: tensor(0.5529, device='cuda:0')
+SOD IoU per class: tensor([0.8426, 0.3965, 0.0920, 0.5967, 0.8369], device='cuda:0')
+Combined score: 80.15799713134766%
+Train Epoch Loss: 0.549
+Train Cross Entropy Epoch Loss: 0.549
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.412
+Validation Cross Entropy Epoch Loss: 0.412
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.78e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:26<00:00,  3.84it/s]
+Train SOD mIoU: 0.4748
+Train SOD IoU per class: tensor([0.7344, 0.4189, 0.2249, 0.3131, 0.6825], device='cuda:0')
+Train Epoch Loss: 0.533
+100%|| 12/12 [00:35<00:00,  2.96s/it]
+Train SOD mIoU: 0.4825
+Train SOD IoU per class: tensor([0.7456, 0.4375, 0.2689, 0.2799, 0.6807], device='cuda:0')
+Validating...
+100%|| 100/100 [00:43<00:00,  2.30it/s]
+Computing Metrics on Val dataset
+
+Epoch 20 score:
+SOD f1_metric: 77.8239974975586%
+SOD F1 score: tensor([0.9247, 0.5935, 0.1531, 0.5698, 0.9027], device='cuda:0')
+SOD OA: 0.7595700025558472
+SOD mIoU: tensor(0.5172, device='cuda:0')
+SOD IoU per class: tensor([0.8600, 0.4219, 0.0829, 0.3984, 0.8227], device='cuda:0')
+Combined score: 77.8239974975586%
+Train Epoch Loss: 0.520
+Train Cross Entropy Epoch Loss: 0.520
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.405
+Validation Cross Entropy Epoch Loss: 0.405
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.73e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:39<00:00,  2.53it/s]
+Train SOD mIoU: 0.4820
+Train SOD IoU per class: tensor([0.7474, 0.4337, 0.2347, 0.3173, 0.6768], device='cuda:0')
+Train Epoch Loss: 0.515
+100%|| 12/12 [00:33<00:00,  2.82s/it]
+Train SOD mIoU: 0.4840
+Train SOD IoU per class: tensor([0.7475, 0.4408, 0.2314, 0.3232, 0.6773], device='cuda:0')
+Validating...
+100%|| 100/100 [00:37<00:00,  2.68it/s]
+Computing Metrics on Val dataset
+
+Epoch 22 score:
+SOD f1_metric: 80.69200134277344%
+SOD F1 score: tensor([0.9287, 0.5816, 0.1768, 0.7278, 0.9098], device='cuda:0')
+SOD OA: 0.8028186559677124
+SOD mIoU: tensor(0.5561, device='cuda:0')
+SOD IoU per class: tensor([0.8670, 0.4100, 0.0970, 0.5721, 0.8346], device='cuda:0')
+Combined score: 80.69200134277344%
+Train Epoch Loss: 0.509
+Train Cross Entropy Epoch Loss: 0.509
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.382
+Validation Cross Entropy Epoch Loss: 0.382
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.68e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:36<00:00,  2.75it/s]
+Train SOD mIoU: 0.4923
+Train SOD IoU per class: tensor([0.7552, 0.4442, 0.2635, 0.3031, 0.6954], device='cuda:0')
+Train Epoch Loss: 0.497
+100%|| 12/12 [00:34<00:00,  2.90s/it]
+Train SOD mIoU: 0.4954
+Train SOD IoU per class: tensor([0.7508, 0.4512, 0.3102, 0.2830, 0.6819], device='cuda:0')
+Validating...
+100%|| 100/100 [00:26<00:00,  3.78it/s]
+Computing Metrics on Val dataset
+
+Epoch 24 score:
+SOD f1_metric: 78.46099853515625%
+SOD F1 score: tensor([0.9363, 0.5976, 0.1746, 0.5911, 0.8813], device='cuda:0')
+SOD OA: 0.7686020731925964
+SOD mIoU: tensor(0.5219, device='cuda:0')
+SOD IoU per class: tensor([0.8803, 0.4262, 0.0956, 0.4196, 0.7878], device='cuda:0')
+Combined score: 78.46099853515625%
+Train Epoch Loss: 0.494
+Train Cross Entropy Epoch Loss: 0.494
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.395
+Validation Cross Entropy Epoch Loss: 0.395
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.62e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:34<00:00,  2.92it/s]
+Train SOD mIoU: 0.4880
+Train SOD IoU per class: tensor([0.7420, 0.4353, 0.3023, 0.2777, 0.6827], device='cuda:0')
+Train Epoch Loss: 0.503
+100%|| 12/12 [00:34<00:00,  2.83s/it]
+Train SOD mIoU: 0.4899
+Train SOD IoU per class: tensor([0.7444, 0.4542, 0.2792, 0.2906, 0.6809], device='cuda:0')
+Validating...
+100%|| 100/100 [00:32<00:00,  3.12it/s]
+Computing Metrics on Val dataset
+
+Epoch 26 score:
+SOD f1_metric: 81.09700012207031%
+SOD F1 score: tensor([0.9440, 0.5992, 0.1915, 0.7201, 0.8832], device='cuda:0')
+SOD OA: 0.8026310801506042
+SOD mIoU: tensor(0.5562, device='cuda:0')
+SOD IoU per class: tensor([0.8939, 0.4278, 0.1059, 0.5626, 0.7908], device='cuda:0')
+Combined score: 81.09700012207031%
+Train Epoch Loss: 0.493
+Train Cross Entropy Epoch Loss: 0.493
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.384
+Validation Cross Entropy Epoch Loss: 0.384
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.56e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:26<00:00,  3.73it/s]
+Train SOD mIoU: 0.4989
+Train SOD IoU per class: tensor([0.7485, 0.4538, 0.3197, 0.2824, 0.6904], device='cuda:0')
+Train Epoch Loss: 0.494
+100%|| 12/12 [00:35<00:00,  2.93s/it]
+Train SOD mIoU: 0.4940
+Train SOD IoU per class: tensor([0.7643, 0.4492, 0.2655, 0.2975, 0.6933], device='cuda:0')
+Validating...
+100%|| 100/100 [00:41<00:00,  2.43it/s]
+Computing Metrics on Val dataset
+
+Epoch 28 score:
+SOD f1_metric: 80.18499755859375%
+SOD F1 score: tensor([0.9470, 0.6267, 0.2236, 0.5969, 0.9080], device='cuda:0')
+SOD OA: 0.7904019951820374
+SOD mIoU: tensor(0.5477, device='cuda:0')
+SOD IoU per class: tensor([0.8994, 0.4563, 0.1259, 0.4254, 0.8316], device='cuda:0')
+Combined score: 80.18499755859375%
+Train Epoch Loss: 0.491
+Train Cross Entropy Epoch Loss: 0.491
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.381
+Validation Cross Entropy Epoch Loss: 0.381
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.50e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:43<00:00,  2.28it/s]
+Train SOD mIoU: 0.4953
+Train SOD IoU per class: tensor([0.7641, 0.4565, 0.2771, 0.2920, 0.6869], device='cuda:0')
+Train Epoch Loss: 0.489
+100%|| 12/12 [00:34<00:00,  2.88s/it]
+Train SOD mIoU: 0.4950
+Train SOD IoU per class: tensor([0.7611, 0.4564, 0.2522, 0.3107, 0.6946], device='cuda:0')
+Validating...
+100%|| 100/100 [00:27<00:00,  3.65it/s]
+Computing Metrics on Val dataset
+
+Epoch 30 score:
+SOD f1_metric: 83.48699951171875%
+SOD F1 score: tensor([0.9470, 0.6383, 0.1758, 0.7817, 0.9188], device='cuda:0')
+SOD OA: 0.8373861312866211
+SOD mIoU: tensor(0.5912, device='cuda:0')
+SOD IoU per class: tensor([0.8994, 0.4687, 0.0964, 0.6417, 0.8498], device='cuda:0')
+Combined score: 83.48699951171875%
+Train Epoch Loss: 0.480
+Train Cross Entropy Epoch Loss: 0.480
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.348
+Validation Cross Entropy Epoch Loss: 0.348
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.42e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:26<00:00,  3.83it/s]
+Train SOD mIoU: 0.4960
+Train SOD IoU per class: tensor([0.7634, 0.4457, 0.2577, 0.3022, 0.7111], device='cuda:0')
+Train Epoch Loss: 0.477
+100%|| 12/12 [00:35<00:00,  2.97s/it]
+Train SOD mIoU: 0.5016
+Train SOD IoU per class: tensor([0.7636, 0.4627, 0.3020, 0.2828, 0.6969], device='cuda:0')
+Validating...
+100%|| 100/100 [00:41<00:00,  2.39it/s]
+Computing Metrics on Val dataset
+
+Epoch 32 score:
+SOD f1_metric: 82.04199981689453%
+SOD F1 score: tensor([0.9483, 0.6607, 0.1911, 0.6633, 0.9227], device='cuda:0')
+SOD OA: 0.8125191926956177
+SOD mIoU: tensor(0.5706, device='cuda:0')
+SOD IoU per class: tensor([0.9017, 0.4933, 0.1056, 0.4962, 0.8565], device='cuda:0')
+Combined score: 82.04199981689453%
+Train Epoch Loss: 0.468
+Train Cross Entropy Epoch Loss: 0.468
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.351
+Validation Cross Entropy Epoch Loss: 0.351
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.35e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:41<00:00,  2.41it/s]
+Train SOD mIoU: 0.4973
+Train SOD IoU per class: tensor([0.7532, 0.4548, 0.2920, 0.2913, 0.6953], device='cuda:0')
+Train Epoch Loss: 0.477
+100%|| 12/12 [00:34<00:00,  2.86s/it]
+Train SOD mIoU: 0.4920
+Train SOD IoU per class: tensor([0.7463, 0.4518, 0.2307, 0.3417, 0.6894], device='cuda:0')
+Validating...
+100%|| 100/100 [00:27<00:00,  3.61it/s]
+Computing Metrics on Val dataset
+
+Epoch 34 score:
+SOD f1_metric: 83.90299987792969%
+SOD F1 score: tensor([0.9403, 0.6552, 0.1836, 0.8013, 0.9238], device='cuda:0')
+SOD OA: 0.8410465121269226
+SOD mIoU: tensor(0.6005, device='cuda:0')
+SOD IoU per class: tensor([0.8873, 0.4872, 0.1011, 0.6685, 0.8583], device='cuda:0')
+Combined score: 83.90299987792969%
+Train Epoch Loss: 0.472
+Train Cross Entropy Epoch Loss: 0.472
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.355
+Validation Cross Entropy Epoch Loss: 0.355
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.27e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:25<00:00,  3.86it/s]
+Train SOD mIoU: 0.4987
+Train SOD IoU per class: tensor([0.7551, 0.4593, 0.2947, 0.2897, 0.6949], device='cuda:0')
+Train Epoch Loss: 0.466
+100%|| 12/12 [00:35<00:00,  2.92s/it]
+Train SOD mIoU: 0.5077
+Train SOD IoU per class: tensor([0.7652, 0.4681, 0.3136, 0.2950, 0.6968], device='cuda:0')
+Validating...
+100%|| 100/100 [00:26<00:00,  3.79it/s]
+Computing Metrics on Val dataset
+
+Epoch 36 score:
+SOD f1_metric: 83.16500091552734%
+SOD F1 score: tensor([0.9480, 0.6954, 0.1797, 0.7265, 0.8990], device='cuda:0')
+SOD OA: 0.828650712966919
+SOD mIoU: tensor(0.5840, device='cuda:0')
+SOD IoU per class: tensor([0.9011, 0.5331, 0.0987, 0.5705, 0.8165], device='cuda:0')
+Combined score: 83.16500091552734%
+Train Epoch Loss: 0.457
+Train Cross Entropy Epoch Loss: 0.457
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.344
+Validation Cross Entropy Epoch Loss: 0.344
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.19e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:38<00:00,  2.63it/s]
+Train SOD mIoU: 0.5002
+Train SOD IoU per class: tensor([0.7543, 0.4750, 0.2430, 0.3234, 0.7054], device='cuda:0')
+Train Epoch Loss: 0.457
+100%|| 12/12 [00:33<00:00,  2.83s/it]
+Train SOD mIoU: 0.4963
+Train SOD IoU per class: tensor([0.7513, 0.4696, 0.2780, 0.2805, 0.7020], device='cuda:0')
+Validating...
+100%|| 100/100 [00:40<00:00,  2.45it/s]
+Computing Metrics on Val dataset
+
+Epoch 38 score:
+SOD f1_metric: 80.4010009765625%
+SOD F1 score: tensor([0.9448, 0.6998, 0.2563, 0.5218, 0.9236], device='cuda:0')
+SOD OA: 0.7959976196289062
+SOD mIoU: tensor(0.5583, device='cuda:0')
+SOD IoU per class: tensor([0.8954, 0.5382, 0.1470, 0.3530, 0.8580], device='cuda:0')
+Combined score: 80.4010009765625%
+Train Epoch Loss: 0.456
+Train Cross Entropy Epoch Loss: 0.456
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.350
+Validation Cross Entropy Epoch Loss: 0.350
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.10e-04
+Early stopping counter: 2/20
+100%|| 100/100 [00:43<00:00,  2.28it/s]
+Train SOD mIoU: 0.5076
+Train SOD IoU per class: tensor([0.7632, 0.4773, 0.3153, 0.2752, 0.7070], device='cuda:0')
+Train Epoch Loss: 0.452
+100%|| 12/12 [00:33<00:00,  2.81s/it]
+Train SOD mIoU: 0.5098
+Train SOD IoU per class: tensor([0.7584, 0.4751, 0.2960, 0.3097, 0.7099], device='cuda:0')
+Validating...
+100%|| 100/100 [00:39<00:00,  2.54it/s]
+Computing Metrics on Val dataset
+
+Epoch 40 score:
+SOD f1_metric: 82.22899627685547%
+SOD F1 score: tensor([0.9375, 0.6669, 0.2544, 0.6899, 0.9163], device='cuda:0')
+SOD OA: 0.8163566589355469
+SOD mIoU: tensor(0.5801, device='cuda:0')
+SOD IoU per class: tensor([0.8823, 0.5003, 0.1458, 0.5265, 0.8454], device='cuda:0')
+Combined score: 82.22899627685547%
+Train Epoch Loss: 0.443
+Train Cross Entropy Epoch Loss: 0.443
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.344
+Validation Cross Entropy Epoch Loss: 0.344
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 9.01e-04
+Early stopping counter: 3/20
+100%|| 100/100 [00:40<00:00,  2.47it/s]
+Train SOD mIoU: 0.5157
+Train SOD IoU per class: tensor([0.7811, 0.4844, 0.2714, 0.3227, 0.7186], device='cuda:0')
+Train Epoch Loss: 0.436
+100%|| 12/12 [00:34<00:00,  2.91s/it]
+Train SOD mIoU: 0.5122
+Train SOD IoU per class: tensor([0.7801, 0.4791, 0.2522, 0.3465, 0.7032], device='cuda:0')
+Validating...
+100%|| 100/100 [00:36<00:00,  2.74it/s]
+Computing Metrics on Val dataset
+
+Epoch 42 score:
+SOD f1_metric: 84.46499633789062%
+SOD F1 score: tensor([0.9325, 0.6374, 0.2595, 0.8670, 0.9126], device='cuda:0')
+SOD OA: 0.8528780341148376
+SOD mIoU: tensor(0.6190, device='cuda:0')
+SOD IoU per class: tensor([0.8736, 0.4678, 0.1491, 0.7653, 0.8393], device='cuda:0')
+Combined score: 84.46499633789062%
+Train Epoch Loss: 0.433
+Train Cross Entropy Epoch Loss: 0.433
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.336
+Validation Cross Entropy Epoch Loss: 0.336
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 8.91e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:38<00:00,  2.61it/s]
+Train SOD mIoU: 0.5084
+Train SOD IoU per class: tensor([0.7756, 0.4847, 0.2541, 0.3173, 0.7104], device='cuda:0')
+Train Epoch Loss: 0.439
+100%|| 12/12 [00:34<00:00,  2.90s/it]
+Train SOD mIoU: 0.5123
+Train SOD IoU per class: tensor([0.7740, 0.4716, 0.2725, 0.3245, 0.7189], device='cuda:0')
+Validating...
+100%|| 100/100 [00:38<00:00,  2.60it/s]
+Computing Metrics on Val dataset
+
+Epoch 44 score:
+SOD f1_metric: 83.73500061035156%
+SOD F1 score: tensor([0.9336, 0.6382, 0.2431, 0.8296, 0.9072], device='cuda:0')
+SOD OA: 0.8375153541564941
+SOD mIoU: tensor(0.6043, device='cuda:0')
+SOD IoU per class: tensor([0.8755, 0.4687, 0.1384, 0.7089, 0.8301], device='cuda:0')
+Combined score: 83.73500061035156%
+Train Epoch Loss: 0.440
+Train Cross Entropy Epoch Loss: 0.440
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.343
+Validation Cross Entropy Epoch Loss: 0.343
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 8.81e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:41<00:00,  2.43it/s]
+Train SOD mIoU: 0.5082
+Train SOD IoU per class: tensor([0.7758, 0.4876, 0.2134, 0.3542, 0.7100], device='cuda:0')
+Train Epoch Loss: 0.438
+100%|| 12/12 [00:34<00:00,  2.85s/it]
+Train SOD mIoU: 0.5009
+Train SOD IoU per class: tensor([0.7662, 0.4900, 0.2196, 0.3106, 0.7182], device='cuda:0')
+Validating...
+100%|| 100/100 [00:38<00:00,  2.57it/s]
+Computing Metrics on Val dataset
+
+Epoch 46 score:
+SOD f1_metric: 84.01799774169922%
+SOD F1 score: tensor([0.9336, 0.6533, 0.3271, 0.8182, 0.9021], device='cuda:0')
+SOD OA: 0.8389840722084045
+SOD mIoU: tensor(0.6141, device='cuda:0')
+SOD IoU per class: tensor([0.8755, 0.4851, 0.1956, 0.6924, 0.8217], device='cuda:0')
+Combined score: 84.01799774169922%
+Train Epoch Loss: 0.436
+Train Cross Entropy Epoch Loss: 0.436
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.334
+Validation Cross Entropy Epoch Loss: 0.334
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 8.71e-04
+Early stopping counter: 2/20
+100%|| 100/100 [00:40<00:00,  2.46it/s]
+Train SOD mIoU: 0.5159
+Train SOD IoU per class: tensor([0.7789, 0.5009, 0.3129, 0.2787, 0.7082], device='cuda:0')
+Train Epoch Loss: 0.434
+100%|| 12/12 [00:35<00:00,  2.94s/it]
+Train SOD mIoU: 0.5144
+Train SOD IoU per class: tensor([0.7659, 0.4974, 0.2682, 0.3244, 0.7163], device='cuda:0')
+Validating...
+100%|| 100/100 [00:42<00:00,  2.38it/s]
+Computing Metrics on Val dataset
+
+Epoch 48 score:
+SOD f1_metric: 84.76399993896484%
+SOD F1 score: tensor([0.9314, 0.6396, 0.2606, 0.8702, 0.9266], device='cuda:0')
+SOD OA: 0.8561501502990723
+SOD mIoU: tensor(0.6250, device='cuda:0')
+SOD IoU per class: tensor([0.8716, 0.4702, 0.1498, 0.7701, 0.8632], device='cuda:0')
+Combined score: 84.76399993896484%
+Train Epoch Loss: 0.438
+Train Cross Entropy Epoch Loss: 0.438
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.337
+Validation Cross Entropy Epoch Loss: 0.337
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 8.60e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:41<00:00,  2.43it/s]
+Train SOD mIoU: 0.5102
+Train SOD IoU per class: tensor([0.7623, 0.5029, 0.2297, 0.3344, 0.7218], device='cuda:0')
+Train Epoch Loss: 0.437
+100%|| 12/12 [00:34<00:00,  2.84s/it]
+Train SOD mIoU: 0.5101
+Train SOD IoU per class: tensor([0.7656, 0.4960, 0.2480, 0.3219, 0.7190], device='cuda:0')
+Validating...
+100%|| 100/100 [00:29<00:00,  3.33it/s]
+Computing Metrics on Val dataset
+
+Epoch 50 score:
+SOD f1_metric: 83.37899780273438%
+SOD F1 score: tensor([0.9216, 0.6507, 0.3441, 0.7834, 0.9275], device='cuda:0')
+SOD OA: 0.8260982632637024
+SOD mIoU: tensor(0.6107, device='cuda:0')
+SOD IoU per class: tensor([0.8545, 0.4822, 0.2078, 0.6439, 0.8648], device='cuda:0')
+Combined score: 83.37899780273438%
+Train Epoch Loss: 0.434
+Train Cross Entropy Epoch Loss: 0.434
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.353
+Validation Cross Entropy Epoch Loss: 0.353
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 8.49e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:30<00:00,  3.29it/s]
+Train SOD mIoU: 0.5136
+Train SOD IoU per class: tensor([0.7690, 0.5041, 0.2491, 0.3167, 0.7293], device='cuda:0')
+Train Epoch Loss: 0.437
+100%|| 12/12 [00:35<00:00,  2.95s/it]
+Train SOD mIoU: 0.5105
+Train SOD IoU per class: tensor([0.7759, 0.4990, 0.2420, 0.3185, 0.7172], device='cuda:0')
+Validating...
+100%|| 100/100 [00:31<00:00,  3.20it/s]
+Computing Metrics on Val dataset
+
+Epoch 52 score:
+SOD f1_metric: 86.53800201416016%
+SOD F1 score: tensor([0.9419, 0.7009, 0.3720, 0.8746, 0.9168], device='cuda:0')
+SOD OA: 0.8697472810745239
+SOD mIoU: tensor(0.6563, device='cuda:0')
+SOD IoU per class: tensor([0.8901, 0.5395, 0.2285, 0.7771, 0.8463], device='cuda:0')
+Combined score: 86.53800201416016%
+Train Epoch Loss: 0.429
+Train Cross Entropy Epoch Loss: 0.429
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.324
+Validation Cross Entropy Epoch Loss: 0.324
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 8.38e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:29<00:00,  3.44it/s]
+Train SOD mIoU: 0.5144
+Train SOD IoU per class: tensor([0.7726, 0.5094, 0.2806, 0.2809, 0.7286], device='cuda:0')
+Train Epoch Loss: 0.420
+100%|| 12/12 [00:34<00:00,  2.85s/it]
+Train SOD mIoU: 0.5173
+Train SOD IoU per class: tensor([0.7696, 0.5028, 0.2725, 0.3238, 0.7176], device='cuda:0')
+Validating...
+100%|| 100/100 [00:28<00:00,  3.55it/s]
+Computing Metrics on Val dataset
+
+Epoch 54 score:
+SOD f1_metric: 84.43399810791016%
+SOD F1 score: tensor([0.9274, 0.6796, 0.3432, 0.8055, 0.9253], device='cuda:0')
+SOD OA: 0.8407269716262817
+SOD mIoU: tensor(0.6244, device='cuda:0')
+SOD IoU per class: tensor([0.8647, 0.5147, 0.2072, 0.6743, 0.8610], device='cuda:0')
+Combined score: 84.43399810791016%
+Train Epoch Loss: 0.423
+Train Cross Entropy Epoch Loss: 0.423
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.336
+Validation Cross Entropy Epoch Loss: 0.336
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 8.26e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:30<00:00,  3.28it/s]
+Train SOD mIoU: 0.5161
+Train SOD IoU per class: tensor([0.7806, 0.5197, 0.2487, 0.3129, 0.7185], device='cuda:0')
+Train Epoch Loss: 0.414
+100%|| 12/12 [00:35<00:00,  2.93s/it]
+Train SOD mIoU: 0.5275
+Train SOD IoU per class: tensor([0.7765, 0.5032, 0.3388, 0.3063, 0.7130], device='cuda:0')
+Validating...
+ 28%|▉                                                                                                                        | 57/200 [49:36<2:02:55, 51.58s/it]1.77s/it]
+Computing Metrics on Val dataset
+
+Epoch 56 score:
+SOD f1_metric: 86.94400024414062%
+SOD F1 score: tensor([0.9429, 0.6915, 0.4009, 0.8760, 0.9369], device='cuda:0')
+SOD OA: 0.8730262517929077
+SOD mIoU: tensor(0.6664, device='cuda:0')
+SOD IoU per class: tensor([0.8920, 0.5285, 0.2507, 0.7794, 0.8814], device='cuda:0')
+Combined score: 86.94400024414062%
+Train Epoch Loss: 0.421
+Train Cross Entropy Epoch Loss: 0.421
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.322
+Validation Cross Entropy Epoch Loss: 0.322
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 8.14e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:40<00:00,  2.45it/s]
+Train SOD mIoU: 0.5111
+Train SOD IoU per class: tensor([0.7709, 0.5121, 0.2078, 0.3357, 0.7290], device='cuda:0')
+Train Epoch Loss: 0.419
+100%|| 12/12 [00:33<00:00,  2.81s/it]
+Train SOD mIoU: 0.5192
+Train SOD IoU per class: tensor([0.7740, 0.5052, 0.3465, 0.2469, 0.7236], device='cuda:0')
+Validating...
+100%|| 100/100 [00:32<00:00,  3.12it/s]
+Computing Metrics on Val dataset
+
+Epoch 58 score:
+SOD f1_metric: 76.60600280761719%
+SOD F1 score: tensor([0.9436, 0.7084, 0.2810, 0.2922, 0.9175], device='cuda:0')
+SOD OA: 0.7698943018913269
+SOD mIoU: tensor(0.5247, device='cuda:0')
+SOD IoU per class: tensor([0.8931, 0.5485, 0.1634, 0.1711, 0.8475], device='cuda:0')
+Combined score: 76.60600280761719%
+Train Epoch Loss: 0.417
+Train Cross Entropy Epoch Loss: 0.417
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.334
+Validation Cross Entropy Epoch Loss: 0.334
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 8.02e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:31<00:00,  3.17it/s]
+Train SOD mIoU: 0.5228
+Train SOD IoU per class: tensor([0.7826, 0.5128, 0.3038, 0.2812, 0.7334], device='cuda:0')
+Train Epoch Loss: 0.413
+100%|| 12/12 [00:34<00:00,  2.90s/it]
+Train SOD mIoU: 0.5337
+Train SOD IoU per class: tensor([0.7837, 0.5196, 0.3102, 0.3134, 0.7416], device='cuda:0')
+Validating...
+100%|| 100/100 [00:40<00:00,  2.48it/s]
+Computing Metrics on Val dataset
+
+Epoch 60 score:
+SOD f1_metric: 84.69999694824219%
+SOD F1 score: tensor([0.9309, 0.6766, 0.3495, 0.8116, 0.9269], device='cuda:0')
+SOD OA: 0.843818187713623
+SOD mIoU: tensor(0.6281, device='cuda:0')
+SOD IoU per class: tensor([0.8708, 0.5113, 0.2118, 0.6829, 0.8638], device='cuda:0')
+Combined score: 84.69999694824219%
+Train Epoch Loss: 0.407
+Train Cross Entropy Epoch Loss: 0.407
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.324
+Validation Cross Entropy Epoch Loss: 0.324
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 7.90e-04
+Early stopping counter: 2/20
+100%|| 100/100 [00:41<00:00,  2.39it/s]
+Train SOD mIoU: 0.5332
+Train SOD IoU per class: tensor([0.7876, 0.5241, 0.2669, 0.3533, 0.7343], device='cuda:0')
+Train Epoch Loss: 0.398
+100%|| 12/12 [00:33<00:00,  2.82s/it]
+Train SOD mIoU: 0.5194
+Train SOD IoU per class: tensor([0.7816, 0.5246, 0.2063, 0.3499, 0.7344], device='cuda:0')
+Validating...
+100%|| 100/100 [00:40<00:00,  2.44it/s]
+Computing Metrics on Val dataset
+
+Epoch 62 score:
+SOD f1_metric: 86.1259994506836%
+SOD F1 score: tensor([0.9356, 0.6762, 0.3998, 0.8790, 0.9212], device='cuda:0')
+SOD OA: 0.86138916015625
+SOD mIoU: tensor(0.6555, device='cuda:0')
+SOD IoU per class: tensor([0.8790, 0.5108, 0.2498, 0.7841, 0.8539], device='cuda:0')
+Combined score: 86.1259994506836%
+Train Epoch Loss: 0.403
+Train Cross Entropy Epoch Loss: 0.403
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.322
+Validation Cross Entropy Epoch Loss: 0.322
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 7.77e-04
+Early stopping counter: 3/20
+100%|| 100/100 [00:41<00:00,  2.41it/s]
+Train SOD mIoU: 0.5211
+Train SOD IoU per class: tensor([0.7752, 0.5234, 0.2486, 0.3226, 0.7356], device='cuda:0')
+Train Epoch Loss: 0.409
+100%|| 12/12 [00:34<00:00,  2.85s/it]
+Train SOD mIoU: 0.5306
+Train SOD IoU per class: tensor([0.7788, 0.5202, 0.2559, 0.3469, 0.7515], device='cuda:0')
+Validating...
+100%|| 100/100 [00:34<00:00,  2.92it/s]
+Computing Metrics on Val dataset
+
+Epoch 64 score:
+SOD f1_metric: 87.22899627685547%
+SOD F1 score: tensor([0.9469, 0.7175, 0.3746, 0.8816, 0.9206], device='cuda:0')
+SOD OA: 0.8757808804512024
+SOD mIoU: tensor(0.6661, device='cuda:0')
+SOD IoU per class: tensor([0.8992, 0.5594, 0.2305, 0.7883, 0.8529], device='cuda:0')
+Combined score: 87.22899627685547%
+Train Epoch Loss: 0.402
+Train Cross Entropy Epoch Loss: 0.402
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.311
+Validation Cross Entropy Epoch Loss: 0.311
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 7.64e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:32<00:00,  3.10it/s]
+Train SOD mIoU: 0.5321
+Train SOD IoU per class: tensor([0.7841, 0.5274, 0.2309, 0.3526, 0.7653], device='cuda:0')
+Train Epoch Loss: 0.396
+100%|| 12/12 [00:35<00:00,  2.94s/it]
+Train SOD mIoU: 0.5330
+Train SOD IoU per class: tensor([0.8001, 0.5313, 0.2345, 0.3477, 0.7512], device='cuda:0')
+Validating...
+100%|| 100/100 [00:37<00:00,  2.64it/s]
+Computing Metrics on Val dataset
+
+Epoch 66 score:
+SOD f1_metric: 84.19999694824219%
+SOD F1 score: tensor([0.9452, 0.7276, 0.2827, 0.6948, 0.9415], device='cuda:0')
+SOD OA: 0.8342021703720093
+SOD mIoU: tensor(0.6108, device='cuda:0')
+SOD IoU per class: tensor([0.8961, 0.5718, 0.1646, 0.5323, 0.8894], device='cuda:0')
+Combined score: 84.19999694824219%
+Train Epoch Loss: 0.393
+Train Cross Entropy Epoch Loss: 0.393
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.320
+Validation Cross Entropy Epoch Loss: 0.320
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 7.50e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:38<00:00,  2.59it/s]
+Train SOD mIoU: 0.5335
+Train SOD IoU per class: tensor([0.7941, 0.5340, 0.2647, 0.3212, 0.7534], device='cuda:0')
+Train Epoch Loss: 0.395
+100%|| 12/12 [00:35<00:00,  2.92s/it]
+Train SOD mIoU: 0.5287
+Train SOD IoU per class: tensor([0.7931, 0.5265, 0.2610, 0.3116, 0.7513], device='cuda:0')
+Validating...
+100%|| 100/100 [00:38<00:00,  2.58it/s]
+Computing Metrics on Val dataset
+
+Epoch 68 score:
+SOD f1_metric: 85.6780014038086%
+SOD F1 score: tensor([0.9478, 0.7223, 0.3881, 0.7639, 0.9347], device='cuda:0')
+SOD OA: 0.8495312333106995
+SOD mIoU: tensor(0.6404, device='cuda:0')
+SOD IoU per class: tensor([0.9007, 0.5653, 0.2408, 0.6180, 0.8775], device='cuda:0')
+Combined score: 85.6780014038086%
+Train Epoch Loss: 0.394
+Train Cross Entropy Epoch Loss: 0.394
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.316
+Validation Cross Entropy Epoch Loss: 0.316
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 7.37e-04
+Early stopping counter: 2/20
+100%|| 100/100 [00:37<00:00,  2.68it/s]
+Train SOD mIoU: 0.5426
+Train SOD IoU per class: tensor([0.8048, 0.5246, 0.3280, 0.3029, 0.7526], device='cuda:0')
+Train Epoch Loss: 0.395
+100%|| 12/12 [00:35<00:00,  2.97s/it]
+Train SOD mIoU: 0.5446
+Train SOD IoU per class: tensor([0.7933, 0.5537, 0.3069, 0.3010, 0.7680], device='cuda:0')
+Validating...
+100%|| 100/100 [00:39<00:00,  2.51it/s]
+Computing Metrics on Val dataset
+
+Epoch 70 score:
+SOD f1_metric: 84.45999908447266%
+SOD F1 score: tensor([0.9472, 0.7308, 0.3573, 0.6852, 0.9409], device='cuda:0')
+SOD OA: 0.8349407315254211
+SOD mIoU: tensor(0.6205, device='cuda:0')
+SOD IoU per class: tensor([0.8997, 0.5758, 0.2175, 0.5211, 0.8884], device='cuda:0')
+Combined score: 84.45999908447266%
+Train Epoch Loss: 0.390
+Train Cross Entropy Epoch Loss: 0.390
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.313
+Validation Cross Entropy Epoch Loss: 0.313
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 7.23e-04
+Early stopping counter: 3/20
+100%|| 100/100 [00:40<00:00,  2.48it/s]
+Train SOD mIoU: 0.5382
+Train SOD IoU per class: tensor([0.8003, 0.5394, 0.2875, 0.3145, 0.7491], device='cuda:0')
+Train Epoch Loss: 0.389
+100%|| 12/12 [00:34<00:00,  2.84s/it]
+Train SOD mIoU: 0.5360
+Train SOD IoU per class: tensor([0.8110, 0.5452, 0.2312, 0.3488, 0.7438], device='cuda:0')
+Validating...
+100%|| 100/100 [00:26<00:00,  3.76it/s]
+Computing Metrics on Val dataset
+
+Epoch 72 score:
+SOD f1_metric: 88.7229995727539%
+SOD F1 score: tensor([0.9482, 0.7450, 0.4352, 0.8932, 0.9515], device='cuda:0')
+SOD OA: 0.8904326558113098
+SOD mIoU: tensor(0.6975, device='cuda:0')
+SOD IoU per class: tensor([0.9015, 0.5936, 0.2781, 0.8070, 0.9074], device='cuda:0')
+Combined score: 88.7229995727539%
+Train Epoch Loss: 0.384
+Train Cross Entropy Epoch Loss: 0.384
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.298
+Validation Cross Entropy Epoch Loss: 0.298
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 7.09e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:25<00:00,  3.85it/s]
+Train SOD mIoU: 0.5313
+Train SOD IoU per class: tensor([0.8030, 0.5401, 0.2383, 0.3356, 0.7397], device='cuda:0')
+Train Epoch Loss: 0.387
+100%|| 12/12 [00:33<00:00,  2.79s/it]
+Train SOD mIoU: 0.5405
+Train SOD IoU per class: tensor([0.8059, 0.5389, 0.3127, 0.3029, 0.7424], device='cuda:0')
+Validating...
+100%|| 100/100 [00:31<00:00,  3.18it/s]
+Computing Metrics on Val dataset
+
+Epoch 74 score:
+SOD f1_metric: 87.81999969482422%
+SOD F1 score: tensor([0.9489, 0.7425, 0.3524, 0.8658, 0.9453], device='cuda:0')
+SOD OA: 0.8786318302154541
+SOD mIoU: tensor(0.6734, device='cuda:0')
+SOD IoU per class: tensor([0.9027, 0.5905, 0.2139, 0.7634, 0.8963], device='cuda:0')
+Combined score: 87.81999969482422%
+Train Epoch Loss: 0.384
+Train Cross Entropy Epoch Loss: 0.384
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.302
+Validation Cross Entropy Epoch Loss: 0.302
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 6.94e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:37<00:00,  2.70it/s]
+Train SOD mIoU: 0.5382
+Train SOD IoU per class: tensor([0.8048, 0.5459, 0.2813, 0.3176, 0.7413], device='cuda:0')
+Train Epoch Loss: 0.385
+100%|| 12/12 [00:35<00:00,  2.92s/it]
+Train SOD mIoU: 0.5520
+Train SOD IoU per class: tensor([0.8029, 0.5688, 0.2884, 0.3460, 0.7536], device='cuda:0')
+Validating...
+100%|| 100/100 [00:40<00:00,  2.50it/s]
+Computing Metrics on Val dataset
+
+Epoch 76 score:
+SOD f1_metric: 88.49400329589844%
+SOD F1 score: tensor([0.9493, 0.7607, 0.4292, 0.8677, 0.9473], device='cuda:0')
+SOD OA: 0.8844543695449829
+SOD mIoU: tensor(0.6913, device='cuda:0')
+SOD IoU per class: tensor([0.9035, 0.6138, 0.2733, 0.7662, 0.8998], device='cuda:0')
+Combined score: 88.49400329589844%
+Train Epoch Loss: 0.380
+Train Cross Entropy Epoch Loss: 0.380
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.303
+Validation Cross Entropy Epoch Loss: 0.303
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 6.80e-04
+Early stopping counter: 2/20
+100%|| 100/100 [00:40<00:00,  2.49it/s]
+Train SOD mIoU: 0.5506
+Train SOD IoU per class: tensor([0.8137, 0.5665, 0.3039, 0.3026, 0.7665], device='cuda:0')
+Train Epoch Loss: 0.376
+100%|| 12/12 [00:35<00:00,  2.95s/it]
+Train SOD mIoU: 0.5405
+Train SOD IoU per class: tensor([0.8162, 0.5574, 0.2211, 0.3500, 0.7579], device='cuda:0')
+Validating...
+100%|| 100/100 [00:26<00:00,  3.79it/s]
+Computing Metrics on Val dataset
+
+Epoch 78 score:
+SOD f1_metric: 88.39700317382812%
+SOD F1 score: tensor([0.9517, 0.7466, 0.4387, 0.8939, 0.9224], device='cuda:0')
+SOD OA: 0.8877881169319153
+SOD mIoU: tensor(0.6897, device='cuda:0')
+SOD IoU per class: tensor([0.9079, 0.5957, 0.2810, 0.8081, 0.8560], device='cuda:0')
+Combined score: 88.39700317382812%
+Train Epoch Loss: 0.379
+Train Cross Entropy Epoch Loss: 0.379
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.301
+Validation Cross Entropy Epoch Loss: 0.301
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 6.65e-04
+Early stopping counter: 3/20
+100%|| 100/100 [00:25<00:00,  3.87it/s]
+Train SOD mIoU: 0.5410
+Train SOD IoU per class: tensor([0.8122, 0.5588, 0.1779, 0.3948, 0.7615], device='cuda:0')
+Train Epoch Loss: 0.387
+100%|| 12/12 [00:34<00:00,  2.88s/it]
+Train SOD mIoU: 0.5406
+Train SOD IoU per class: tensor([0.8089, 0.5765, 0.1629, 0.3791, 0.7757], device='cuda:0')
+Validating...
+100%|| 100/100 [00:26<00:00,  3.83it/s]
+Computing Metrics on Val dataset
+
+Epoch 80 score:
+SOD f1_metric: 88.21299743652344%
+SOD F1 score: tensor([0.9527, 0.7335, 0.4470, 0.8962, 0.9175], device='cuda:0')
+SOD OA: 0.8857673406600952
+SOD mIoU: tensor(0.6872, device='cuda:0')
+SOD IoU per class: tensor([0.9097, 0.5791, 0.2878, 0.8119, 0.8475], device='cuda:0')
+Combined score: 88.21299743652344%
+Train Epoch Loss: 0.375
+Train Cross Entropy Epoch Loss: 0.375
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.298
+Validation Cross Entropy Epoch Loss: 0.298
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 6.51e-04
+Early stopping counter: 4/20
+100%|| 100/100 [00:26<00:00,  3.76it/s]
+Train SOD mIoU: 0.5364
+Train SOD IoU per class: tensor([0.7990, 0.5580, 0.2068, 0.3525, 0.7658], device='cuda:0')
+Train Epoch Loss: 0.388
+100%|| 12/12 [00:35<00:00,  2.99s/it]
+Train SOD mIoU: 0.5493
+Train SOD IoU per class: tensor([0.8044, 0.5662, 0.2582, 0.3547, 0.7629], device='cuda:0')
+Validating...
+100%|| 100/100 [00:30<00:00,  3.24it/s]
+Computing Metrics on Val dataset
+
+Epoch 82 score:
+SOD f1_metric: 87.90699768066406%
+SOD F1 score: tensor([0.9504, 0.7514, 0.3731, 0.8764, 0.9245], device='cuda:0')
+SOD OA: 0.8809037208557129
+SOD mIoU: tensor(0.6752, device='cuda:0')
+SOD IoU per class: tensor([0.9055, 0.6018, 0.2293, 0.7800, 0.8596], device='cuda:0')
+Combined score: 87.90699768066406%
+Train Epoch Loss: 0.377
+Train Cross Entropy Epoch Loss: 0.377
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.300
+Validation Cross Entropy Epoch Loss: 0.300
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 6.36e-04
+Early stopping counter: 5/20
+100%|| 100/100 [00:37<00:00,  2.69it/s]
+Train SOD mIoU: 0.5461
+Train SOD IoU per class: tensor([0.8062, 0.5744, 0.2185, 0.3564, 0.7752], device='cuda:0')
+Train Epoch Loss: 0.378
+100%|| 12/12 [00:34<00:00,  2.84s/it]
+Train SOD mIoU: 0.5509
+Train SOD IoU per class: tensor([0.8039, 0.5768, 0.2884, 0.3204, 0.7648], device='cuda:0')
+Validating...
+100%|| 100/100 [00:40<00:00,  2.44it/s]
+Computing Metrics on Val dataset
+
+Epoch 84 score:
+SOD f1_metric: 88.3010025024414%
+SOD F1 score: tensor([0.9528, 0.7391, 0.4777, 0.9009, 0.9064], device='cuda:0')
+SOD OA: 0.8847550749778748
+SOD mIoU: tensor(0.6917, device='cuda:0')
+SOD IoU per class: tensor([0.9098, 0.5862, 0.3138, 0.8196, 0.8288], device='cuda:0')
+Combined score: 88.3010025024414%
+Train Epoch Loss: 0.370
+Train Cross Entropy Epoch Loss: 0.370
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.297
+Validation Cross Entropy Epoch Loss: 0.297
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 6.21e-04
+Early stopping counter: 6/20
+100%|| 100/100 [00:41<00:00,  2.39it/s]
+Train SOD mIoU: 0.5518
+Train SOD IoU per class: tensor([0.8059, 0.5623, 0.2952, 0.3233, 0.7721], device='cuda:0')
+Train Epoch Loss: 0.382
+100%|| 12/12 [00:34<00:00,  2.88s/it]
+Train SOD mIoU: 0.5662
+Train SOD IoU per class: tensor([0.8064, 0.5745, 0.3614, 0.3094, 0.7792], device='cuda:0')
+Validating...
+100%|| 100/100 [00:37<00:00,  2.66it/s]
+Computing Metrics on Val dataset
+
+Epoch 86 score:
+SOD f1_metric: 89.39900207519531%
+SOD F1 score: tensor([0.9532, 0.7607, 0.4841, 0.8936, 0.9518], device='cuda:0')
+SOD OA: 0.8952621817588806
+SOD mIoU: tensor(0.7119, device='cuda:0')
+SOD IoU per class: tensor([0.9105, 0.6139, 0.3194, 0.8076, 0.9081], device='cuda:0')
+Combined score: 89.39900207519531%
+Train Epoch Loss: 0.367
+Train Cross Entropy Epoch Loss: 0.367
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.296
+Validation Cross Entropy Epoch Loss: 0.296
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 6.05e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS31/best_model_My_DS31.pth
+100%|| 100/100 [00:39<00:00,  2.54it/s]
+Train SOD mIoU: 0.5588
+Train SOD IoU per class: tensor([0.8047, 0.5793, 0.2725, 0.3485, 0.7889], device='cuda:0')
+Train Epoch Loss: 0.369
+100%|| 12/12 [00:33<00:00,  2.82s/it]
+Train SOD mIoU: 0.5527
+Train SOD IoU per class: tensor([0.8101, 0.5853, 0.2581, 0.3281, 0.7821], device='cuda:0')
+Validating...
+100%|| 100/100 [00:39<00:00,  2.51it/s]
+Computing Metrics on Val dataset
+
+Epoch 88 score:
+SOD f1_metric: 88.31900024414062%
+SOD F1 score: tensor([0.9516, 0.7708, 0.4501, 0.8413, 0.9431], device='cuda:0')
+SOD OA: 0.8798367977142334
+SOD mIoU: tensor(0.6887, device='cuda:0')
+SOD IoU per class: tensor([0.9076, 0.6271, 0.2904, 0.7261, 0.8923], device='cuda:0')
+Combined score: 88.31900024414062%
+Train Epoch Loss: 0.365
+Train Cross Entropy Epoch Loss: 0.365
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.299
+Validation Cross Entropy Epoch Loss: 0.299
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 5.90e-04
+Early stopping counter: 1/20
+100%|| 100/100 [00:40<00:00,  2.47it/s]
+Train SOD mIoU: 0.5579
+Train SOD IoU per class: tensor([0.8023, 0.5737, 0.3168, 0.3169, 0.7801], device='cuda:0')
+Train Epoch Loss: 0.368
+100%|| 12/12 [00:35<00:00,  2.93s/it]
+Train SOD mIoU: 0.5650
+Train SOD IoU per class: tensor([0.8118, 0.5886, 0.3171, 0.3215, 0.7861], device='cuda:0')
+Validating...
+100%|| 100/100 [00:38<00:00,  2.61it/s]
+Computing Metrics on Val dataset
+
+Epoch 90 score:
+SOD f1_metric: 86.85299682617188%
+SOD F1 score: tensor([0.9517, 0.7528, 0.3981, 0.8050, 0.9228], device='cuda:0')
+SOD OA: 0.8627174496650696
+SOD mIoU: tensor(0.6580, device='cuda:0')
+SOD IoU per class: tensor([0.9079, 0.6036, 0.2485, 0.6736, 0.8567], device='cuda:0')
+Combined score: 86.85299682617188%
+Train Epoch Loss: 0.363
+Train Cross Entropy Epoch Loss: 0.363
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.293
+Validation Cross Entropy Epoch Loss: 0.293
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 5.75e-04
+Early stopping counter: 2/20
+100%|| 100/100 [00:39<00:00,  2.50it/s]
+Train SOD mIoU: 0.5620
+Train SOD IoU per class: tensor([0.7991, 0.5651, 0.3699, 0.2846, 0.7914], device='cuda:0')
+Train Epoch Loss: 0.369
+100%|| 12/12 [00:34<00:00,  2.86s/it]
+Train SOD mIoU: 0.5645
+Train SOD IoU per class: tensor([0.8145, 0.5868, 0.2935, 0.3445, 0.7831], device='cuda:0')
+Validating...
+100%|| 100/100 [00:42<00:00,  2.38it/s]
+Computing Metrics on Val dataset
+
+Epoch 92 score:
+SOD f1_metric: 88.03900146484375%
+SOD F1 score: tensor([0.9487, 0.7707, 0.4459, 0.8188, 0.9565], device='cuda:0')
+SOD OA: 0.8753700852394104
+SOD mIoU: tensor(0.6852, device='cuda:0')
+SOD IoU per class: tensor([0.9024, 0.6269, 0.2869, 0.6932, 0.9165], device='cuda:0')
+Combined score: 88.03900146484375%
+Train Epoch Loss: 0.368
+Train Cross Entropy Epoch Loss: 0.368
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.296
+Validation Cross Entropy Epoch Loss: 0.296
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 5.59e-04
+Early stopping counter: 3/20
+100%|| 100/100 [00:41<00:00,  2.41it/s]
+Train SOD mIoU: 0.5637
+Train SOD IoU per class: tensor([0.8035, 0.5670, 0.2998, 0.3621, 0.7861], device='cuda:0')
+Train Epoch Loss: 0.370
+100%|| 12/12 [00:34<00:00,  2.86s/it]
+Train SOD mIoU: 0.5559
+Train SOD IoU per class: tensor([0.8002, 0.5772, 0.2580, 0.3549, 0.7890], device='cuda:0')
+Validating...
+100%|| 100/100 [00:41<00:00,  2.43it/s]
+Computing Metrics on Val dataset
+
+Epoch 94 score:
+SOD f1_metric: 88.20500183105469%
+SOD F1 score: tensor([0.9511, 0.7593, 0.4761, 0.8457, 0.9385], device='cuda:0')
+SOD OA: 0.8778972625732422
+SOD mIoU: tensor(0.6896, device='cuda:0')
+SOD IoU per class: tensor([0.9068, 0.6119, 0.3124, 0.7327, 0.8842], device='cuda:0')
+Combined score: 88.20500183105469%
+Train Epoch Loss: 0.373
+Train Cross Entropy Epoch Loss: 0.373
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.287
+Validation Cross Entropy Epoch Loss: 0.287
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 5.44e-04
+Early stopping counter: 4/20
+100%|| 100/100 [00:42<00:00,  2.37it/s]
+Train SOD mIoU: 0.5668
+Train SOD IoU per class: tensor([0.8073, 0.5901, 0.3057, 0.3319, 0.7989], device='cuda:0')
+Train Epoch Loss: 0.364
+100%|| 12/12 [00:34<00:00,  2.89s/it]
+Train SOD mIoU: 0.5536
+Train SOD IoU per class: tensor([0.8018, 0.5603, 0.2887, 0.3469, 0.7704], device='cuda:0')
+Validating...
+100%|| 100/100 [00:43<00:00,  2.30it/s]
+Computing Metrics on Val dataset
+
+Epoch 96 score:
+SOD f1_metric: 87.72000122070312%
+SOD F1 score: tensor([0.9520, 0.7889, 0.4171, 0.7726, 0.9636], device='cuda:0')
+SOD OA: 0.871694803237915
+SOD mIoU: tensor(0.6765, device='cuda:0')
+SOD IoU per class: tensor([0.9084, 0.6514, 0.2635, 0.6294, 0.9297], device='cuda:0')
+Combined score: 87.72000122070312%
+Train Epoch Loss: 0.371
+Train Cross Entropy Epoch Loss: 0.371
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.283
+Validation Cross Entropy Epoch Loss: 0.283
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 5.28e-04
+Early stopping counter: 5/20
+100%|| 100/100 [00:42<00:00,  2.35it/s]
+Train SOD mIoU: 0.5782
+Train SOD IoU per class: tensor([0.8073, 0.5946, 0.3643, 0.3336, 0.7914], device='cuda:0')
+Train Epoch Loss: 0.366
+100%|| 12/12 [00:34<00:00,  2.88s/it]
+Train SOD mIoU: 0.5633
+Train SOD IoU per class: tensor([0.8084, 0.5796, 0.2649, 0.3710, 0.7924], device='cuda:0')
+Validating...
+100%|| 100/100 [00:40<00:00,  2.44it/s]
+Computing Metrics on Val dataset
+
+Epoch 98 score:
+SOD f1_metric: 86.22799682617188%
+SOD F1 score: tensor([0.9520, 0.7721, 0.3981, 0.7258, 0.9438], device='cuda:0')
+SOD OA: 0.8542629480361938
+SOD mIoU: tensor(0.6498, device='cuda:0')
+SOD IoU per class: tensor([0.9084, 0.6288, 0.2485, 0.5696, 0.8937], device='cuda:0')
+Combined score: 86.22799682617188%
+Train Epoch Loss: 0.359
+Train Cross Entropy Epoch Loss: 0.359
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.285
+Validation Cross Entropy Epoch Loss: 0.285
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 5.13e-04
+Early stopping counter: 6/20
+100%|| 100/100 [00:42<00:00,  2.36it/s]
+Train SOD mIoU: 0.5605
+Train SOD IoU per class: tensor([0.8029, 0.5758, 0.2736, 0.3634, 0.7870], device='cuda:0')
+Train Epoch Loss: 0.362
+100%|| 12/12 [00:34<00:00,  2.89s/it]
+Train SOD mIoU: 0.5640
+Train SOD IoU per class: tensor([0.8050, 0.5835, 0.2685, 0.3606, 0.8022], device='cuda:0')
+Validating...
+100%|| 100/100 [00:36<00:00,  2.75it/s]
+Computing Metrics on Val dataset
+
+Epoch 100 score:
+SOD f1_metric: 88.51799774169922%
+SOD F1 score: tensor([0.9540, 0.7584, 0.4848, 0.8665, 0.9286], device='cuda:0')
+SOD OA: 0.8831264972686768
+SOD mIoU: tensor(0.6947, device='cuda:0')
+SOD IoU per class: tensor([0.9120, 0.6108, 0.3199, 0.7644, 0.8667], device='cuda:0')
+Combined score: 88.51799774169922%
+Train Epoch Loss: 0.364
+Train Cross Entropy Epoch Loss: 0.364
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.283
+Validation Cross Entropy Epoch Loss: 0.283
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 4.97e-04
+Early stopping counter: 7/20
+100%|| 100/100 [00:39<00:00,  2.52it/s]
+Train SOD mIoU: 0.5639
+Train SOD IoU per class: tensor([0.8112, 0.5734, 0.3167, 0.3271, 0.7911], device='cuda:0')
+Train Epoch Loss: 0.363
+100%|| 12/12 [00:34<00:00,  2.88s/it]
+Train SOD mIoU: 0.5645
+Train SOD IoU per class: tensor([0.8101, 0.5710, 0.3397, 0.3280, 0.7737], device='cuda:0')
+Validating...
+100%|| 100/100 [00:39<00:00,  2.53it/s]
+Computing Metrics on Val dataset
+
+Epoch 102 score:
+SOD f1_metric: 88.56800079345703%
+SOD F1 score: tensor([0.9548, 0.7679, 0.4766, 0.8444, 0.9429], device='cuda:0')
+SOD OA: 0.882724404335022
+SOD mIoU: tensor(0.6945, device='cuda:0')
+SOD IoU per class: tensor([0.9135, 0.6233, 0.3128, 0.7307, 0.8920], device='cuda:0')
+Combined score: 88.56800079345703%
+Train Epoch Loss: 0.367
+Train Cross Entropy Epoch Loss: 0.367
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.280
+Validation Cross Entropy Epoch Loss: 0.280
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 4.82e-04
+Early stopping counter: 8/20
+100%|| 100/100 [00:39<00:00,  2.55it/s]
+Train SOD mIoU: 0.5583
+Train SOD IoU per class: tensor([0.8109, 0.5875, 0.2956, 0.3045, 0.7929], device='cuda:0')
+Train Epoch Loss: 0.362
+100%|| 12/12 [00:34<00:00,  2.84s/it]
+Train SOD mIoU: 0.5768
+Train SOD IoU per class: tensor([0.8232, 0.5925, 0.3221, 0.3452, 0.8010], device='cuda:0')
+Validating...
+100%|| 100/100 [00:40<00:00,  2.46it/s]
+Computing Metrics on Val dataset
+
+Epoch 104 score:
+SOD f1_metric: 87.31400299072266%
+SOD F1 score: tensor([0.9496, 0.7311, 0.4796, 0.8452, 0.9180], device='cuda:0')
+SOD OA: 0.8684141635894775
+SOD mIoU: tensor(0.6752, device='cuda:0')
+SOD IoU per class: tensor([0.9040, 0.5762, 0.3155, 0.7318, 0.8484], device='cuda:0')
+Combined score: 87.31400299072266%
+Train Epoch Loss: 0.350
+Train Cross Entropy Epoch Loss: 0.350
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.295
+Validation Cross Entropy Epoch Loss: 0.295
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 4.66e-04
+Early stopping counter: 9/20
+100%|| 100/100 [00:43<00:00,  2.32it/s]
+Train SOD mIoU: 0.5623
+Train SOD IoU per class: tensor([0.8059, 0.5918, 0.2829, 0.3372, 0.7937], device='cuda:0')
+Train Epoch Loss: 0.365
+100%|| 12/12 [00:34<00:00,  2.86s/it]
+Train SOD mIoU: 0.5557
+Train SOD IoU per class: tensor([0.8087, 0.5789, 0.2582, 0.3508, 0.7820], device='cuda:0')
+Validating...
+100%|| 100/100 [00:42<00:00,  2.36it/s]
+Computing Metrics on Val dataset
+
+Epoch 106 score:
+SOD f1_metric: 88.49299621582031%
+SOD F1 score: tensor([0.9550, 0.7669, 0.4183, 0.8633, 0.9341], device='cuda:0')
+SOD OA: 0.8840497136116028
+SOD mIoU: tensor(0.6872, device='cuda:0')
+SOD IoU per class: tensor([0.9139, 0.6219, 0.2645, 0.7595, 0.8763], device='cuda:0')
+Combined score: 88.49299621582031%
+Train Epoch Loss: 0.364
+Train Cross Entropy Epoch Loss: 0.364
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.287
+Validation Cross Entropy Epoch Loss: 0.287
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 4.51e-04
+Early stopping counter: 10/20
+100%|| 100/100 [00:42<00:00,  2.35it/s]
+Train SOD mIoU: 0.5706
+Train SOD IoU per class: tensor([0.8162, 0.5899, 0.2945, 0.3590, 0.7934], device='cuda:0')
+Train Epoch Loss: 0.358
+100%|| 12/12 [00:34<00:00,  2.84s/it]
+Train SOD mIoU: 0.5719
+Train SOD IoU per class: tensor([0.8144, 0.5791, 0.3098, 0.3492, 0.8068], device='cuda:0')
+Validating...
+100%|| 100/100 [00:26<00:00,  3.73it/s]
+Computing Metrics on Val dataset
+
+Epoch 108 score:
+SOD f1_metric: 88.56700134277344%
+SOD F1 score: tensor([0.9545, 0.7852, 0.4896, 0.8160, 0.9519], device='cuda:0')
+SOD OA: 0.8813114762306213
+SOD mIoU: tensor(0.6961, device='cuda:0')
+SOD IoU per class: tensor([0.9129, 0.6464, 0.3241, 0.6891, 0.9082], device='cuda:0')
+Combined score: 88.56700134277344%
+Train Epoch Loss: 0.351
+Train Cross Entropy Epoch Loss: 0.351
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.284
+Validation Cross Entropy Epoch Loss: 0.284
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 4.35e-04
+Early stopping counter: 11/20
+100%|| 100/100 [00:27<00:00,  3.66it/s]
+Train SOD mIoU: 0.5654
+Train SOD IoU per class: tensor([0.8086, 0.5858, 0.2770, 0.3608, 0.7946], device='cuda:0')
+Train Epoch Loss: 0.361
+100%|| 12/12 [00:34<00:00,  2.89s/it]
+Train SOD mIoU: 0.5679
+Train SOD IoU per class: tensor([0.8145, 0.5852, 0.2824, 0.3600, 0.7976], device='cuda:0')
+Validating...
+100%|| 100/100 [00:37<00:00,  2.66it/s]
+Computing Metrics on Val dataset
+
+Epoch 110 score:
+SOD f1_metric: 85.70500183105469%
+SOD F1 score: tensor([0.9521, 0.7390, 0.4377, 0.7810, 0.8850], device='cuda:0')
+SOD OA: 0.8493384122848511
+SOD mIoU: tensor(0.6418, device='cuda:0')
+SOD IoU per class: tensor([0.9086, 0.5860, 0.2802, 0.6407, 0.7937], device='cuda:0')
+Combined score: 85.70500183105469%
+Train Epoch Loss: 0.361
+Train Cross Entropy Epoch Loss: 0.361
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.306
+Validation Cross Entropy Epoch Loss: 0.306
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 4.20e-04
+Early stopping counter: 12/20
+100%|| 100/100 [00:37<00:00,  2.68it/s]
+Train SOD mIoU: 0.5736
+Train SOD IoU per class: tensor([0.8200, 0.6084, 0.3006, 0.3408, 0.7985], device='cuda:0')
+Train Epoch Loss: 0.351
+100%|| 12/12 [00:34<00:00,  2.84s/it]
+Train SOD mIoU: 0.5704
+Train SOD IoU per class: tensor([0.8107, 0.5940, 0.3104, 0.3378, 0.7993], device='cuda:0')
+Validating...
+100%|| 100/100 [00:38<00:00,  2.58it/s]
+Computing Metrics on Val dataset
+
+Epoch 112 score:
+SOD f1_metric: 85.77999877929688%
+SOD F1 score: tensor([0.9555, 0.7325, 0.4642, 0.7795, 0.8821], device='cuda:0')
+SOD OA: 0.850734293460846
+SOD mIoU: tensor(0.6445, device='cuda:0')
+SOD IoU per class: tensor([0.9149, 0.5780, 0.3022, 0.6386, 0.7890], device='cuda:0')
+Combined score: 85.77999877929688%
+Train Epoch Loss: 0.358
+Train Cross Entropy Epoch Loss: 0.358
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.304
+Validation Cross Entropy Epoch Loss: 0.304
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 4.05e-04
+Early stopping counter: 13/20
+100%|| 100/100 [00:41<00:00,  2.39it/s]
+Train SOD mIoU: 0.5717
+Train SOD IoU per class: tensor([0.8221, 0.5953, 0.3155, 0.3310, 0.7944], device='cuda:0')
+Train Epoch Loss: 0.355
+100%|| 12/12 [00:34<00:00,  2.87s/it]
+Train SOD mIoU: 0.5721
+Train SOD IoU per class: tensor([0.8105, 0.6026, 0.3125, 0.3374, 0.7975], device='cuda:0')
+Validating...
+100%|| 100/100 [00:36<00:00,  2.74it/s]
+Computing Metrics on Val dataset
+
+Epoch 114 score:
+SOD f1_metric: 88.4280014038086%
+SOD F1 score: tensor([0.9558, 0.7610, 0.4895, 0.8575, 0.9240], device='cuda:0')
+SOD OA: 0.8809489607810974
+SOD mIoU: tensor(0.6926, device='cuda:0')
+SOD IoU per class: tensor([0.9154, 0.6142, 0.3240, 0.7506, 0.8588], device='cuda:0')
+Combined score: 88.4280014038086%
+Train Epoch Loss: 0.358
+Train Cross Entropy Epoch Loss: 0.358
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.289
+Validation Cross Entropy Epoch Loss: 0.289
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 3.89e-04
+Early stopping counter: 14/20
+100%|| 100/100 [00:36<00:00,  2.71it/s]
+Train SOD mIoU: 0.5683
+Train SOD IoU per class: tensor([0.8180, 0.5902, 0.3034, 0.3430, 0.7868], device='cuda:0')
+Train Epoch Loss: 0.356
+100%|| 12/12 [00:34<00:00,  2.91s/it]
+Train SOD mIoU: 0.5710
+Train SOD IoU per class: tensor([0.8075, 0.5926, 0.3172, 0.3486, 0.7891], device='cuda:0')
+Validating...
+100%|| 100/100 [00:38<00:00,  2.60it/s]
+Computing Metrics on Val dataset
+
+Epoch 116 score:
+SOD f1_metric: 86.21399688720703%
+SOD F1 score: tensor([0.9556, 0.7553, 0.4156, 0.7566, 0.9171], device='cuda:0')
+SOD OA: 0.8540392518043518
+SOD mIoU: tensor(0.6479, device='cuda:0')
+SOD IoU per class: tensor([0.9149, 0.6068, 0.2623, 0.6085, 0.8468], device='cuda:0')
+Combined score: 86.21399688720703%
+Train Epoch Loss: 0.349
+Train Cross Entropy Epoch Loss: 0.349
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.287
+Validation Cross Entropy Epoch Loss: 0.287
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 3.74e-04
+Early stopping counter: 15/20
+100%|| 100/100 [00:40<00:00,  2.44it/s]
+Train SOD mIoU: 0.5728
+Train SOD IoU per class: tensor([0.8061, 0.5910, 0.3346, 0.3294, 0.8029], device='cuda:0')
+Train Epoch Loss: 0.361
+100%|| 12/12 [00:34<00:00,  2.88s/it]
+Train SOD mIoU: 0.5738
+Train SOD IoU per class: tensor([0.8328, 0.5951, 0.3597, 0.2845, 0.7967], device='cuda:0')
+Validating...
+100%|| 100/100 [00:31<00:00,  3.15it/s]
+Computing Metrics on Val dataset
+
+Epoch 118 score:
+SOD f1_metric: 83.69100189208984%
+SOD F1 score: tensor([0.9564, 0.7206, 0.4216, 0.6978, 0.8604], device='cuda:0')
+SOD OA: 0.8272156119346619
+SOD mIoU: tensor(0.6075, device='cuda:0')
+SOD IoU per class: tensor([0.9164, 0.5632, 0.2671, 0.5359, 0.7550], device='cuda:0')
+Combined score: 83.69100189208984%
+Train Epoch Loss: 0.350
+Train Cross Entropy Epoch Loss: 0.350
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.300
+Validation Cross Entropy Epoch Loss: 0.300
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 3.59e-04
+Early stopping counter: 16/20
+100%|| 100/100 [00:30<00:00,  3.27it/s]
+Train SOD mIoU: 0.5815
+Train SOD IoU per class: tensor([0.8137, 0.5971, 0.3494, 0.3438, 0.8034], device='cuda:0')
+Train Epoch Loss: 0.347
+100%|| 12/12 [00:33<00:00,  2.83s/it]
+Train SOD mIoU: 0.5752
+Train SOD IoU per class: tensor([0.8244, 0.5882, 0.3182, 0.3509, 0.7941], device='cuda:0')
+Validating...
+100%|| 100/100 [00:40<00:00,  2.46it/s]
+Computing Metrics on Val dataset
+
+Epoch 120 score:
+SOD f1_metric: 88.41799926757812%
+SOD F1 score: tensor([0.9536, 0.7575, 0.5509, 0.8531, 0.9230], device='cuda:0')
+SOD OA: 0.8792104721069336
+SOD mIoU: tensor(0.7004, device='cuda:0')
+SOD IoU per class: tensor([0.9114, 0.6097, 0.3801, 0.7438, 0.8569], device='cuda:0')
+Combined score: 88.41799926757812%
+Train Epoch Loss: 0.353
+Train Cross Entropy Epoch Loss: 0.353
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.283
+Validation Cross Entropy Epoch Loss: 0.283
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 3.45e-04
+Early stopping counter: 17/20
+100%|| 100/100 [00:40<00:00,  2.49it/s]
+Train SOD mIoU: 0.5799
+Train SOD IoU per class: tensor([0.8250, 0.6068, 0.3336, 0.3372, 0.7968], device='cuda:0')
+Train Epoch Loss: 0.340
+100%|| 12/12 [00:33<00:00,  2.82s/it]
+Train SOD mIoU: 0.5755
+Train SOD IoU per class: tensor([0.8241, 0.6039, 0.3280, 0.3195, 0.8021], device='cuda:0')
+Validating...
+ 62%|▍                                                               | 123/200 [1:49:46<1:14:08, 57.77s/it]1.69s/it]Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x7f87997d35b0>
+Computing Metrics on Val dataset
+
+Epoch 122 score:
+SOD f1_metric: 88.4020004272461%
+SOD F1 score: tensor([0.9567, 0.7540, 0.5136, 0.8750, 0.9054], device='cuda:0')
+SOD OA: 0.8819758296012878
+SOD mIoU: tensor(0.6945, device='cuda:0')
+SOD IoU per class: tensor([0.9171, 0.6051, 0.3455, 0.7778, 0.8271], device='cuda:0')
+Combined score: 88.4020004272461%
+Train Epoch Loss: 0.344
+Train Cross Entropy Epoch Loss: 0.344
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.284
+Validation Cross Entropy Epoch Loss: 0.284
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Learning Rate: 3.30e-04
+Early stopping counter: 18/20
+Traceback (most recent call last):▋                                                                                                                     | 31/100 [00:19<00:25,  2.70it/s]

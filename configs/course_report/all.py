@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
+'''
+用法：
+python quickstart.py configs/SOD/all.py --wandb-project MyDS --work-dir ./work_dirs/My_DS51 --wandb-name My_DS51
 
+'''
 
 _base_ = ['../_base_/base.py']
 
@@ -8,29 +12,35 @@ train_options = {
     'path_to_train_data': '/root/autodl-tmp/My_dataset/',
     'path_to_test_data': '/root/autodl-tmp/My_dataset/',
 
-    'train_list_path': 'datalists/train_list_small.json',
-    'val_path': 'datalists/val_list.json',
+    'train_list_path': 'datalists/train_list_small5.json',
+    'val_path': 'datalists/val_list5.json',
     'test_path': 'datalists/test_list.json',
 
-    # 'model_selection': 'dbunet',
-    # 'dbunet_sar_channels': 3,   # 可选，默认就是 3
+    'model_selection': 'unet',
 
     'compute_classwise_f1score': True,
     'plot_confusion_matrix':True,
     'compile_model': True,  # 开启PyTorch 2.0+ 的图编译加速
 
+    # 'optimizer': {
+    #     'type': 'SGD',
+    #     'lr': 0.001,  # Optimizer learning rate.
+    #     'momentum': 0.9,
+    #     'dampening': 0,
+    #     'nesterov': False,
+    #     'weight_decay': 0.05
+    # },
     'optimizer': {
-        'type': 'SGD',
-        'lr': 0.001,  # Optimizer learning rate.
-        'momentum': 0.9,
-        'dampening': 0,
-        'nesterov': False,
-        'weight_decay': 0.01
+      'type': 'AdamW',
+      'lr': 1e-4,
+      'b1':0.9,
+      'b2': 0.999,
+      'eps': 1e-8,
+      'weight_decay': 0.05,
     },
-
     'scheduler': {
         'type': 'CosineAnnealingLR',  # 去掉热重启，使用平滑衰减至 lr_min
-        'lr_min': 1e-5,              # 最终学习率下限
+        'lr_min': 1e-6,              # 最终学习率下限
     },
     # 'scheduler': {
     #     'type': 'ReduceLROnPlateau',
@@ -46,10 +56,10 @@ train_options = {
             'ignore_index': 255,
         },
         'SOD': {
-            'type': 'CELovaszLoss',
+            'type': 'FocalLoss',
             'ignore_index': 255,
-            'lovasz_lambda': 0.5,   # total = CE + 0.5 * Lovász
-            'weight': [1, 1, 1, 2.0, 1],  # CE per-class weight: boost class3 (thick FYI)
+            'gamma': 1.5,
+            'weight': [1.0, 1.0, 2.0, 1.8, 1.0],  # per-class alpha，5 classes (0-4)
         },
         'FLOE': {
             'type': 'CrossEntropyLoss',
@@ -58,9 +68,13 @@ train_options = {
         },
     },
 
+    'boundary_erosion_iter': 8,
+    # 检测目标：'SOD'（海冰发育阶段）或 'FLOE'（海冰形态/浮冰）
+    'target_chart': 'SOD',
+
     'task_weights': [1],
 
-    'early_stop_patience': 20,  # 早停轮次：连续20次验证无改善则停止
+    'early_stop_patience': 30,  # 早停轮次：连续20次验证无改善则停止
 
     'seed': 10,
     'epochs': 200,
@@ -71,9 +85,9 @@ train_options = {
     'prefetch_factor': 4,  # 每个 worker 预取 4 个 batch，保持 GPU 流水线饱满
     'patch_size': 256,
     'batch_size': 64,  # scale=10时patch对应204km范围，预加载路径下可用大batch
-    'down_sample_scale': 1,  # 训练降采样10倍：80m→800m，场景预加载入RAM，裁剪速度极快
-    'val_freq': 2,   # scale=10时验证场景小（直接整场景推理），可每epoch验证
-    'val_downsample_scale': 1,  # 设为1：验证自动沿用down_sample_scale=10，与训练分辨率一致
+    'down_sample_scale': 5,  # 训练降采样10倍：80m→800m，场景预加载入RAM，裁剪速度极快
+    'val_freq': 1,   # scale=10时验证场景小（直接整场景推理），可每epoch验证
+    'val_downsample_scale': 5,  # 设为1：验证自动沿用down_sample_scale=10，与训练分辨率一致
 
     'swin_hp': {
         'val_stride': [128, 128],   # 仅Swin模型使用；UNet+scale=10时整场景直接推理，不走滑窗
@@ -85,18 +99,20 @@ train_options = {
     'patch_log_mode': 'per_epoch', # 'per_epoch' 或者 'per_patch'
 
     # --- Patch 采样过滤 ---
-
     'sod_invalid_max_ratio': 0.5,   # 无效标签像素 > 50% 时丢弃， 设为 1.0 可关闭此过滤。
+    'water_patch_max_ratio': 0.50,   # 水体占有效像素 > 70% 时触发拒绝
+    'water_rejection_prob': 0.70,    # 触发后以 90% 的概率丢弃该 patch
+    'rare_sampling_classes': [1, 2],  # 新冰/幼冰(1, 合并后) 为稀有类目标
+    'rare_sampling_alpha': 0.6,       # 0=均匀采样, 1=完全按稀有类密度采样， 设 rare_sampling_alpha=0.0 或 rare_sampling_classes=[] 可关闭此过滤。
+    # 两阶段采样配置（默认值）
+    'two_phase_sampling': True,           # 总开关，默认 False（不影响现有行为）
+    'base_ratio': 0.6,                    # Phase 1 占 batch 的比例，默认 0.6
+    'target_class_ratio': [0.20, 0.20, 0.22, 0.20, 0.18],  # 各类别目标像素占比（按实际类别数填写）
+    'class_bank_stride_factor': 0.5,      # 扫描步长 = patch_size × factor，默认 0.5
+    'phase2_max_retries': 20,             # Phase 2 每个 slot 最大重试次数，默认 20
 
-    'water_patch_max_ratio': 0.80,   # 水体占有效像素 > 90% 时触发拒绝
-    'water_rejection_prob': 0.90,    # 触发后以 90% 的概率丢弃该 patch
-
-    # --- 稀有类加权采样 ---
-    'rare_sampling_classes': [2, 3],  # 薄一年冰(2)和厚一年冰(3)均为稀有类目标，缓解类3欠采样
-    'rare_sampling_alpha': 0.25,       # 0=均匀采样, 1=完全按稀有类密度采样， 设 rare_sampling_alpha=0.0 或 rare_sampling_classes=[] 可关闭此过滤。
 
     # HH/HV polarization ratio channel (HH_dB - HV_dB).
-    # Comment out the line below to disable this extra input channel.
     'pol_ratio_channel': True,
 
     'data_augmentations': {

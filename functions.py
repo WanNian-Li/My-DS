@@ -22,6 +22,7 @@ import torch
 import torch.utils.data as data
 # from sklearn.metrics import r2_score, f1_score
 from torchmetrics.functional import r2_score, f1_score, jaccard_index  # 修改：引入 jaccard_index
+from torchmetrics.functional.classification import multiclass_confusion_matrix
 import segmentation_models_pytorch as smp
 from tqdm import tqdm  # Progress bar
 # -- Proprietary modules -- #
@@ -495,14 +496,97 @@ def batched_slide_inference(img, net, options, mode):
     preds_SOD = preds_SOD / count_mat
     preds_FLOE = preds_FLOE / count_mat
 
-    # ------------ Remove pad
-    preds_SIC = preds_SIC[:, :-height_pad, :-width_pad].unsqueeze(0)
-    preds_SOD = preds_SOD[:, :-height_pad, :-width_pad].unsqueeze(0)
-    preds_FLOE = preds_FLOE[:, :-height_pad, :-width_pad].unsqueeze(0)
+    # ------------ Remove pad (guard against 0-pad: slicing with :-0 yields empty dimension)
+    if height_pad > 0:
+        preds_SIC = preds_SIC[:, :-height_pad, :]
+        preds_SOD = preds_SOD[:, :-height_pad, :]
+        preds_FLOE = preds_FLOE[:, :-height_pad, :]
+    if width_pad > 0:
+        preds_SIC = preds_SIC[:, :, :-width_pad]
+        preds_SOD = preds_SOD[:, :, :-width_pad]
+        preds_FLOE = preds_FLOE[:, :, :-width_pad]
+
+    preds_SIC = preds_SIC.unsqueeze(0)
+    preds_SOD = preds_SOD.unsqueeze(0)
+    preds_FLOE = preds_FLOE.unsqueeze(0)
 
     return {'SIC': preds_SIC,
             'SOD': preds_SOD,
             'FLOE': preds_FLOE}
+
+
+def fast_tiled_val_inference(img, net, options):
+    """
+    Fast validation inference using non-overlapping tiles with batched GPU forward passes.
+
+    Splits the scene into non-overlapping patch_size×patch_size tiles, batches them
+    together, and runs a single net() call per batch. Dramatically faster than
+    sliding-window inference for full-resolution (scale=1) scenes:
+      e.g. 2560×2560, patch_size=256, val_batch_size=256 → 1 forward pass/scene
+           vs. 484 forward passes with stride-128 sliding window.
+
+    Caller is responsible for wrapping in torch.no_grad() / autocast().
+
+    Parameters
+    ----------
+    img : Tensor (1, C, H, W)  on the target device
+    net : nn.Module
+    options : dict
+        Uses 'patch_size', 'charts', 'n_classes', 'batch_size',
+        and optionally 'val_batch_size' (defaults to batch_size * 4).
+
+    Returns
+    -------
+    dict[str, Tensor (1, n_classes[chart], H, W)]  on the same device as img.
+    """
+    patch_size = options['patch_size']
+    charts = options['charts']
+    val_batch_size = options.get('val_batch_size', options['batch_size'] * 4)
+    device = img.device
+
+    _, C, h_img, w_img = img.size()
+
+    # Pad H and W to exact multiples of patch_size
+    h_pad = (-h_img) % patch_size
+    w_pad = (-w_img) % patch_size
+    if h_pad > 0 or w_pad > 0:
+        img = torch.nn.functional.pad(img, (0, w_pad, 0, h_pad), mode='constant', value=0)
+    _, _, h_padded, w_padded = img.size()
+
+    n_h = h_padded // patch_size
+    n_w = w_padded // patch_size
+    n_tiles = n_h * n_w
+
+    # Rearrange padded scene into non-overlapping tiles (all on CPU to save GPU memory)
+    # (C, h_padded, w_padded) → (n_tiles, C, patch_size, patch_size)
+    img_cpu = img[0].cpu()
+    tiles = (img_cpu
+             .reshape(C, n_h, patch_size, n_w, patch_size)
+             .permute(1, 3, 0, 2, 4)
+             .reshape(n_tiles, C, patch_size, patch_size)
+             .contiguous())
+
+    # Prediction buffers on CPU; only each batch touches the GPU
+    preds = {chart: torch.zeros(options['n_classes'][chart], h_padded, w_padded)
+             for chart in charts}
+
+    for start in range(0, n_tiles, val_batch_size):
+        end = min(start + val_batch_size, n_tiles)
+        batch = tiles[start:end].to(device)
+        batch_out = net(batch)
+
+        for local_j, tile_idx in enumerate(range(start, end)):
+            h_idx = tile_idx // n_w
+            w_idx = tile_idx % n_w
+            y1 = h_idx * patch_size
+            x1 = w_idx * patch_size
+            for chart in charts:
+                preds[chart][:, y1:y1 + patch_size, x1:x1 + patch_size] = \
+                    batch_out[chart][local_j].detach().cpu()
+
+    # Trim padding, restore batch dim, return on original device
+    return {chart: preds[chart][:, :h_img, :w_img].unsqueeze(0).to(device)
+            for chart in charts}
 
 
 def class_decider(output, train_options, chart):
@@ -614,6 +698,104 @@ def compute_classwise_IoU(true, pred, charts, num_classes):
     return scores
 
 
+def compute_classwise_precision_recall(true, pred, charts, num_classes):
+    """Computes per-class precision and recall for each chart.
+
+    Invalid labels (outside [0, num_classes-1]) are ignored.
+    """
+    precision_scores = {}
+    recall_scores = {}
+
+    for chart in charts:
+        n_classes = num_classes[chart]
+        true_c = true[chart].long()
+        pred_c = pred[chart].long()
+
+        valid = (true_c >= 0) & (true_c < n_classes) & (pred_c >= 0) & (pred_c < n_classes)
+        true_valid = true_c[valid]
+        pred_valid = pred_c[valid]
+
+        if true_valid.numel() == 0:
+            precision_scores[chart] = torch.zeros(n_classes, dtype=torch.float32, device=true_c.device)
+            recall_scores[chart] = torch.zeros(n_classes, dtype=torch.float32, device=true_c.device)
+            continue
+
+        cm = multiclass_confusion_matrix(
+            preds=pred_valid,
+            target=true_valid,
+            num_classes=n_classes,
+        ).float()
+
+        tp = torch.diag(cm)
+        pred_sum = cm.sum(dim=0)
+        true_sum = cm.sum(dim=1)
+
+        precision_scores[chart] = torch.where(pred_sum > 0, tp / pred_sum, torch.zeros_like(tp))
+        recall_scores[chart] = torch.where(true_sum > 0, tp / true_sum, torch.zeros_like(tp))
+
+    return precision_scores, recall_scores
+
+
+def compute_normalized_confusion_matrix(true, pred, charts, num_classes):
+    """Computes row-normalized confusion matrix for each chart.
+
+    Normalization is done by true-class row sums.
+    """
+    norm_cms = {}
+    for chart in charts:
+        n_classes = num_classes[chart]
+        true_c = true[chart].long()
+        pred_c = pred[chart].long()
+
+        valid = (true_c >= 0) & (true_c < n_classes) & (pred_c >= 0) & (pred_c < n_classes)
+        true_valid = true_c[valid]
+        pred_valid = pred_c[valid]
+
+        if true_valid.numel() == 0:
+            norm_cms[chart] = torch.zeros((n_classes, n_classes), dtype=torch.float32, device=true_c.device)
+            continue
+
+        cm = multiclass_confusion_matrix(
+            preds=pred_valid,
+            target=true_valid,
+            num_classes=n_classes,
+        ).float()
+
+        row_sum = cm.sum(dim=1, keepdim=True)
+        norm_cms[chart] = torch.where(row_sum > 0, cm / row_sum, torch.zeros_like(cm))
+
+    return norm_cms
+
+
+def compute_class_proportions(true, pred, charts, num_classes):
+    """Computes per-class true/pred pixel proportions for each chart."""
+    true_props = {}
+    pred_props = {}
+
+    for chart in charts:
+        n_classes = num_classes[chart]
+        true_c = true[chart].long()
+        pred_c = pred[chart].long()
+
+        valid = (true_c >= 0) & (true_c < n_classes) & (pred_c >= 0) & (pred_c < n_classes)
+        true_valid = true_c[valid]
+        pred_valid = pred_c[valid]
+
+        if true_valid.numel() == 0:
+            true_props[chart] = torch.zeros(n_classes, dtype=torch.float32, device=true_c.device)
+            pred_props[chart] = torch.zeros(n_classes, dtype=torch.float32, device=true_c.device)
+            continue
+
+        true_hist = torch.bincount(true_valid, minlength=n_classes).float()
+        pred_hist = torch.bincount(pred_valid, minlength=n_classes).float()
+        denom = true_hist.sum().clamp_min(1.0)
+
+        true_props[chart] = true_hist / denom
+        pred_props[chart] = pred_hist / denom
+
+    return true_props, pred_props
+
+
 def create_train_validation_and_test_scene_list(train_options):
     '''
     Creates the train, validation, and test scene lists from JSON datalist files.
@@ -648,7 +830,8 @@ def create_train_validation_and_test_scene_list(train_options):
 
 def get_scheduler(train_options, optimizer):
     if train_options['scheduler']['type'] == 'CosineAnnealingLR':
-        T_max = train_options['epochs']*train_options['epoch_len']
+        T_max_epochs = train_options['scheduler'].get('T_max_epochs', train_options['epochs'])
+        T_max = T_max_epochs * train_options['epoch_len']
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=T_max,
                                                                eta_min=train_options['scheduler']['lr_min'])
     elif train_options['scheduler']['type'] == 'CosineAnnealingWarmRestartsLR':
@@ -742,14 +925,16 @@ def get_loss(loss, chart=None, **kwargs):
         raise NotImplementedError
         kwargs.pop('type')
         loss = torch.nn.BCELoss(**kwargs)
-    elif loss == 'CELovaszLoss':
-        from losses import CELovaszLoss
-        kwargs.pop('type')
-        loss = CELovaszLoss(**kwargs)
     elif loss == 'OrderedCrossEntropyLoss':
         from losses import OrderedCrossEntropyLoss
         kwargs.pop('type')
         loss = OrderedCrossEntropyLoss(**kwargs)
+    elif loss == 'GCELoss':
+        from losses import GCELoss
+        kwargs.pop('type')
+        if 'weight' in kwargs and isinstance(kwargs['weight'], (list, tuple)):
+            kwargs['weight'] = torch.FloatTensor(kwargs['weight'])
+        loss = GCELoss(**kwargs)
     elif loss == 'MSELossFromLogits':
         from losses import MSELossFromLogits
         kwargs.pop('type')

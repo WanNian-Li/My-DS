@@ -20,8 +20,10 @@ from tqdm import tqdm  # Progress bar
 import wandb
 # Functions to calculate metrics and show the relevant chart colorbar.
 from functions import compute_metrics, save_best_model, load_model, slide_inference, \
-    batched_slide_inference, water_edge_metric, class_decider, create_train_validation_and_test_scene_list, \
-    get_scheduler, get_optimizer, get_loss, get_model, compute_classwise_IoU, compute_mIoU
+    batched_slide_inference, fast_tiled_val_inference, water_edge_metric, class_decider, \
+    create_train_validation_and_test_scene_list, \
+    get_scheduler, get_optimizer, get_loss, get_model, compute_classwise_IoU, compute_mIoU, \
+    compute_classwise_precision_recall, compute_normalized_confusion_matrix, compute_class_proportions
 
 # Load consutme loss function
 from losses import WaterConsistencyLoss
@@ -56,9 +58,10 @@ def parse_args():
     return args
 
 
-def save_epoch_sod_distribution(save_path, epoch, sod_class_counts, sod_mask_count):
-    """Append one row of epoch-level SOD pixel distribution to CSV."""
-    fieldnames = ['epoch'] + [f'sod_{c}' for c in range(len(sod_class_counts))] + ['sod_mask']
+def save_epoch_sod_distribution(save_path, epoch, class_counts, mask_count, chart='SOD'):
+    """Append one row of epoch-level label pixel distribution to CSV."""
+    prefix = chart.lower()
+    fieldnames = ['epoch'] + [f'{prefix}_{c}' for c in range(len(class_counts))] + [f'{prefix}_mask']
     write_header = not osp.exists(save_path)
 
     with open(save_path, 'a', newline='') as f:
@@ -66,9 +69,9 @@ def save_epoch_sod_distribution(save_path, epoch, sod_class_counts, sod_mask_cou
         if write_header:
             writer.writeheader()
 
-        row = {'epoch': epoch, 'sod_mask': int(sod_mask_count)}
-        for c, count in enumerate(sod_class_counts):
-            row[f'sod_{c}'] = int(count)
+        row = {'epoch': epoch, f'{prefix}_mask': int(mask_count)}
+        for c, count in enumerate(class_counts):
+            row[f'{prefix}_{c}'] = int(count)
         writer.writerow(row)
 
 
@@ -77,7 +80,8 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
     Trains the model.
 
     '''
-    best_sod_miou = -np.Inf  # Best validation SOD mIoU.
+    best_primary_miou = -np.Inf  # Best validation mIoU for the target chart.
+    target_chart = train_options.get('target_chart', 'SOD')
 
     # Early stopping
     early_stop_patience = train_options.get('early_stop_patience', 10)
@@ -87,12 +91,12 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
     net_val = net._orig_mod if train_options.get('compile_model') and hasattr(net, '_orig_mod') else net
 
     # 训练集 IoU（仅对有效任务）
-    sod_idx = train_options['charts'].index('SOD')
-    compute_train_sod_iou = (train_options['task_weights'][sod_idx] != 0)
-    sod_n_classes = train_options['n_classes']['SOD']
-    if compute_train_sod_iou:
+    primary_idx = train_options['charts'].index(target_chart)
+    compute_train_primary_iou = (train_options['task_weights'][primary_idx] != 0)
+    primary_n_classes = train_options['n_classes'][target_chart]
+    if compute_train_primary_iou:
         train_iou_metric = torchmetrics.classification.MulticlassJaccardIndex(
-            num_classes=sod_n_classes, average='none', ignore_index=255).to(device)
+            num_classes=primary_n_classes, average='none', ignore_index=255).to(device)
 
     loss_ce_functions = {chart: get_loss(train_options['chart_loss'][chart]['type'], chart=chart, **train_options['chart_loss'][chart]).to(device)
                          for chart in train_options['charts']}
@@ -113,10 +117,12 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
         # To sum the validation cedge consistency batch losses during the epoch.
         val_edge_consistency_loss_sum = torch.tensor([0.])
 
-        # Aggregate SOD label distribution over all training pixels in this epoch.
-        sod_num_classes = train_options['n_classes']['SOD']
-        sod_epoch_class_counts = np.zeros(sod_num_classes, dtype=np.int64)
-        sod_epoch_mask_count = 0
+        # Aggregate target chart label distribution over all training pixels in this epoch.
+        primary_num_classes = train_options['n_classes'][target_chart]
+        primary_epoch_class_counts = np.zeros(primary_num_classes, dtype=np.int64)
+        primary_epoch_mask_count = 0
+        # Online confusion matrix for train-set diagnostics.
+        train_primary_confmat = torch.zeros((primary_num_classes, primary_num_classes), dtype=torch.float32, device=device)
 
         net.train()  # Set network to evaluation mode.
 
@@ -135,11 +141,11 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
 
             # Epoch-level SOD pixel stats are computed in the main process, so
             # this works with num_workers > 0.
-            if 'SOD' in batch_y:
-                sod_batch = batch_y['SOD']
-                for c in range(sod_num_classes):
-                    sod_epoch_class_counts[c] += int((sod_batch == c).sum().item())
-                sod_epoch_mask_count += int((sod_batch == 255).sum().item())
+            if target_chart in batch_y:
+                primary_batch = batch_y[target_chart]
+                for c in range(primary_num_classes):
+                    primary_epoch_class_counts[c] += int((primary_batch == c).sum().item())
+                primary_epoch_mask_count += int((primary_batch == 255).sum().item())
 
             # - Mixed precision training. (Saving memory)
             with torch.cuda.amp.autocast():
@@ -180,35 +186,79 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
             cross_entropy_loss_sum += cross_entropy_loss.detach().item()
             edge_consistency_loss_sum += edge_consistency_loss.detach().item()
 
-            # 更新训练集 SOD IoU 统计
-            if compute_train_sod_iou:
+            # 更新训练集 IoU 统计
+            if compute_train_primary_iou:
                 with torch.no_grad():
-                    sod_pred_train = output['SOD'].detach().float().argmax(dim=1)
-                    train_iou_metric.update(sod_pred_train, batch_y['SOD'].to(device))
+                    primary_pred_train = output[target_chart].detach().float().argmax(dim=1)
+                    primary_true_train = batch_y[target_chart].to(device).long()
+                    train_iou_metric.update(primary_pred_train, primary_true_train)
+
+                    # Update confusion matrix incrementally to avoid storing full-epoch pixels.
+                    valid = ((primary_true_train >= 0) & (primary_true_train < primary_num_classes) &
+                             (primary_pred_train >= 0) & (primary_pred_train < primary_num_classes))
+                    if valid.any():
+                        t = primary_true_train[valid].view(-1)
+                        p = primary_pred_train[valid].view(-1)
+                        flat_idx = t * primary_num_classes + p
+                        binc = torch.bincount(flat_idx, minlength=primary_num_classes * primary_num_classes).float()
+                        train_primary_confmat += binc.view(primary_num_classes, primary_num_classes)
 
         #===========一个Epoch结束，计算平均损失
         train_loss_epoch = torch.true_divide(train_loss_sum, i + 1).detach().item()
         cross_entropy_epoch = torch.true_divide(cross_entropy_loss_sum, i + 1).detach().item()
         edge_consistency_epoch = torch.true_divide(edge_consistency_loss_sum, i + 1).detach().item()
 
-        # 保存本epoch的SOD像素分布统计（支持 num_workers > 0）
+        # 保存本epoch的像素分布统计（支持 num_workers > 0）
         patch_log_path = osp.join(cfg.work_dir, 'patch_sampling_log.csv')
         save_epoch_sod_distribution(
             patch_log_path,
             epoch,
-            sod_epoch_class_counts,
-            sod_epoch_mask_count)
+            primary_epoch_class_counts,
+            primary_epoch_mask_count,
+            chart=target_chart)
 
-        # 计算并打印/记录训练集 SOD IoU
-        if compute_train_sod_iou:
+        # 计算并打印/记录训练集 mIoU
+        if compute_train_primary_iou:
             train_iou_per_class = train_iou_metric.compute()  # shape: (n_classes,)
             train_miou = train_iou_per_class.mean()
             train_iou_metric.reset()
-            print(f"Train SOD mIoU: {train_miou:.4f}")
-            print(f"Train SOD IoU per class: {train_iou_per_class}")
-            wandb.log({"Train SOD mIoU": train_miou.item()}, step=epoch)
+
+            # Derive train-set precision/recall/proportions/confusion-matrix from online CM.
+            train_tp = torch.diag(train_primary_confmat)
+            train_pred_sum = train_primary_confmat.sum(dim=0)
+            train_true_sum = train_primary_confmat.sum(dim=1)
+            train_precision_per_class = torch.where(
+                train_pred_sum > 0, train_tp / train_pred_sum, torch.zeros_like(train_tp))
+            train_recall_per_class = torch.where(
+                train_true_sum > 0, train_tp / train_true_sum, torch.zeros_like(train_tp))
+            train_row_sum = train_primary_confmat.sum(dim=1, keepdim=True)
+            train_norm_confmat = torch.where(
+                train_row_sum > 0, train_primary_confmat / train_row_sum, torch.zeros_like(train_primary_confmat))
+            train_total = train_true_sum.sum().clamp_min(1.0)
+            train_true_props = train_true_sum / train_total
+            train_pred_props = train_pred_sum / train_total
+
+            print(f"Train {target_chart} mIoU: {train_miou:.4f}")
+            print(f"Train {target_chart} IoU per class: {train_iou_per_class}")
+            print(f"Train {target_chart} Precision per class: {train_precision_per_class}")
+            print(f"Train {target_chart} Recall per class: {train_recall_per_class}")
+            print(f"Train {target_chart} True class proportion: {train_true_props}")
+            print(f"Train {target_chart} Pred class proportion: {train_pred_props}")
+            print(f"Train {target_chart} Normalized Confusion Matrix (row=true, col=pred):")
+            print(train_norm_confmat)
+
+            wandb.log({f"Train {target_chart} mIoU": train_miou.item()}, step=epoch)
             for c, iou_c in enumerate(train_iou_per_class):
-                wandb.log({f"Train SOD/IoU Class {c}": iou_c.item()}, step=epoch)
+                wandb.log({f"Train {target_chart}/IoU Class {c}": iou_c.item()}, step=epoch)
+                wandb.log({f"Train {target_chart}/Precision Class {c}": train_precision_per_class[c].item()}, step=epoch)
+                wandb.log({f"Train {target_chart}/Recall Class {c}": train_recall_per_class[c].item()}, step=epoch)
+                wandb.log({f"Train {target_chart}/True Proportion Class {c}": train_true_props[c].item()}, step=epoch)
+                wandb.log({f"Train {target_chart}/Pred Proportion Class {c}": train_pred_props[c].item()}, step=epoch)
+            for r in range(train_norm_confmat.shape[0]):
+                for c in range(train_norm_confmat.shape[1]):
+                    wandb.log({f"Train {target_chart}/ConfMatNorm r{r}c{c}": train_norm_confmat[r, c].item()}, step=epoch)
+        else:
+            train_iou_per_class = None
 
         #===============================================================#
         #===========================验证循环=============================#
@@ -248,13 +298,12 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
             with torch.no_grad(), torch.cuda.amp.autocast():
                 inf_x = inf_x.to(device, non_blocking=True)
 
-                #==================当场景尺寸超过patch_size时走滑窗推理，避免整场景一次性前向OOM
-                _needs_slide = (train_options['model_selection'] == 'swin' or
-                                inf_x.shape[2] > train_options['patch_size'] or
-                                inf_x.shape[3] > train_options['patch_size'])
-                if _needs_slide:
-                    output = slide_inference(inf_x, net_val, train_options, 'val')
-                    # output = batched_slide_inference(inf_x, net_val, train_options, 'val')
+                #==================推理：Swin用批量滑窗，UNet用批量非重叠tile（更快且不OOM）
+                if train_options['model_selection'] == 'swin':
+                    output = batched_slide_inference(inf_x, net_val, train_options, 'val')
+                elif (inf_x.shape[2] > train_options['patch_size'] or
+                      inf_x.shape[3] > train_options['patch_size']):
+                    output = fast_tiled_val_inference(inf_x, net_val, train_options)
                 else:
                     output = net_val(inf_x)
 
@@ -293,10 +342,25 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
         combined_score, scores = compute_metrics(true=inf_ys_flat, pred=outputs_flat, charts=train_options['charts'],
                                                  metrics=train_options['chart_metric'], num_classes=train_options['n_classes'])
 
-        # 始终计算 mIoU，用于按 SOD mIoU 保存最佳模型。
+        # 始终计算 mIoU，用于按目标任务 mIoU 保存最佳模型。
         miou_scores = compute_mIoU(true=inf_ys_flat, pred=outputs_flat,
                                    charts=train_options['charts'], num_classes=train_options['n_classes'])
-        sod_miou = miou_scores['SOD']
+        primary_miou = miou_scores[target_chart]
+
+        # 统一计算 per-class IoU，便于做 train-val IoU gap 分析
+        classwise_iou_scores = compute_classwise_IoU(true=inf_ys_flat, pred=outputs_flat,
+                                                     charts=train_options['charts'], num_classes=train_options['n_classes'])
+
+        # 计算全类别 Precision/Recall、归一化混淆矩阵、预测占比 vs 真实占比
+        classwise_precision_scores, classwise_recall_scores = compute_classwise_precision_recall(
+            true=inf_ys_flat, pred=outputs_flat,
+            charts=train_options['charts'], num_classes=train_options['n_classes'])
+        normalized_conf_mats = compute_normalized_confusion_matrix(
+            true=inf_ys_flat, pred=outputs_flat,
+            charts=train_options['charts'], num_classes=train_options['n_classes'])
+        true_class_props, pred_class_props = compute_class_proportions(
+            true=inf_ys_flat, pred=outputs_flat,
+            charts=train_options['charts'], num_classes=train_options['n_classes'])
 
         water_edge_accuarcy = water_edge_metric(outputs_tfv_mask, train_options)
 
@@ -309,10 +373,6 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
 
             # 计算 OA
             oa_scores = compute_overall_accuracy(true=inf_ys_flat, pred=outputs_flat, charts=train_options['charts'])
-
-            # 计算 per-class IoU
-            classwise_iou_scores = compute_classwise_IoU(true=inf_ys_flat, pred=outputs_flat,
-                                                         charts=train_options['charts'], num_classes=train_options['n_classes'])
             
         print("")
         print(f"Epoch {epoch} score:")
@@ -346,6 +406,39 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
                 for c, iou_c in enumerate(classwise_iou_scores[chart]):
                     wandb.log({f"{chart}/IoU Class {c}": iou_c.item()}, step=epoch)
 
+            # 打印/记录 per-class Precision
+            print(f"{chart} Precision per class:", classwise_precision_scores[chart])
+            for c, prec_c in enumerate(classwise_precision_scores[chart]):
+                wandb.log({f"{chart}/Precision Class {c}": prec_c.item()}, step=epoch)
+
+            # 打印/记录 per-class Recall
+            print(f"{chart} Recall per class:", classwise_recall_scores[chart])
+            for c, rec_c in enumerate(classwise_recall_scores[chart]):
+                wandb.log({f"{chart}/Recall Class {c}": rec_c.item()}, step=epoch)
+
+            # 打印/记录 预测占比 vs 真实占比
+            print(f"{chart} True class proportion:", true_class_props[chart])
+            print(f"{chart} Pred class proportion:", pred_class_props[chart])
+            for c, p_true in enumerate(true_class_props[chart]):
+                wandb.log({f"{chart}/True Proportion Class {c}": p_true.item()}, step=epoch)
+            for c, p_pred in enumerate(pred_class_props[chart]):
+                wandb.log({f"{chart}/Pred Proportion Class {c}": p_pred.item()}, step=epoch)
+
+            # 打印/记录 归一化混淆矩阵（按真实类别行归一化）
+            cm_norm = normalized_conf_mats[chart]
+            print(f"{chart} Normalized Confusion Matrix (row=true, col=pred):")
+            print(cm_norm)
+            for r in range(cm_norm.shape[0]):
+                for c in range(cm_norm.shape[1]):
+                    wandb.log({f"{chart}/ConfMatNorm r{r}c{c}": cm_norm[r, c].item()}, step=epoch)
+
+        # 计算 Train-Val IoU gap
+        if compute_train_primary_iou and train_iou_per_class is not None and target_chart in classwise_iou_scores:
+            train_val_iou_gap = train_iou_per_class - classwise_iou_scores[target_chart]
+            print(f"{target_chart} Train-Val IoU gap per class:", train_val_iou_gap)
+            for c, gap_c in enumerate(train_val_iou_gap):
+                wandb.log({f"{target_chart}/Train-Val IoU Gap Class {c}": gap_c.item()}, step=epoch)
+
         # ReduceLROnPlateau：用验证得分驱动 lr 调整
         if isinstance(scheduler, torch.optim.lr_scheduler.ReduceLROnPlateau):
             lr_before = optimizer.param_groups[0]['lr']
@@ -362,12 +455,12 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
         print(f"Validation Cross Entropy Epoch Loss: {val_cross_entropy_epoch:.3f}")
         print(f"Validation val_edge_consistency_loss: {val_edge_consistency_epoch:.3f}")
         print(f"Water edge Accuarcy: {water_edge_accuarcy}")
-        print(f"Validation SOD mIoU: {sod_miou.item():.4f}")
+        print(f"Validation {target_chart} mIoU: {primary_miou.item():.4f}")
         print(f"Learning Rate: {optimizer.param_groups[0]['lr']:.2e}")
 
         # Log combine score and epoch loss to wandb
         wandb.log({"Combined score": combined_score,    # 综合得分（验证集）
-                   "Validation SOD mIoU": sod_miou.item(),
+                   f"Validation {target_chart} mIoU": primary_miou.item(),
                    "Train Epoch Loss": train_loss_epoch,
                    "Train Cross Entropy Epoch Loss": cross_entropy_epoch,
                    "Train Water Consistency Epoch Loss": edge_consistency_epoch,
@@ -377,17 +470,17 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
                    "Water Consistency Accuarcy": water_edge_accuarcy,
                    "Learning Rate": optimizer.param_groups[0]["lr"]}, step=epoch)
 
-        # If SOD mIoU is better than previous epochs, save best model.
-        if sod_miou.item() > best_sod_miou:
-            best_sod_miou = sod_miou.item()
+        # If mIoU is better than previous epochs, save best model.
+        if primary_miou.item() > best_primary_miou:
+            best_primary_miou = primary_miou.item()
             early_stop_counter = 0
 
-            # Log key metrics for the current best SOD mIoU model.
-            wandb.run.summary[f"While training/Best SOD mIoU"] = best_sod_miou
+            # Log key metrics for the current best mIoU model.
+            wandb.run.summary[f"While training/Best {target_chart} mIoU"] = best_primary_miou
             wandb.run.summary[f"While training/Water Consistency Accuarcy"] = water_edge_accuarcy
             for chart in train_options['charts']:
                 wandb.run.summary[f"While training/{chart} {train_options['chart_metric'][chart]['func'].__name__}"] = scores[chart]
-            wandb.run.summary[f"While training/Validation SOD mIoU"] = sod_miou.item()
+            wandb.run.summary[f"While training/Validation {target_chart} mIoU"] = primary_miou.item()
             wandb.run.summary[f"While training/Train Epoch Loss"] = train_loss_epoch
 
             # Save the best model in work_dirs
@@ -398,7 +491,7 @@ def train(cfg, train_options, net, device, dataloader_train, dataloader_val, opt
             early_stop_counter += 1
             print(f"Early stopping counter: {early_stop_counter}/{early_stop_patience}")
             if early_stop_counter >= early_stop_patience:
-                print(f"Early stopping triggered at epoch {epoch}. Best SOD mIoU: {best_sod_miou:.4f}")
+                print(f"Early stopping triggered at epoch {epoch}. Best {target_chart} mIoU: {best_primary_miou:.4f}")
                 break
 
     del inf_ys_flat, outputs_flat  # Free memory.
@@ -549,7 +642,7 @@ def main():
     wandb.define_metric("SIC r2_metric", summary="none") # SIC的R2指标
     wandb.define_metric("SOD f1_metric", summary="none") # SOD的F1指标
     wandb.define_metric("FLOE f1_metric", summary="none") # FLOE的F1指标
-    wandb.define_metric("Validation SOD mIoU", summary="none") # 验证集SOD的mIoU
+    wandb.define_metric(f"Validation {train_options.get('target_chart', 'SOD')} mIoU", summary="none") # 验证集目标任务的mIoU
     wandb.define_metric("Water Consistency Accuarcy", summary="none") # 水体一致性准确率
     wandb.define_metric("Learning Rate", summary="none") # 学习率
     wandb.save(str(args.config))

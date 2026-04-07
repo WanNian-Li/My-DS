@@ -5,7 +5,13 @@
       "Bash(grep -E \"\\\\.py$\")",
       "Bash(grep -rn train_options[''charts''] F:/ZJU/11_Ice/code/MMSeaIce-main2/MySeaIce_0 --include=*.py)",
       "Bash(grep -rn n_classes[ F:/ZJU/11_Ice/code/MMSeaIce-main2/MySeaIce_0 --include=*.py)",
-      "Bash(grep -rn \"WaterConsistencyLoss\\\\|water_edge_metric\\\\|water_edge_plot_overlay\" F:/ZJU/11_Ice/code/MMSeaIce-main2/MySeaIce_0 --include=*.py)"
+      "Bash(grep -rn \"WaterConsistencyLoss\\\\|water_edge_metric\\\\|water_edge_plot_overlay\" F:/ZJU/11_Ice/code/MMSeaIce-main2/MySeaIce_0 --include=*.py)",
+      "Bash(ls:*)",
+      "Bash(sort -t: -k3 -r)",
+      "Bash(python3 -c ':*)",
+      "Bash(python -c ':*)",
+      "Bash(python:*)",
+      "Bash(sort -k2 -r)"
     ]
   }
 }

@@ -88,12 +88,12 @@ FLOE_LOOKUP = {
     6: 5,  # Vast flpe
     7: 5,  # Gian floe
     8: 255,  # Fast ice
-    9: 6,  # Growlers, floebergs or floebits
-    10: 6,  # Icebergs
+    9: 255,  # Growlers, floebergs or floebits → 忽略（样本极少）
+    10: 255,  # Icebergs → 忽略（样本极少）
     21: 255,  # Level ice
     'fastice_class': 255,
     'mask': 255,
-    'n_classes': 8
+    'n_classes': 3  # 0=水体, 1=大浮冰, 2=巨浮冰（冰块/小/中浮冰/冰山均忽略）
 }
 
 
@@ -320,6 +320,15 @@ train_options = {
     'num_workers': 0,  # Number of parallel processes to fetch data.
     'num_workers_val': 0,  # Number of parallel processes during validation.
     'prefetch_factor': 2,  # Batches to prefetch per worker (requires num_workers > 0).
+
+
+    # 两阶段采样配置（默认值）
+    'two_phase_sampling': True,           # 总开关，默认 False（不影响现有行为）
+    'base_ratio': 0.6,                    # Phase 1 占 batch 的比例，默认 0.6
+    'target_class_ratio': [0.15, 0.25, 0.25, 0.2, 0.15],  # 各类别目标像素占比（按实际类别数填写）
+    'class_bank_stride_factor': 0.5,      # 扫描步长 = patch_size × factor，默认 0.5
+    'phase2_max_retries': 20,             # Phase 2 每个 slot 最大重试次数，默认 20
+
 
     # -- U-Net Options -- #
     'unet_dropout': 0.0,  # Dropout probability applied after each DoubleConv block (0.0 = disabled).

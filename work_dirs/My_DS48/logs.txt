@@ -1,0 +1,1910 @@
+wandb: WARNING Symlinked 1 file into the W&B run directory; call wandb.save again to sync new files.
+Save Config File
+Options initialised
+100%|| 53/53 [09:29<00:00, 10.74s/it]
+Data setup complete.
+-----------------------------------
+Starting Training
+-----------------------------------
+Training...
+100%|| 100/100 [00:37<00:00,  2.69it/s]
+100%|| 16/16 [00:45<00:00,  2.82s/it]
+Train SOD mIoU: 0.4866
+Train SOD IoU per class: tensor([0.7087, 0.2372, 0.3533, 0.4348, 0.6991], device='cuda:0')
+Train SOD Precision per class: tensor([0.7587, 0.7772, 0.5502, 0.4830, 0.8308], device='cuda:0')
+Train SOD Recall per class: tensor([0.9149, 0.2546, 0.4968, 0.8135, 0.8152], device='cuda:0')
+Train SOD True class proportion: tensor([0.2585, 0.2305, 0.1617, 0.1764, 0.1729], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.3118, 0.0755, 0.1460, 0.2971, 0.1697], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[0.9149, 0.0057, 0.0251, 0.0491, 0.0051],
+        [0.1677, 0.2546, 0.1316, 0.3372, 0.1090],
+        [0.1147, 0.0342, 0.4968, 0.3438, 0.0105],
+        [0.0497, 0.0121, 0.1215, 0.8135, 0.0032],
+        [0.0536, 0.0445, 0.0428, 0.0440, 0.8152]], device='cuda:0')
+Validating...
+100%|| 16/16 [00:44<00:00,  3.16s/it]
+Computing Metrics on Val dataset
+
+Epoch 0 score:
+SOD f1_metric: 68.17400360107422%
+SOD F1 score: tensor([0.9159, 0.5938, 0.2524, 0.5629, 0.9188], device='cuda:0')
+SOD OA: 0.7114269137382507
+SOD mIoU: tensor(0.5306, device='cuda:0')
+SOD IoU per class: tensor([0.8448, 0.4223, 0.1444, 0.3917, 0.8498], device='cuda:0')
+SOD Precision per class: tensor([0.8942, 0.6238, 0.6966, 0.4143, 0.9030], device='cuda:0')
+SOD Recall per class: tensor([0.9386, 0.5666, 0.1541, 0.8777, 0.9352], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3786, 0.1247, 0.0471, 0.2941, 0.1555], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.3862e-01, 4.5366e-02, 3.5586e-03, 1.2453e-02, 1.9133e-06],
+        [1.0788e-01, 5.6660e-01, 3.1940e-02, 1.8764e-01, 1.0594e-01],
+        [1.0279e-01, 7.5266e-02, 1.5411e-01, 6.6602e-01, 1.8111e-03],
+        [2.1455e-02, 3.7567e-02, 6.2062e-02, 8.7774e-01, 1.1770e-03],
+        [2.3664e-03, 6.1905e-02, 1.1832e-04, 3.9746e-04, 9.3521e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([-0.1361, -0.1850,  0.2089,  0.0431, -0.1507], device='cuda:0')
+Combined score: 68.17400360107422%
+Train Epoch Loss: 0.568
+Train Cross Entropy Epoch Loss: 0.568
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.465
+Validation Cross Entropy Epoch Loss: 0.465
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5306
+Learning Rate: 1.00e-03
+saving model....
+model saved successfully at ./work_dirs/My_DS48/best_model_My_DS48.pth
+100%|| 100/100 [00:21<00:00,  4.65it/s]
+100%|| 16/16 [00:42<00:00,  2.64s/it]
+Train SOD mIoU: 0.6617
+Train SOD IoU per class: tensor([0.8325, 0.5288, 0.5288, 0.6099, 0.8087], device='cuda:0')
+Train SOD Precision per class: tensor([0.8584, 0.7792, 0.7511, 0.6961, 0.8980], device='cuda:0')
+Train SOD Recall per class: tensor([0.9651, 0.6219, 0.6412, 0.8312, 0.8904], device='cuda:0')
+Train SOD True class proportion: tensor([0.2649, 0.2127, 0.1587, 0.1790, 0.1847], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2978, 0.1698, 0.1355, 0.2138, 0.1832], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.6512e-01, 1.4675e-02, 7.8376e-03, 1.1723e-02, 6.4847e-04],
+        [9.7287e-02, 6.2195e-01, 6.6775e-02, 1.3681e-01, 7.7183e-02],
+        [6.7379e-02, 7.8885e-02, 6.4120e-01, 2.0109e-01, 1.1450e-02],
+        [1.9670e-02, 5.4932e-02, 9.2667e-02, 8.3121e-01, 1.5208e-03],
+        [3.9434e-02, 6.0879e-02, 4.5814e-03, 4.7002e-03, 8.9041e-01]],
+       device='cuda:0')
+Validating...
+100%|| 16/16 [00:42<00:00,  2.77s/it]
+Computing Metrics on Val dataset
+
+Epoch 1 score:
+SOD f1_metric: 74.33300018310547%
+SOD F1 score: tensor([0.9358, 0.5730, 0.4805, 0.6639, 0.8832], device='cuda:0')
+SOD OA: 0.760579526424408
+SOD mIoU: tensor(0.5770, device='cuda:0')
+SOD IoU per class: tensor([0.8793, 0.4015, 0.3162, 0.4969, 0.7908], device='cuda:0')
+SOD Precision per class: tensor([0.8901, 0.5564, 0.8004, 0.5596, 0.8540], device='cuda:0')
+SOD Recall per class: tensor([0.9864, 0.5906, 0.3433, 0.8160, 0.9145], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3997, 0.1457, 0.0914, 0.2024, 0.1608], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8641e-01, 6.1143e-03, 3.3458e-03, 4.0862e-03, 4.1613e-05],
+        [1.2930e-01, 5.9058e-01, 4.7940e-02, 1.0073e-01, 1.3144e-01],
+        [1.0521e-01, 1.8632e-01, 3.4327e-01, 3.4641e-01, 1.8788e-02],
+        [2.4846e-02, 7.3713e-02, 7.5238e-02, 8.1600e-01, 1.0203e-02],
+        [2.0390e-03, 8.3225e-02, 5.1693e-05, 1.9643e-04, 9.1449e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([-0.0468,  0.1272,  0.2126,  0.1130,  0.0178], device='cuda:0')
+Combined score: 74.33300018310547%
+Train Epoch Loss: 0.354
+Train Cross Entropy Epoch Loss: 0.354
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.434
+Validation Cross Entropy Epoch Loss: 0.434
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5770
+Learning Rate: 1.00e-03
+saving model....
+model saved successfully at ./work_dirs/My_DS48/best_model_My_DS48.pth
+100%|| 16/16 [00:41<00:00,  2.57s/it]
+Train SOD mIoU: 0.7162
+Train SOD IoU per class: tensor([0.8574, 0.6110, 0.6048, 0.6905, 0.8174], device='cuda:0')
+Train SOD Precision per class: tensor([0.8817, 0.8256, 0.7997, 0.7697, 0.8933], device='cuda:0')
+Train SOD Recall per class: tensor([0.9688, 0.7015, 0.7129, 0.8703, 0.9059], device='cuda:0')
+Train SOD True class proportion: tensor([0.2610, 0.2260, 0.1602, 0.1768, 0.1760], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2868, 0.1920, 0.1428, 0.1999, 0.1785], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.6879e-01, 1.4032e-02, 7.0458e-03, 9.2799e-03, 8.4747e-04],
+        [7.5027e-02, 7.0153e-01, 6.0285e-02, 9.0133e-02, 7.3028e-02],
+        [5.1039e-02, 8.2285e-02, 7.1286e-01, 1.4168e-01, 1.2134e-02],
+        [1.5047e-02, 4.4305e-02, 6.8169e-02, 8.7033e-01, 2.1479e-03],
+        [3.4814e-02, 4.9971e-02, 6.2630e-03, 3.0869e-03, 9.0587e-01]],
+       device='cuda:0')
+Validating...
+100%|| 16/16 [00:40<00:00,  2.71s/it]
+Computing Metrics on Val dataset
+
+Epoch 2 score:
+SOD f1_metric: 78.61399841308594%
+SOD F1 score: tensor([0.9514, 0.6075, 0.6050, 0.6772, 0.9102], device='cuda:0')
+SOD OA: 0.7920351028442383
+SOD mIoU: tensor(0.6249, device='cuda:0')
+SOD IoU per class: tensor([0.9074, 0.4363, 0.4337, 0.5119, 0.8352], device='cuda:0')
+SOD Precision per class: tensor([0.9341, 0.5877, 0.7555, 0.6136, 0.8676], device='cuda:0')
+SOD Recall per class: tensor([0.9694, 0.6286, 0.5045, 0.7555, 0.9572], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3743, 0.1468, 0.1423, 0.1709, 0.1657], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.6940e-01, 1.0312e-02, 1.6841e-02, 3.4395e-03, 7.1747e-06],
+        [8.5583e-02, 6.2861e-01, 5.4851e-02, 9.1349e-02, 1.3961e-01],
+        [4.5626e-02, 1.9755e-01, 5.0447e-01, 2.4524e-01, 7.1173e-03],
+        [2.0353e-02, 6.2707e-02, 1.5242e-01, 7.5549e-01, 9.0258e-03],
+        [2.4388e-03, 4.0022e-02, 2.2630e-04, 6.4329e-05, 9.5725e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([-0.0500,  0.1748,  0.1712,  0.1786, -0.0179], device='cuda:0')
+Combined score: 78.61399841308594%
+Train Epoch Loss: 0.292
+Train Cross Entropy Epoch Loss: 0.292
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.377
+Validation Cross Entropy Epoch Loss: 0.377
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6249
+Learning Rate: 9.99e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS48/best_model_My_DS48.pth
+100%|| 16/16 [00:43<00:00,  2.69s/it]
+Train SOD mIoU: 0.7460
+Train SOD IoU per class: tensor([0.8835, 0.6477, 0.6348, 0.7302, 0.8339], device='cuda:0')
+Train SOD Precision per class: tensor([0.9106, 0.8196, 0.8155, 0.8179, 0.9020], device='cuda:0')
+Train SOD Recall per class: tensor([0.9674, 0.7554, 0.7413, 0.8718, 0.9170], device='cuda:0')
+Train SOD True class proportion: tensor([0.2731, 0.2226, 0.1569, 0.1806, 0.1668], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2901, 0.2052, 0.1426, 0.1925, 0.1696], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.6739e-01, 1.6877e-02, 6.1849e-03, 8.7043e-03, 8.4433e-04],
+        [6.0302e-02, 7.5542e-01, 5.2819e-02, 6.7856e-02, 6.3602e-02],
+        [3.5226e-02, 1.0250e-01, 7.4132e-01, 1.0888e-01, 1.2071e-02],
+        [1.4199e-02, 4.6632e-02, 6.5411e-02, 8.7184e-01, 1.9225e-03],
+        [2.6501e-02, 4.7365e-02, 6.3141e-03, 2.8394e-03, 9.1698e-01]],
+       device='cuda:0')
+Validating...
+  2%|▍                                                                                                                                                                     | 4/200 [04:31<3:33:43, 65.43s/it]2.94s/it]
+Computing Metrics on Val dataset
+
+Epoch 3 score:
+SOD f1_metric: 76.04900360107422%
+SOD F1 score: tensor([0.9439, 0.5740, 0.5147, 0.6766, 0.9167], device='cuda:0')
+SOD OA: 0.7718937397003174
+SOD mIoU: tensor(0.6001, device='cuda:0')
+SOD IoU per class: tensor([0.8938, 0.4025, 0.3466, 0.5112, 0.8463], device='cuda:0')
+SOD Precision per class: tensor([0.9030, 0.5084, 0.8214, 0.5941, 0.9288], device='cuda:0')
+SOD Recall per class: tensor([0.9887, 0.6591, 0.3748, 0.7856, 0.9050], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3949, 0.1780, 0.0972, 0.1836, 0.1463], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8871e-01, 4.3153e-03, 5.1576e-03, 1.8181e-03, 0.0000e+00],
+        [1.3383e-01, 6.5906e-01, 3.6592e-02, 1.0085e-01, 6.9665e-02],
+        [7.0041e-02, 2.7008e-01, 3.7480e-01, 2.8163e-01, 3.4433e-03],
+        [3.3684e-02, 1.0430e-01, 7.5453e-02, 7.8563e-01, 9.3464e-04],
+        [2.2274e-03, 9.2676e-02, 5.1693e-05, 0.0000e+00, 9.0505e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([-0.0103,  0.2452,  0.2883,  0.2189, -0.0124], device='cuda:0')
+Combined score: 76.04900360107422%
+Train Epoch Loss: 0.257
+Train Cross Entropy Epoch Loss: 0.257
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.409
+Validation Cross Entropy Epoch Loss: 0.409
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6001
+Learning Rate: 9.99e-04
+Early stopping counter: 1/30
+100%|| 16/16 [00:42<00:00,  2.67s/it]
+Train SOD mIoU: 0.7599
+Train SOD IoU per class: tensor([0.8886, 0.6701, 0.6468, 0.7442, 0.8500], device='cuda:0')
+Train SOD Precision per class: tensor([0.9151, 0.8332, 0.8327, 0.8236, 0.9101], device='cuda:0')
+Train SOD Recall per class: tensor([0.9684, 0.7739, 0.7433, 0.8853, 0.9278], device='cuda:0')
+Train SOD True class proportion: tensor([0.2674, 0.2199, 0.1583, 0.1835, 0.1709], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2830, 0.2043, 0.1413, 0.1972, 0.1742], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.6842e-01, 1.8482e-02, 4.5387e-03, 7.5920e-03, 9.6751e-04],
+        [5.3493e-02, 7.7393e-01, 4.8231e-02, 6.5283e-02, 5.9064e-02],
+        [3.5129e-02, 9.5538e-02, 7.4334e-01, 1.1305e-01, 1.2941e-02],
+        [1.3926e-02, 3.8167e-02, 6.0670e-02, 8.8527e-01, 1.9624e-03],
+        [2.4318e-02, 4.0941e-02, 4.0425e-03, 2.8571e-03, 9.2784e-01]],
+       device='cuda:0')
+Validating...
+  2%|▏                                                                                                                                                                    | 5/200 [05:35<3:31:07, 64.96s/it]3.00s/it]
+Computing Metrics on Val dataset
+
+Epoch 4 score:
+SOD f1_metric: 76.79900360107422%
+SOD F1 score: tensor([0.9490, 0.5273, 0.5826, 0.6908, 0.8875], device='cuda:0')
+SOD OA: 0.7755888104438782
+SOD mIoU: tensor(0.5995, device='cuda:0')
+SOD IoU per class: tensor([0.9030, 0.3581, 0.4111, 0.5277, 0.7977], device='cuda:0')
+SOD Precision per class: tensor([0.9216, 0.4915, 0.7753, 0.6443, 0.8365], device='cuda:0')
+SOD Recall per class: tensor([0.9782, 0.5688, 0.4667, 0.7446, 0.9450], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3828, 0.1589, 0.1283, 0.1604, 0.1696], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7820e-01, 1.1199e-02, 6.2329e-03, 4.3311e-03, 3.5873e-05],
+        [1.1997e-01, 5.6880e-01, 6.2059e-02, 8.2029e-02, 1.6714e-01],
+        [4.4619e-02, 2.6592e-01, 4.6668e-01, 2.0756e-01, 1.5224e-02],
+        [2.7156e-02, 8.7251e-02, 1.2999e-01, 7.4458e-01, 1.1024e-02],
+        [1.8782e-03, 5.3026e-02, 8.5007e-05, 3.6760e-05, 9.4497e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([-0.0145,  0.3120,  0.2357,  0.2165,  0.0523], device='cuda:0')
+Combined score: 76.79900360107422%
+Train Epoch Loss: 0.234
+Train Cross Entropy Epoch Loss: 0.234
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.389
+Validation Cross Entropy Epoch Loss: 0.389
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5995
+Learning Rate: 9.98e-04
+Early stopping counter: 2/30
+100%|| 16/16 [00:40<00:00,  2.55s/it]
+Train SOD mIoU: 0.7677
+Train SOD IoU per class: tensor([0.8943, 0.6746, 0.6623, 0.7588, 0.8486], device='cuda:0')
+Train SOD Precision per class: tensor([0.9219, 0.8421, 0.8319, 0.8336, 0.9056], device='cuda:0')
+Train SOD Recall per class: tensor([0.9676, 0.7722, 0.7647, 0.8943, 0.9310], device='cuda:0')
+Train SOD True class proportion: tensor([0.2660, 0.2210, 0.1594, 0.1817, 0.1719], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2792, 0.2027, 0.1465, 0.1949, 0.1768], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.6759e-01, 1.6824e-02, 6.8534e-03, 7.8135e-03, 9.2243e-04],
+        [4.8100e-02, 7.7225e-01, 5.7629e-02, 5.9387e-02, 6.2637e-02],
+        [3.0609e-02, 8.6289e-02, 7.6469e-01, 1.0510e-01, 1.3312e-02],
+        [1.3036e-02, 3.9200e-02, 5.0874e-02, 8.9426e-01, 2.6262e-03],
+        [2.2759e-02, 3.8679e-02, 4.8757e-03, 2.6990e-03, 9.3099e-01]],
+       device='cuda:0')
+Validating...
+  3%|                                                                                                                                                                    | 6/200 [06:34<3:23:08, 62.83s/it]2.74s/it]
+Computing Metrics on Val dataset
+
+Epoch 5 score:
+SOD f1_metric: 76.86399841308594%
+SOD F1 score: tensor([0.9429, 0.5409, 0.5729, 0.7050, 0.8949], device='cuda:0')
+SOD OA: 0.7815542817115784
+SOD mIoU: tensor(0.6037, device='cuda:0')
+SOD IoU per class: tensor([0.8919, 0.3707, 0.4014, 0.5444, 0.8098], device='cuda:0')
+SOD Precision per class: tensor([0.9050, 0.5506, 0.8024, 0.6239, 0.8278], device='cuda:0')
+SOD Recall per class: tensor([0.9841, 0.5316, 0.4454, 0.8104, 0.9738], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3922, 0.1325, 0.1183, 0.1803, 0.1767], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8413e-01, 6.4979e-03, 6.8796e-03, 2.4939e-03, 1.9133e-06],
+        [1.1784e-01, 5.3162e-01, 5.6028e-02, 9.0711e-02, 2.0380e-01],
+        [7.4918e-02, 2.1534e-01, 4.4543e-01, 2.5554e-01, 8.7778e-03],
+        [3.2611e-02, 5.7952e-02, 9.4986e-02, 8.1035e-01, 4.1015e-03],
+        [4.0746e-03, 2.1963e-02, 1.1602e-04, 2.8718e-05, 9.7382e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0024, 0.3038, 0.2609, 0.2144, 0.0388], device='cuda:0')
+Combined score: 76.86399841308594%
+Train Epoch Loss: 0.224
+Train Cross Entropy Epoch Loss: 0.224
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.403
+Validation Cross Entropy Epoch Loss: 0.403
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6037
+Learning Rate: 9.98e-04
+Early stopping counter: 3/30
+100%|| 16/16 [00:40<00:00,  2.55s/it]
+Train SOD mIoU: 0.7915
+Train SOD IoU per class: tensor([0.9089, 0.7108, 0.6924, 0.7802, 0.8650], device='cuda:0')
+Train SOD Precision per class: tensor([0.9337, 0.8569, 0.8488, 0.8501, 0.9209], device='cuda:0')
+Train SOD Recall per class: tensor([0.9716, 0.8065, 0.7898, 0.9046, 0.9345], device='cuda:0')
+Train SOD True class proportion: tensor([0.2690, 0.2297, 0.1617, 0.1789, 0.1607], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2799, 0.2162, 0.1504, 0.1904, 0.1631], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7159e-01, 1.6924e-02, 4.3099e-03, 6.5228e-03, 6.5556e-04],
+        [4.2617e-02, 8.0653e-01, 5.1468e-02, 5.2860e-02, 4.6524e-02],
+        [2.6217e-02, 8.5525e-02, 7.8982e-01, 8.7267e-02, 1.1176e-02],
+        [9.2813e-03, 3.5199e-02, 4.9630e-02, 9.0458e-01, 1.3129e-03],
+        [1.7837e-02, 3.8925e-02, 5.4726e-03, 3.2667e-03, 9.3450e-01]],
+       device='cuda:0')
+Validating...
+  4%|▉                                                                                                                                                                   | 7/200 [07:33<3:18:00, 61.56s/it]2.74s/it]
+Computing Metrics on Val dataset
+
+Epoch 6 score:
+SOD f1_metric: 77.07099914550781%
+SOD F1 score: tensor([0.9473, 0.5355, 0.5747, 0.7063, 0.8993], device='cuda:0')
+SOD OA: 0.7826108932495117
+SOD mIoU: tensor(0.6063, device='cuda:0')
+SOD IoU per class: tensor([0.8998, 0.3657, 0.4032, 0.5459, 0.8171], device='cuda:0')
+SOD Precision per class: tensor([0.9089, 0.5193, 0.8022, 0.6501, 0.8304], device='cuda:0')
+SOD Recall per class: tensor([0.9891, 0.5528, 0.4477, 0.7731, 0.9807], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3925, 0.1461, 0.1189, 0.1650, 0.1774], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8910e-01, 4.2996e-03, 2.2419e-03, 2.5355e-03, 1.8224e-03],
+        [1.0592e-01, 5.5281e-01, 6.0286e-02, 8.3242e-02, 1.9774e-01],
+        [7.8477e-02, 2.5308e-01, 4.4773e-01, 2.1309e-01, 7.6298e-03],
+        [2.8508e-02, 8.9949e-02, 1.0379e-01, 7.7305e-01, 4.7018e-03],
+        [3.7162e-03, 1.5271e-02, 2.6536e-04, 4.5949e-06, 9.8074e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0090, 0.3452, 0.2892, 0.2342, 0.0479], device='cuda:0')
+Combined score: 77.07099914550781%
+Train Epoch Loss: 0.204
+Train Cross Entropy Epoch Loss: 0.204
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.385
+Validation Cross Entropy Epoch Loss: 0.385
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6063
+Learning Rate: 9.97e-04
+Early stopping counter: 4/30
+100%|| 16/16 [00:42<00:00,  2.63s/it]
+Train SOD mIoU: 0.8118
+Train SOD IoU per class: tensor([0.9129, 0.7318, 0.7192, 0.8109, 0.8842], device='cuda:0')
+Train SOD Precision per class: tensor([0.9392, 0.8571, 0.8689, 0.8767, 0.9354], device='cuda:0')
+Train SOD Recall per class: tensor([0.9702, 0.8335, 0.8068, 0.9152, 0.9417], device='cuda:0')
+Train SOD True class proportion: tensor([0.2644, 0.2195, 0.1655, 0.1822, 0.1684], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2731, 0.2134, 0.1536, 0.1902, 0.1696], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7022e-01, 1.8968e-02, 4.6819e-03, 5.3137e-03, 8.1546e-04],
+        [3.7616e-02, 8.3347e-01, 4.8655e-02, 4.1432e-02, 3.8827e-02],
+        [2.4143e-02, 8.0752e-02, 8.0681e-01, 7.6421e-02, 1.1876e-02],
+        [8.9489e-03, 3.2702e-02, 4.1757e-02, 9.1523e-01, 1.3612e-03],
+        [1.6225e-02, 3.6609e-02, 3.6643e-03, 1.8149e-03, 9.4169e-01]],
+       device='cuda:0')
+Validating...
+  4%|▊                                                                                                                                                                  | 8/200 [08:33<3:15:40, 61.15s/it]2.87s/it]
+Computing Metrics on Val dataset
+
+Epoch 7 score:
+SOD f1_metric: 76.59600067138672%
+SOD F1 score: tensor([0.9463, 0.5457, 0.5491, 0.7013, 0.9018], device='cuda:0')
+SOD OA: 0.777285099029541
+SOD mIoU: tensor(0.6026, device='cuda:0')
+SOD IoU per class: tensor([0.8980, 0.3752, 0.3784, 0.5400, 0.8212], device='cuda:0')
+SOD Precision per class: tensor([0.9068, 0.5010, 0.8188, 0.6350, 0.8644], device='cuda:0')
+SOD Recall per class: tensor([0.9893, 0.5991, 0.4130, 0.7830, 0.9425], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3935, 0.1641, 0.1075, 0.1711, 0.1637], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8930e-01, 6.9475e-03, 1.6707e-03, 1.3216e-03, 7.5526e-04],
+        [1.1512e-01, 5.9909e-01, 5.1670e-02, 8.7576e-02, 1.4655e-01],
+        [7.9121e-02, 2.6641e-01, 4.1301e-01, 2.3449e-01, 6.9667e-03],
+        [2.7884e-02, 1.0211e-01, 8.4671e-02, 7.8300e-01, 2.3354e-03],
+        [9.5001e-04, 5.6346e-02, 1.5623e-04, 0.0000e+00, 9.4255e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0149, 0.3566, 0.3408, 0.2709, 0.0630], device='cuda:0')
+Combined score: 76.59600067138672%
+Train Epoch Loss: 0.185
+Train Cross Entropy Epoch Loss: 0.185
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.385
+Validation Cross Entropy Epoch Loss: 0.385
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6026
+Learning Rate: 9.96e-04
+Early stopping counter: 5/30
+100%|| 16/16 [00:43<00:00,  2.69s/it]
+Train SOD mIoU: 0.8219
+Train SOD IoU per class: tensor([0.9207, 0.7493, 0.7242, 0.8197, 0.8957], device='cuda:0')
+Train SOD Precision per class: tensor([0.9459, 0.8672, 0.8685, 0.8791, 0.9477], device='cuda:0')
+Train SOD Recall per class: tensor([0.9719, 0.8464, 0.8133, 0.9240, 0.9423], device='cuda:0')
+Train SOD True class proportion: tensor([0.2716, 0.2215, 0.1592, 0.1747, 0.1729], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2790, 0.2162, 0.1491, 0.1837, 0.1719], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7192e-01, 1.8375e-02, 4.1095e-03, 4.9973e-03, 5.9438e-04],
+        [3.3476e-02, 8.4642e-01, 4.9978e-02, 3.8796e-02, 3.1335e-02],
+        [2.2568e-02, 7.8560e-02, 8.1330e-01, 7.4798e-02, 1.0774e-02],
+        [8.1013e-03, 2.8714e-02, 3.8227e-02, 9.2395e-01, 1.0054e-03],
+        [1.5522e-02, 3.5886e-02, 4.2297e-03, 2.0452e-03, 9.4232e-01]],
+       device='cuda:0')
+Validating...
+  4%|▌                                                                                                                                                                 | 9/200 [09:34<3:14:41, 61.16s/it]2.95s/it]
+Computing Metrics on Val dataset
+
+Epoch 8 score:
+SOD f1_metric: 75.4229965209961%
+SOD F1 score: tensor([0.9442, 0.5444, 0.5311, 0.6656, 0.8882], device='cuda:0')
+SOD OA: 0.7638921141624451
+SOD mIoU: tensor(0.5855, device='cuda:0')
+SOD IoU per class: tensor([0.8943, 0.3740, 0.3615, 0.4988, 0.7989], device='cuda:0')
+SOD Precision per class: tensor([0.9228, 0.5027, 0.7382, 0.6082, 0.8305], device='cuda:0')
+SOD Recall per class: tensor([0.9667, 0.5937, 0.4147, 0.7351, 0.9546], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3778, 0.1621, 0.1197, 0.1678, 0.1726], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.6666e-01, 1.7856e-02, 9.7322e-03, 3.7658e-03, 1.9821e-03],
+        [7.8154e-02, 5.9369e-01, 5.4366e-02, 9.3561e-02, 1.8023e-01],
+        [6.7760e-02, 2.6281e-01, 4.1470e-01, 2.4179e-01, 1.2947e-02],
+        [2.7115e-02, 8.3882e-02, 1.4636e-01, 7.3506e-01, 7.5828e-03],
+        [1.5634e-03, 4.3522e-02, 2.9637e-04, 1.8380e-05, 9.5460e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0264, 0.3752, 0.3626, 0.3209, 0.0968], device='cuda:0')
+Combined score: 75.4229965209961%
+Train Epoch Loss: 0.171
+Train Cross Entropy Epoch Loss: 0.171
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.396
+Validation Cross Entropy Epoch Loss: 0.396
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5855
+Learning Rate: 9.95e-04
+Early stopping counter: 6/30
+100%|| 16/16 [00:42<00:00,  2.65s/it]
+Train SOD mIoU: 0.8215
+Train SOD IoU per class: tensor([0.9130, 0.7471, 0.7272, 0.8255, 0.8947], device='cuda:0')
+Train SOD Precision per class: tensor([0.9390, 0.8688, 0.8717, 0.8841, 0.9439], device='cuda:0')
+Train SOD Recall per class: tensor([0.9706, 0.8421, 0.8144, 0.9257, 0.9450], device='cuda:0')
+Train SOD True class proportion: tensor([0.2627, 0.2258, 0.1601, 0.1797, 0.1717], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2715, 0.2188, 0.1496, 0.1882, 0.1719], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7056e-01, 2.0165e-02, 3.7974e-03, 4.8210e-03, 6.5395e-04],
+        [3.7182e-02, 8.4210e-01, 4.9689e-02, 3.8042e-02, 3.2992e-02],
+        [2.4230e-02, 7.8010e-02, 8.1438e-01, 7.2127e-02, 1.1252e-02],
+        [8.9900e-03, 2.8882e-02, 3.5205e-02, 9.2570e-01, 1.2229e-03],
+        [1.5513e-02, 3.3411e-02, 3.7716e-03, 2.3502e-03, 9.4495e-01]],
+       device='cuda:0')
+Validating...
+  5%|▍                                                                                                                                                               | 10/200 [10:36<3:13:56, 61.25s/it]2.78s/it]
+Computing Metrics on Val dataset
+
+Epoch 9 score:
+SOD f1_metric: 74.03199768066406%
+SOD F1 score: tensor([0.9310, 0.5000, 0.5015, 0.6773, 0.8992], device='cuda:0')
+SOD OA: 0.7516313195228577
+SOD mIoU: tensor(0.5736, device='cuda:0')
+SOD IoU per class: tensor([0.8709, 0.3333, 0.3346, 0.5120, 0.8169], device='cuda:0')
+SOD Precision per class: tensor([0.9091, 0.4579, 0.7325, 0.6110, 0.8398], device='cuda:0')
+SOD Recall per class: tensor([0.9540, 0.5506, 0.3812, 0.7596, 0.9676], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3785, 0.1651, 0.1109, 0.1725, 0.1730], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.5397e-01, 3.1765e-02, 1.0942e-02, 2.2926e-03, 1.0298e-03],
+        [1.2522e-01, 5.5063e-01, 5.8811e-02, 8.7990e-02, 1.7735e-01],
+        [5.9040e-02, 2.9397e-01, 3.8122e-01, 2.5440e-01, 1.1371e-02],
+        [3.0794e-02, 7.9008e-02, 1.2649e-01, 7.5958e-01, 4.1301e-03],
+        [2.2952e-03, 2.9509e-02, 5.5484e-04, 1.1487e-06, 9.6764e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0421, 0.4138, 0.3926, 0.3135, 0.0778], device='cuda:0')
+Combined score: 74.03199768066406%
+Train Epoch Loss: 0.171
+Train Cross Entropy Epoch Loss: 0.171
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.408
+Validation Cross Entropy Epoch Loss: 0.408
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5736
+Learning Rate: 9.94e-04
+Early stopping counter: 7/30
+100%|| 16/16 [00:43<00:00,  2.71s/it]
+Train SOD mIoU: 0.8277
+Train SOD IoU per class: tensor([0.9154, 0.7679, 0.7307, 0.8308, 0.8939], device='cuda:0')
+Train SOD Precision per class: tensor([0.9409, 0.8801, 0.8691, 0.8943, 0.9421], device='cuda:0')
+Train SOD Recall per class: tensor([0.9712, 0.8576, 0.8210, 0.9213, 0.9459], device='cuda:0')
+Train SOD True class proportion: tensor([0.2614, 0.2305, 0.1582, 0.1850, 0.1648], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2699, 0.2246, 0.1495, 0.1906, 0.1655], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7122e-01, 1.9484e-02, 3.9595e-03, 4.3645e-03, 9.6924e-04],
+        [3.4875e-02, 8.5758e-01, 4.4753e-02, 3.1862e-02, 3.0927e-02],
+        [2.3931e-02, 7.1523e-02, 8.2098e-01, 7.1470e-02, 1.2098e-02],
+        [8.4953e-03, 2.8249e-02, 4.0484e-02, 9.2125e-01, 1.5219e-03],
+        [1.5522e-02, 3.2099e-02, 4.3566e-03, 2.1272e-03, 9.4590e-01]],
+       device='cuda:0')
+Validating...
+  6%|▏                                                                                                                                                              | 11/200 [11:37<3:13:13, 61.34s/it]2.98s/it]
+Computing Metrics on Val dataset
+
+Epoch 10 score:
+SOD f1_metric: 74.64299774169922%
+SOD F1 score: tensor([0.9441, 0.5126, 0.5125, 0.6876, 0.8718], device='cuda:0')
+SOD OA: 0.7623793482780457
+SOD mIoU: tensor(0.5760, device='cuda:0')
+SOD IoU per class: tensor([0.8941, 0.3446, 0.3445, 0.5239, 0.7727], device='cuda:0')
+SOD Precision per class: tensor([0.9158, 0.5176, 0.7542, 0.6068, 0.7794], device='cuda:0')
+SOD Recall per class: tensor([0.9742, 0.5077, 0.3881, 0.7933, 0.9890], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3837, 0.1347, 0.1097, 0.1815, 0.1906], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7418e-01, 9.4883e-03, 1.0216e-02, 1.6612e-03, 4.4531e-03],
+        [9.2891e-02, 5.0771e-01, 5.6941e-02, 7.8977e-02, 2.6348e-01],
+        [7.1131e-02, 2.4276e-01, 3.8810e-01, 2.8118e-01, 1.6823e-02],
+        [2.8957e-02, 6.2084e-02, 1.1085e-01, 7.9326e-01, 4.8435e-03],
+        [2.5456e-03, 7.9906e-03, 4.6064e-04, 0.0000e+00, 9.8900e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0213, 0.4233, 0.3861, 0.3069, 0.1212], device='cuda:0')
+Combined score: 74.64299774169922%
+Train Epoch Loss: 0.164
+Train Cross Entropy Epoch Loss: 0.164
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.383
+Validation Cross Entropy Epoch Loss: 0.383
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5760
+Learning Rate: 9.93e-04
+Early stopping counter: 8/30
+100%|| 16/16 [00:43<00:00,  2.72s/it]
+Train SOD mIoU: 0.8424
+Train SOD IoU per class: tensor([0.9211, 0.7735, 0.7554, 0.8587, 0.9031], device='cuda:0')
+Train SOD Precision per class: tensor([0.9454, 0.8792, 0.8875, 0.9099, 0.9509], device='cuda:0')
+Train SOD Recall per class: tensor([0.9729, 0.8655, 0.8354, 0.9385, 0.9473], device='cuda:0')
+Train SOD True class proportion: tensor([0.2631, 0.2175, 0.1607, 0.1845, 0.1742], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2707, 0.2141, 0.1512, 0.1903, 0.1736], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7293e-01, 1.8412e-02, 3.7731e-03, 4.3019e-03, 5.7806e-04],
+        [3.3661e-02, 8.6552e-01, 4.4185e-02, 2.7804e-02, 2.8830e-02],
+        [2.3424e-02, 6.9465e-02, 8.3537e-01, 5.9757e-02, 1.1980e-02],
+        [6.9083e-03, 2.2282e-02, 3.1310e-02, 9.3852e-01, 9.8388e-04],
+        [1.3966e-02, 3.3037e-02, 3.5782e-03, 2.0930e-03, 9.4733e-01]],
+       device='cuda:0')
+Validating...
+  6%|                                                                                                                                                              | 12/200 [12:41<3:14:51, 62.19s/it]3.05s/it]
+Computing Metrics on Val dataset
+
+Epoch 11 score:
+SOD f1_metric: 73.38500213623047%
+SOD F1 score: tensor([0.9462, 0.4907, 0.4748, 0.6691, 0.8735], device='cuda:0')
+SOD OA: 0.752102792263031
+SOD mIoU: tensor(0.5625, device='cuda:0')
+SOD IoU per class: tensor([0.8979, 0.3252, 0.3113, 0.5027, 0.7755], device='cuda:0')
+SOD Precision per class: tensor([0.9156, 0.4706, 0.8123, 0.5789, 0.7879], device='cuda:0')
+SOD Recall per class: tensor([0.9789, 0.5127, 0.3354, 0.7925, 0.9801], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3856, 0.1496, 0.0880, 0.1900, 0.1868], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7890e-01, 1.2314e-02, 4.9419e-03, 1.8420e-03, 1.9979e-03],
+        [9.5629e-02, 5.1272e-01, 1.6929e-02, 1.2776e-01, 2.4696e-01],
+        [6.8850e-02, 2.8615e-01, 3.3544e-01, 2.9009e-01, 1.9475e-02],
+        [3.0856e-02, 8.1652e-02, 8.8847e-02, 7.9252e-01, 6.1274e-03],
+        [3.1636e-03, 1.6242e-02, 5.2497e-04, 1.0339e-05, 9.8006e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0233, 0.4484, 0.4441, 0.3560, 0.1276], device='cuda:0')
+Combined score: 73.38500213623047%
+Train Epoch Loss: 0.152
+Train Cross Entropy Epoch Loss: 0.152
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.416
+Validation Cross Entropy Epoch Loss: 0.416
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5625
+Learning Rate: 9.91e-04
+Early stopping counter: 9/30
+100%|| 16/16 [00:41<00:00,  2.62s/it]
+Train SOD mIoU: 0.8456
+Train SOD IoU per class: tensor([0.9232, 0.7737, 0.7624, 0.8582, 0.9107], device='cuda:0')
+Train SOD Precision per class: tensor([0.9436, 0.8853, 0.8916, 0.9090, 0.9517], device='cuda:0')
+Train SOD Recall per class: tensor([0.9770, 0.8599, 0.8403, 0.9388, 0.9549], device='cuda:0')
+Train SOD True class proportion: tensor([0.2537, 0.2177, 0.1647, 0.1870, 0.1769], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2627, 0.2114, 0.1552, 0.1932, 0.1775], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7704e-01, 1.5020e-02, 3.0451e-03, 4.2334e-03, 6.6272e-04],
+        [3.2424e-02, 8.5992e-01, 4.7293e-02, 3.0495e-02, 2.9864e-02],
+        [2.2862e-02, 6.8813e-02, 8.4028e-01, 5.7833e-02, 1.0209e-02],
+        [7.9654e-03, 2.3547e-02, 2.8439e-02, 9.3884e-01, 1.2052e-03],
+        [1.4077e-02, 2.6653e-02, 2.5150e-03, 1.8952e-03, 9.5486e-01]],
+       device='cuda:0')
+Validating...
+  6%|▉                                                                                                                                                             | 13/200 [13:44<3:14:10, 62.30s/it]2.82s/it]
+Computing Metrics on Val dataset
+
+Epoch 12 score:
+SOD f1_metric: 75.11900329589844%
+SOD F1 score: tensor([0.9413, 0.5264, 0.4983, 0.6923, 0.9134], device='cuda:0')
+SOD OA: 0.7667070031166077
+SOD mIoU: tensor(0.5896, device='cuda:0')
+SOD IoU per class: tensor([0.8891, 0.3572, 0.3318, 0.5294, 0.8406], device='cuda:0')
+SOD Precision per class: tensor([0.9046, 0.5010, 0.7524, 0.6150, 0.8537], device='cuda:0')
+SOD Recall per class: tensor([0.9811, 0.5544, 0.3725, 0.7919, 0.9821], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3912, 0.1519, 0.1055, 0.1787, 0.1728], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8108e-01, 8.2920e-03, 4.2709e-03, 2.8933e-03, 3.4668e-03],
+        [1.2897e-01, 5.5438e-01, 5.6605e-02, 9.1663e-02, 1.6838e-01],
+        [7.2135e-02, 2.9345e-01, 3.7245e-01, 2.5894e-01, 3.0239e-03],
+        [2.8396e-02, 5.6797e-02, 1.2099e-01, 7.9189e-01, 1.9314e-03],
+        [1.9908e-03, 1.5871e-02, 6.2032e-05, 1.1487e-06, 9.8208e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0341, 0.4165, 0.4306, 0.3288, 0.0701], device='cuda:0')
+Combined score: 75.11900329589844%
+Train Epoch Loss: 0.150
+Train Cross Entropy Epoch Loss: 0.150
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.408
+Validation Cross Entropy Epoch Loss: 0.408
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5896
+Learning Rate: 9.90e-04
+Early stopping counter: 10/30
+100%|| 16/16 [00:41<00:00,  2.61s/it]
+Train SOD mIoU: 0.8430
+Train SOD IoU per class: tensor([0.9248, 0.7804, 0.7545, 0.8408, 0.9146], device='cuda:0')
+Train SOD Precision per class: tensor([0.9473, 0.8881, 0.8845, 0.8963, 0.9574], device='cuda:0')
+Train SOD Recall per class: tensor([0.9750, 0.8655, 0.8369, 0.9314, 0.9534], device='cuda:0')
+Train SOD True class proportion: tensor([0.2697, 0.2202, 0.1571, 0.1770, 0.1759], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2776, 0.2146, 0.1487, 0.1839, 0.1752], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7496e-01, 1.6292e-02, 3.6497e-03, 4.3775e-03, 7.1847e-04],
+        [3.3948e-02, 8.6550e-01, 4.1842e-02, 3.3988e-02, 2.4726e-02],
+        [2.1526e-02, 6.7471e-02, 8.3694e-01, 6.3876e-02, 1.0189e-02],
+        [7.6214e-03, 2.3943e-02, 3.5776e-02, 9.3138e-01, 1.2797e-03],
+        [1.3721e-02, 2.7149e-02, 3.6249e-03, 2.0742e-03, 9.5343e-01]],
+       device='cuda:0')
+Validating...
+  7%|▊                                                                                                                                                            | 14/200 [14:48<3:14:36, 62.78s/it]2.87s/it]
+Computing Metrics on Val dataset
+
+Epoch 13 score:
+SOD f1_metric: 74.54299926757812%
+SOD F1 score: tensor([0.9350, 0.5115, 0.5201, 0.6767, 0.8873], device='cuda:0')
+SOD OA: 0.7617443203926086
+SOD mIoU: tensor(0.5763, device='cuda:0')
+SOD IoU per class: tensor([0.8779, 0.3436, 0.3514, 0.5113, 0.7974], device='cuda:0')
+SOD Precision per class: tensor([0.9031, 0.5470, 0.7749, 0.5691, 0.8112], device='cuda:0')
+SOD Recall per class: tensor([0.9692, 0.4804, 0.3914, 0.8344, 0.9790], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3871, 0.1206, 0.1076, 0.2035, 0.1812], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.6920e-01, 1.2653e-02, 1.1156e-02, 2.3471e-03, 4.6420e-03],
+        [1.3080e-01, 4.8035e-01, 4.9868e-02, 1.1222e-01, 2.2676e-01],
+        [7.2044e-02, 1.9594e-01, 3.9140e-01, 3.3531e-01, 5.3135e-03],
+        [2.7620e-02, 4.0471e-02, 9.5499e-02, 8.3440e-01, 2.0097e-03],
+        [2.3630e-03, 1.7881e-02, 7.0877e-04, 1.1487e-06, 9.7905e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0469, 0.4368, 0.4031, 0.3295, 0.1172], device='cuda:0')
+Combined score: 74.54299926757812%
+Train Epoch Loss: 0.150
+Train Cross Entropy Epoch Loss: 0.150
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.386
+Validation Cross Entropy Epoch Loss: 0.386
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5763
+Learning Rate: 9.88e-04
+Early stopping counter: 11/30
+100%|| 16/16 [00:41<00:00,  2.60s/it]
+Train SOD mIoU: 0.8628
+Train SOD IoU per class: tensor([0.9281, 0.8016, 0.7810, 0.8838, 0.9196], device='cuda:0')
+Train SOD Precision per class: tensor([0.9497, 0.8988, 0.8970, 0.9288, 0.9587], device='cuda:0')
+Train SOD Recall per class: tensor([0.9761, 0.8811, 0.8579, 0.9480, 0.9575], device='cuda:0')
+Train SOD True class proportion: tensor([0.2654, 0.2226, 0.1518, 0.1849, 0.1753], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2728, 0.2182, 0.1451, 0.1887, 0.1751], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7613e-01, 1.5846e-02, 3.2683e-03, 4.1233e-03, 6.3156e-04],
+        [3.0897e-02, 8.8110e-01, 3.9764e-02, 2.4149e-02, 2.4094e-02],
+        [2.1337e-02, 6.6796e-02, 8.5792e-01, 4.3915e-02, 1.0027e-02],
+        [6.9985e-03, 1.8332e-02, 2.5685e-02, 9.4803e-01, 9.5161e-04],
+        [1.3225e-02, 2.4791e-02, 2.7674e-03, 1.7463e-03, 9.5747e-01]],
+       device='cuda:0')
+Validating...
+  8%|▌                                                                                                                                                           | 15/200 [15:50<3:12:46, 62.52s/it]2.81s/it]
+Computing Metrics on Val dataset
+
+Epoch 14 score:
+SOD f1_metric: 76.1050033569336%
+SOD F1 score: tensor([0.9373, 0.5911, 0.5091, 0.7082, 0.8993], device='cuda:0')
+SOD OA: 0.7737094759941101
+SOD mIoU: tensor(0.6017, device='cuda:0')
+SOD IoU per class: tensor([0.8821, 0.4196, 0.3415, 0.5482, 0.8171], device='cuda:0')
+SOD Precision per class: tensor([0.8942, 0.5276, 0.7830, 0.6295, 0.9096], device='cuda:0')
+SOD Recall per class: tensor([0.9848, 0.6721, 0.3772, 0.8093, 0.8893], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3972, 0.1749, 0.1026, 0.1785, 0.1468], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8484e-01, 7.2617e-03, 3.3176e-03, 1.6937e-03, 2.8919e-03],
+        [1.1691e-01, 6.7206e-01, 5.0190e-02, 7.7129e-02, 8.3708e-02],
+        [1.0105e-01, 2.6214e-01, 3.7716e-01, 2.5774e-01, 1.9091e-03],
+        [3.0375e-02, 5.6116e-02, 1.0179e-01, 8.0932e-01, 2.3950e-03],
+        [1.5003e-03, 1.0883e-01, 3.5151e-04, 1.1487e-06, 8.8932e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0461, 0.3820, 0.4395, 0.3356, 0.1025], device='cuda:0')
+Combined score: 76.1050033569336%
+Train Epoch Loss: 0.134
+Train Cross Entropy Epoch Loss: 0.134
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.404
+Validation Cross Entropy Epoch Loss: 0.404
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6017
+Learning Rate: 9.86e-04
+Early stopping counter: 12/30
+100%|| 16/16 [00:42<00:00,  2.67s/it]
+Train SOD mIoU: 0.8623
+Train SOD IoU per class: tensor([0.9334, 0.7994, 0.7821, 0.8791, 0.9175], device='cuda:0')
+Train SOD Precision per class: tensor([0.9523, 0.8923, 0.9001, 0.9270, 0.9598], device='cuda:0')
+Train SOD Recall per class: tensor([0.9791, 0.8847, 0.8565, 0.9446, 0.9542], device='cuda:0')
+Train SOD True class proportion: tensor([0.2596, 0.2191, 0.1640, 0.1866, 0.1708], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2669, 0.2172, 0.1560, 0.1901, 0.1697], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7910e-01, 1.4666e-02, 2.8066e-03, 2.8295e-03, 5.9614e-04],
+        [2.9410e-02, 8.8469e-01, 4.0109e-02, 2.3763e-02, 2.2031e-02],
+        [1.8796e-02, 6.7606e-02, 8.5645e-01, 4.6844e-02, 1.0299e-02],
+        [5.8565e-03, 1.9300e-02, 2.9500e-02, 9.4455e-01, 7.9209e-04],
+        [1.2315e-02, 2.8685e-02, 3.3053e-03, 1.5396e-03, 9.5416e-01]],
+       device='cuda:0')
+Validating...
+  8%|▍                                                                                                                                                          | 16/200 [16:53<3:12:07, 62.65s/it]2.99s/it]
+Computing Metrics on Val dataset
+
+Epoch 15 score:
+SOD f1_metric: 76.45899963378906%
+SOD F1 score: tensor([0.9511, 0.5056, 0.5591, 0.7238, 0.8827], device='cuda:0')
+SOD OA: 0.7757462859153748
+SOD mIoU: tensor(0.5980, device='cuda:0')
+SOD IoU per class: tensor([0.9068, 0.3383, 0.3880, 0.5671, 0.7900], device='cuda:0')
+SOD Precision per class: tensor([0.9241, 0.4878, 0.7530, 0.6741, 0.8030], device='cuda:0')
+SOD Recall per class: tensor([0.9798, 0.5247, 0.4446, 0.7813, 0.9799], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3824, 0.1476, 0.1258, 0.1609, 0.1833], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7981e-01, 6.4190e-03, 8.2064e-03, 1.2824e-03, 4.2833e-03],
+        [1.1174e-01, 5.2466e-01, 7.6163e-02, 6.0596e-02, 2.2684e-01],
+        [4.7027e-02, 2.9026e-01, 4.4458e-01, 2.0483e-01, 1.3301e-02],
+        [2.4529e-02, 6.3102e-02, 1.2686e-01, 7.8130e-01, 4.2071e-03],
+        [1.8276e-03, 1.7908e-02, 3.4347e-04, 0.0000e+00, 9.7992e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0266, 0.4610, 0.3941, 0.3120, 0.1275], device='cuda:0')
+Combined score: 76.45899963378906%
+Train Epoch Loss: 0.134
+Train Cross Entropy Epoch Loss: 0.134
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.378
+Validation Cross Entropy Epoch Loss: 0.378
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5980
+Learning Rate: 9.84e-04
+Early stopping counter: 13/30
+100%|| 16/16 [00:42<00:00,  2.68s/it]
+Train SOD mIoU: 0.8714
+Train SOD IoU per class: tensor([0.9419, 0.8098, 0.7989, 0.8886, 0.9179], device='cuda:0')
+Train SOD Precision per class: tensor([0.9602, 0.9021, 0.9067, 0.9293, 0.9573], device='cuda:0')
+Train SOD Recall per class: tensor([0.9802, 0.8878, 0.8705, 0.9531, 0.9572], device='cuda:0')
+Train SOD True class proportion: tensor([0.2594, 0.2210, 0.1651, 0.1845, 0.1700], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2648, 0.2175, 0.1586, 0.1892, 0.1700], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8019e-01, 1.3149e-02, 2.8187e-03, 3.3348e-03, 5.0360e-04],
+        [2.4763e-02, 8.8783e-01, 4.0219e-02, 2.3536e-02, 2.3654e-02],
+        [1.3717e-02, 6.3042e-02, 8.7048e-01, 4.2513e-02, 1.0250e-02],
+        [4.6474e-03, 1.5548e-02, 2.5583e-02, 9.5306e-01, 1.1659e-03],
+        [1.1440e-02, 2.7003e-02, 2.7104e-03, 1.6824e-03, 9.5716e-01]],
+       device='cuda:0')
+Validating...
+  8%|▎                                                                                                                                                         | 17/200 [17:56<3:11:37, 62.83s/it]3.04s/it]
+Computing Metrics on Val dataset
+
+Epoch 16 score:
+SOD f1_metric: 75.96700286865234%
+SOD F1 score: tensor([0.9480, 0.5608, 0.5023, 0.6932, 0.9159], device='cuda:0')
+SOD OA: 0.7740417122840881
+SOD mIoU: tensor(0.6003, device='cuda:0')
+SOD IoU per class: tensor([0.9011, 0.3897, 0.3354, 0.5304, 0.8449], device='cuda:0')
+SOD Precision per class: tensor([0.9199, 0.5189, 0.7896, 0.6056, 0.8622], device='cuda:0')
+SOD Recall per class: tensor([0.9777, 0.6101, 0.3683, 0.8103, 0.9768], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3833, 0.1614, 0.0994, 0.1857, 0.1702], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7774e-01, 9.9073e-03, 6.6854e-03, 2.3925e-03, 3.2750e-03],
+        [1.0204e-01, 6.1014e-01, 4.8389e-02, 8.4594e-02, 1.5483e-01],
+        [6.5102e-02, 2.7886e-01, 3.6827e-01, 2.8522e-01, 2.5446e-03],
+        [1.9473e-02, 8.1826e-02, 8.4941e-02, 8.1033e-01, 3.4291e-03],
+        [7.4553e-04, 2.1966e-02, 4.4916e-04, 0.0000e+00, 9.7684e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0409, 0.4201, 0.4635, 0.3582, 0.0730], device='cuda:0')
+Combined score: 75.96700286865234%
+Train Epoch Loss: 0.123
+Train Cross Entropy Epoch Loss: 0.123
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.414
+Validation Cross Entropy Epoch Loss: 0.414
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6003
+Learning Rate: 9.82e-04
+Early stopping counter: 14/30
+100%|| 16/16 [00:43<00:00,  2.70s/it]
+Train SOD mIoU: 0.8755
+Train SOD IoU per class: tensor([0.9380, 0.8200, 0.8001, 0.8902, 0.9291], device='cuda:0')
+Train SOD Precision per class: tensor([0.9565, 0.9055, 0.9098, 0.9330, 0.9644], device='cuda:0')
+Train SOD Recall per class: tensor([0.9798, 0.8968, 0.8690, 0.9510, 0.9620], device='cuda:0')
+Train SOD True class proportion: tensor([0.2582, 0.2203, 0.1613, 0.1815, 0.1787], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2645, 0.2182, 0.1541, 0.1850, 0.1783], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7979e-01, 1.3786e-02, 2.9031e-03, 2.9321e-03, 5.8837e-04],
+        [2.6440e-02, 8.9677e-01, 3.6396e-02, 2.1213e-02, 1.9180e-02],
+        [1.5854e-02, 6.2473e-02, 8.6902e-01, 4.1790e-02, 1.0865e-02],
+        [5.0953e-03, 1.7340e-02, 2.5384e-02, 9.5103e-01, 1.1496e-03],
+        [1.2235e-02, 2.1471e-02, 2.9567e-03, 1.2929e-03, 9.6204e-01]],
+       device='cuda:0')
+Validating...
+  9%|                                                                                                                                                         | 18/200 [18:58<3:09:27, 62.46s/it]3.03s/it]
+Computing Metrics on Val dataset
+
+Epoch 17 score:
+SOD f1_metric: 75.41400146484375%
+SOD F1 score: tensor([0.9499, 0.5766, 0.4945, 0.6429, 0.9174], device='cuda:0')
+SOD OA: 0.7672542333602905
+SOD mIoU: tensor(0.5919, device='cuda:0')
+SOD IoU per class: tensor([0.9046, 0.4051, 0.3284, 0.4738, 0.8475], device='cuda:0')
+SOD Precision per class: tensor([0.9241, 0.5453, 0.7533, 0.5528, 0.8696], device='cuda:0')
+SOD Recall per class: tensor([0.9772, 0.6117, 0.3680, 0.7681, 0.9708], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3814, 0.1540, 0.1041, 0.1929, 0.1677], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7721e-01, 1.0970e-02, 6.2817e-03, 1.7143e-03, 3.8265e-03],
+        [1.0003e-01, 6.1175e-01, 3.7245e-02, 1.0936e-01, 1.4162e-01],
+        [5.4879e-02, 2.4317e-01, 3.6800e-01, 3.3139e-01, 2.5560e-03],
+        [2.2154e-02, 7.4318e-02, 1.3183e-01, 7.6813e-01, 3.5596e-03],
+        [2.9557e-03, 2.6153e-02, 5.7437e-06, 4.2503e-05, 9.7084e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0334, 0.4149, 0.4716, 0.4164, 0.0816], device='cuda:0')
+Combined score: 75.41400146484375%
+Train Epoch Loss: 0.121
+Train Cross Entropy Epoch Loss: 0.121
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.392
+Validation Cross Entropy Epoch Loss: 0.392
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5919
+Learning Rate: 9.80e-04
+Early stopping counter: 15/30
+100%|| 16/16 [00:42<00:00,  2.67s/it]
+Train SOD mIoU: 0.8690
+Train SOD IoU per class: tensor([0.9397, 0.8098, 0.7952, 0.8779, 0.9224], device='cuda:0')
+Train SOD Precision per class: tensor([0.9578, 0.9029, 0.9033, 0.9244, 0.9601], device='cuda:0')
+Train SOD Recall per class: tensor([0.9802, 0.8870, 0.8692, 0.9458, 0.9592], device='cuda:0')
+Train SOD True class proportion: tensor([0.2634, 0.2248, 0.1616, 0.1761, 0.1741], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2696, 0.2208, 0.1555, 0.1802, 0.1739], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8023e-01, 1.3844e-02, 2.5930e-03, 2.7510e-03, 5.7920e-04],
+        [2.7808e-02, 8.8703e-01, 3.8751e-02, 2.5038e-02, 2.1372e-02],
+        [1.3530e-02, 6.2788e-02, 8.6915e-01, 4.3533e-02, 1.0995e-02],
+        [5.3181e-03, 1.8946e-02, 2.8774e-02, 9.4578e-01, 1.1827e-03],
+        [1.1467e-02, 2.4726e-02, 3.2906e-03, 1.3604e-03, 9.5916e-01]],
+       device='cuda:0')
+Validating...
+ 10%|▉                                                                                                                                                        | 19/200 [20:01<3:09:16, 62.74s/it]2.89s/it]
+Computing Metrics on Val dataset
+
+Epoch 18 score:
+SOD f1_metric: 76.97699737548828%
+SOD F1 score: tensor([0.9419, 0.5907, 0.5470, 0.6794, 0.9195], device='cuda:0')
+SOD OA: 0.7810265421867371
+SOD mIoU: tensor(0.6103, device='cuda:0')
+SOD IoU per class: tensor([0.8902, 0.4192, 0.3765, 0.5145, 0.8511], device='cuda:0')
+SOD Precision per class: tensor([0.9123, 0.5892, 0.7629, 0.5851, 0.8761], device='cuda:0')
+SOD Recall per class: tensor([0.9736, 0.5923, 0.4263, 0.8101, 0.9675], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3849, 0.1380, 0.1191, 0.1922, 0.1658], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7358e-01, 4.1264e-03, 1.5856e-02, 1.6358e-03, 4.7994e-03],
+        [1.1818e-01, 5.9226e-01, 6.4449e-02, 9.4336e-02, 1.3078e-01],
+        [6.2828e-02, 1.9838e-01, 4.2635e-01, 3.1070e-01, 1.7488e-03],
+        [2.7311e-02, 6.0958e-02, 9.8121e-02, 8.1014e-01, 3.4738e-03],
+        [2.4560e-03, 2.9678e-02, 3.2739e-04, 6.8924e-05, 9.6747e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0494, 0.3906, 0.4187, 0.3634, 0.0713], device='cuda:0')
+Combined score: 76.97699737548828%
+Train Epoch Loss: 0.125
+Train Cross Entropy Epoch Loss: 0.125
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.379
+Validation Cross Entropy Epoch Loss: 0.379
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6103
+Learning Rate: 9.78e-04
+Early stopping counter: 16/30
+100%|| 16/16 [00:41<00:00,  2.57s/it]
+Train SOD mIoU: 0.8803
+Train SOD IoU per class: tensor([0.9460, 0.8221, 0.8141, 0.8947, 0.9246], device='cuda:0')
+Train SOD Precision per class: tensor([0.9648, 0.9054, 0.9142, 0.9354, 0.9619], device='cuda:0')
+Train SOD Recall per class: tensor([0.9799, 0.8994, 0.8814, 0.9536, 0.9597], device='cuda:0')
+Train SOD True class proportion: tensor([0.2726, 0.2191, 0.1611, 0.1748, 0.1724], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2769, 0.2176, 0.1553, 0.1782, 0.1720], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7987e-01, 1.4212e-02, 2.5542e-03, 2.7440e-03, 6.2305e-04],
+        [2.4520e-02, 8.9939e-01, 3.4554e-02, 2.0442e-02, 2.1092e-02],
+        [1.2074e-02, 5.9376e-02, 8.8138e-01, 3.7454e-02, 9.7181e-03],
+        [4.4747e-03, 1.5114e-02, 2.5758e-02, 9.5357e-01, 1.0800e-03],
+        [9.5878e-03, 2.6132e-02, 3.1999e-03, 1.4100e-03, 9.5967e-01]],
+       device='cuda:0')
+Validating...
+ 10%|▊                                                                                                                                                       | 20/200 [21:04<3:08:16, 62.76s/it]2.77s/it]
+Computing Metrics on Val dataset
+
+Epoch 19 score:
+SOD f1_metric: 77.08899688720703%
+SOD F1 score: tensor([0.9517, 0.5864, 0.5303, 0.6873, 0.9238], device='cuda:0')
+SOD OA: 0.7833437323570251
+SOD mIoU: tensor(0.6131, device='cuda:0')
+SOD IoU per class: tensor([0.9079, 0.4148, 0.3608, 0.5236, 0.8585], device='cuda:0')
+SOD Precision per class: tensor([0.9172, 0.5505, 0.7842, 0.6044, 0.8878], device='cuda:0')
+SOD Recall per class: tensor([0.9890, 0.6273, 0.4006, 0.7967, 0.9629], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3889, 0.1564, 0.1088, 0.1830, 0.1629], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8897e-01, 5.8239e-03, 3.3257e-03, 1.1920e-03, 6.9212e-04],
+        [1.0294e-01, 6.2732e-01, 4.7572e-02, 9.8106e-02, 1.2406e-01],
+        [7.0397e-02, 2.5130e-01, 4.0058e-01, 2.7444e-01, 3.2797e-03],
+        [2.0500e-02, 6.7886e-02, 1.1282e-01, 7.9666e-01, 2.1253e-03],
+        [1.4761e-03, 3.4991e-02, 6.1572e-04, 2.2975e-06, 9.6292e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0381, 0.4073, 0.4533, 0.3711, 0.0661], device='cuda:0')
+Combined score: 77.08899688720703%
+Train Epoch Loss: 0.116
+Train Cross Entropy Epoch Loss: 0.116
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.420
+Validation Cross Entropy Epoch Loss: 0.420
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6131
+Learning Rate: 9.76e-04
+Early stopping counter: 17/30
+100%|| 16/16 [00:42<00:00,  2.65s/it]
+Train SOD mIoU: 0.8731
+Train SOD IoU per class: tensor([0.9371, 0.8151, 0.7971, 0.8875, 0.9288], device='cuda:0')
+Train SOD Precision per class: tensor([0.9578, 0.9010, 0.9064, 0.9341, 0.9620], device='cuda:0')
+Train SOD Recall per class: tensor([0.9774, 0.8954, 0.8685, 0.9468, 0.9642], device='cuda:0')
+Train SOD True class proportion: tensor([0.2638, 0.2217, 0.1640, 0.1783, 0.1721], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2692, 0.2204, 0.1572, 0.1807, 0.1725], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7742e-01, 1.5163e-02, 3.7124e-03, 3.0802e-03, 6.2302e-04],
+        [2.7723e-02, 8.9537e-01, 3.6119e-02, 1.9677e-02, 2.1110e-02],
+        [1.5389e-02, 6.7171e-02, 8.6854e-01, 3.9558e-02, 9.3373e-03],
+        [5.6522e-03, 1.6834e-02, 2.9677e-02, 9.4684e-01, 1.0004e-03],
+        [9.7436e-03, 2.2116e-02, 2.5210e-03, 1.4212e-03, 9.6420e-01]],
+       device='cuda:0')
+Validating...
+ 10%|▋                                                                                                                                                      | 21/200 [22:08<3:08:06, 63.05s/it]2.93s/it]
+Computing Metrics on Val dataset
+
+Epoch 20 score:
+SOD f1_metric: 76.25599670410156%
+SOD F1 score: tensor([0.9419, 0.5768, 0.5180, 0.7027, 0.9039], device='cuda:0')
+SOD OA: 0.7728674411773682
+SOD mIoU: tensor(0.6023, device='cuda:0')
+SOD IoU per class: tensor([0.8902, 0.4053, 0.3496, 0.5417, 0.8246], device='cuda:0')
+SOD Precision per class: tensor([0.8997, 0.5094, 0.7613, 0.6336, 0.9300], device='cuda:0')
+SOD Recall per class: tensor([0.9882, 0.6650, 0.3926, 0.7888, 0.8791], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3962, 0.1792, 0.1099, 0.1728, 0.1420], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8823e-01, 5.2284e-03, 3.3802e-03, 3.8217e-04, 2.7761e-03],
+        [1.2605e-01, 6.6496e-01, 6.2760e-02, 8.5077e-02, 6.1151e-02],
+        [8.8828e-02, 2.7593e-01, 3.9258e-01, 2.4169e-01, 9.6830e-04],
+        [2.4205e-02, 6.6540e-02, 1.1805e-01, 7.8879e-01, 2.4087e-03],
+        [9.0980e-04, 1.1995e-01, 1.1487e-05, 0.0000e+00, 8.7913e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0469, 0.4098, 0.4475, 0.3459, 0.1043], device='cuda:0')
+Combined score: 76.25599670410156%
+Train Epoch Loss: 0.122
+Train Cross Entropy Epoch Loss: 0.122
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.412
+Validation Cross Entropy Epoch Loss: 0.412
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6023
+Learning Rate: 9.73e-04
+Early stopping counter: 18/30
+100%|| 16/16 [00:42<00:00,  2.64s/it]
+Train SOD mIoU: 0.8754
+Train SOD IoU per class: tensor([0.9436, 0.8153, 0.8067, 0.8841, 0.9272], device='cuda:0')
+Train SOD Precision per class: tensor([0.9612, 0.9042, 0.9081, 0.9303, 0.9628], device='cuda:0')
+Train SOD Recall per class: tensor([0.9809, 0.8924, 0.8784, 0.9468, 0.9616], device='cuda:0')
+Train SOD True class proportion: tensor([0.2655, 0.2167, 0.1675, 0.1749, 0.1754], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2710, 0.2139, 0.1621, 0.1780, 0.1752], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8088e-01, 1.2905e-02, 2.5461e-03, 3.0676e-03, 5.9720e-04],
+        [2.7047e-02, 8.9237e-01, 3.8418e-02, 2.1453e-02, 2.0710e-02],
+        [1.3139e-02, 5.8256e-02, 8.7844e-01, 4.0059e-02, 1.0105e-02],
+        [5.3004e-03, 1.6736e-02, 3.0164e-02, 9.4678e-01, 1.0194e-03],
+        [8.6400e-03, 2.4916e-02, 3.5051e-03, 1.3018e-03, 9.6164e-01]],
+       device='cuda:0')
+Validating...
+ 11%|▍                                                                                                                                                     | 22/200 [23:11<3:07:39, 63.25s/it]2.60s/it]
+Computing Metrics on Val dataset
+
+Epoch 21 score:
+SOD f1_metric: 77.73200225830078%
+SOD F1 score: tensor([0.9597, 0.5601, 0.5425, 0.7123, 0.9312], device='cuda:0')
+SOD OA: 0.788752019405365
+SOD mIoU: tensor(0.6216, device='cuda:0')
+SOD IoU per class: tensor([0.9225, 0.3890, 0.3722, 0.5531, 0.8712], device='cuda:0')
+SOD Precision per class: tensor([0.9377, 0.5190, 0.8409, 0.6099, 0.8897], device='cuda:0')
+SOD Recall per class: tensor([0.9827, 0.6083, 0.4004, 0.8560, 0.9767], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3780, 0.1609, 0.1015, 0.1948, 0.1649], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8275e-01, 6.5419e-03, 6.2535e-03, 1.6645e-03, 2.7948e-03],
+        [1.1166e-01, 6.0827e-01, 4.6767e-02, 1.1355e-01, 1.1976e-01],
+        [1.9252e-02, 2.9773e-01, 4.0039e-01, 2.8071e-01, 1.9099e-03],
+        [2.4026e-02, 6.4565e-02, 5.3042e-02, 8.5601e-01, 2.3528e-03],
+        [5.1751e-03, 1.7430e-02, 7.0418e-04, 0.0000e+00, 9.7669e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0210, 0.4263, 0.4346, 0.3309, 0.0560], device='cuda:0')
+Combined score: 77.73200225830078%
+Train Epoch Loss: 0.119
+Train Cross Entropy Epoch Loss: 0.119
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.359
+Validation Cross Entropy Epoch Loss: 0.359
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6216
+Learning Rate: 9.71e-04
+Early stopping counter: 19/30
+100%|| 16/16 [00:42<00:00,  2.67s/it]
+Train SOD mIoU: 0.8825
+Train SOD IoU per class: tensor([0.9481, 0.8239, 0.8156, 0.8946, 0.9304], device='cuda:0')
+Train SOD Precision per class: tensor([0.9665, 0.9063, 0.9137, 0.9390, 0.9613], device='cuda:0')
+Train SOD Recall per class: tensor([0.9803, 0.9006, 0.8836, 0.9497, 0.9666], device='cuda:0')
+Train SOD True class proportion: tensor([0.2742, 0.2202, 0.1650, 0.1735, 0.1670], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2781, 0.2188, 0.1596, 0.1755, 0.1679], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8029e-01, 1.4016e-02, 2.4735e-03, 2.6078e-03, 6.1238e-04],
+        [2.4861e-02, 9.0057e-01, 3.5051e-02, 1.8106e-02, 2.1411e-02],
+        [1.1619e-02, 6.1281e-02, 8.8362e-01, 3.4929e-02, 8.5489e-03],
+        [4.3243e-03, 1.6745e-02, 2.8036e-02, 9.4974e-01, 1.1529e-03],
+        [7.0705e-03, 2.1822e-02, 3.0627e-03, 1.4229e-03, 9.6662e-01]],
+       device='cuda:0')
+Validating...
+ 12%|▎                                                                                                                                                    | 23/200 [24:13<3:04:59, 62.71s/it]2.69s/it]
+Computing Metrics on Val dataset
+
+Epoch 22 score:
+SOD f1_metric: 76.26699829101562%
+SOD F1 score: tensor([0.9469, 0.5531, 0.5257, 0.6992, 0.9069], device='cuda:0')
+SOD OA: 0.7786946892738342
+SOD mIoU: tensor(0.6010, device='cuda:0')
+SOD IoU per class: tensor([0.8991, 0.3822, 0.3565, 0.5375, 0.8296], device='cuda:0')
+SOD Precision per class: tensor([0.9114, 0.5616, 0.8068, 0.5931, 0.8431], device='cuda:0')
+SOD Recall per class: tensor([0.9852, 0.5447, 0.3898, 0.8515, 0.9810], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3899, 0.1332, 0.1030, 0.1993, 0.1747], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8522e-01, 2.6680e-03, 7.8410e-03, 1.3001e-03, 2.9665e-03],
+        [1.0601e-01, 5.4475e-01, 4.8036e-02, 1.1481e-01, 1.8639e-01],
+        [7.4315e-02, 2.3000e-01, 3.8983e-01, 3.0438e-01, 1.4808e-03],
+        [2.8556e-02, 4.1746e-02, 7.5041e-02, 8.5146e-01, 3.2017e-03],
+        [1.2200e-03, 1.7356e-02, 3.9402e-04, 0.0000e+00, 9.8103e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0489, 0.4416, 0.4590, 0.3571, 0.1009], device='cuda:0')
+Combined score: 76.26699829101562%
+Train Epoch Loss: 0.114
+Train Cross Entropy Epoch Loss: 0.114
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.385
+Validation Cross Entropy Epoch Loss: 0.385
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6010
+Learning Rate: 9.68e-04
+Early stopping counter: 20/30
+100%|| 16/16 [00:41<00:00,  2.57s/it]
+Train SOD mIoU: 0.8878
+Train SOD IoU per class: tensor([0.9475, 0.8334, 0.8178, 0.9079, 0.9324], device='cuda:0')
+Train SOD Precision per class: tensor([0.9648, 0.9130, 0.9182, 0.9438, 0.9636], device='cuda:0')
+Train SOD Recall per class: tensor([0.9815, 0.9052, 0.8820, 0.9598, 0.9665], device='cuda:0')
+Train SOD True class proportion: tensor([0.2631, 0.2201, 0.1607, 0.1865, 0.1696], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2676, 0.2182, 0.1544, 0.1897, 0.1701], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8149e-01, 1.3328e-02, 2.4843e-03, 2.1880e-03, 5.1444e-04],
+        [2.5008e-02, 9.0521e-01, 3.2510e-02, 1.8020e-02, 1.9249e-02],
+        [1.1258e-02, 5.9767e-02, 8.8202e-01, 3.6672e-02, 1.0281e-02],
+        [4.1045e-03, 1.2553e-02, 2.2634e-02, 9.5983e-01, 8.7561e-04],
+        [7.9585e-03, 2.0763e-02, 3.4961e-03, 1.3259e-03, 9.6646e-01]],
+       device='cuda:0')
+Validating...
+ 12%|▏                                                                                                                                                   | 24/200 [25:15<3:03:17, 62.48s/it]2.73s/it]
+Computing Metrics on Val dataset
+
+Epoch 23 score:
+SOD f1_metric: 75.91799926757812%
+SOD F1 score: tensor([0.9372, 0.5400, 0.5304, 0.7020, 0.9094], device='cuda:0')
+SOD OA: 0.7724059224128723
+SOD mIoU: tensor(0.5975, device='cuda:0')
+SOD IoU per class: tensor([0.8819, 0.3699, 0.3609, 0.5409, 0.8338], device='cuda:0')
+SOD Precision per class: tensor([0.8923, 0.5005, 0.7822, 0.6479, 0.8640], device='cuda:0')
+SOD Recall per class: tensor([0.9869, 0.5863, 0.4012, 0.7661, 0.9598], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3989, 0.1608, 0.1093, 0.1641, 0.1668], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8695e-01, 5.1830e-03, 3.7715e-03, 1.0724e-03, 3.0239e-03],
+        [1.2722e-01, 5.8632e-01, 4.7090e-02, 8.9880e-02, 1.4950e-01],
+        [1.0276e-01, 2.8102e-01, 4.0119e-01, 2.1153e-01, 3.5056e-03],
+        [2.3763e-02, 9.3236e-02, 1.1459e-01, 7.6609e-01, 2.3304e-03],
+        [2.1688e-03, 3.7545e-02, 4.8936e-04, 0.0000e+00, 9.5980e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0657, 0.4635, 0.4569, 0.3671, 0.0986], device='cuda:0')
+Combined score: 75.91799926757812%
+Train Epoch Loss: 0.109
+Train Cross Entropy Epoch Loss: 0.109
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.401
+Validation Cross Entropy Epoch Loss: 0.401
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5975
+Learning Rate: 9.65e-04
+Early stopping counter: 21/30
+100%|| 16/16 [00:42<00:00,  2.67s/it]
+Train SOD mIoU: 0.8867
+Train SOD IoU per class: tensor([0.9471, 0.8311, 0.8169, 0.9061, 0.9321], device='cuda:0')
+Train SOD Precision per class: tensor([0.9660, 0.9122, 0.9120, 0.9436, 0.9656], device='cuda:0')
+Train SOD Recall per class: tensor([0.9798, 0.9034, 0.8868, 0.9580, 0.9641], device='cuda:0')
+Train SOD True class proportion: tensor([0.2668, 0.2171, 0.1560, 0.1863, 0.1738], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2707, 0.2150, 0.1517, 0.1891, 0.1735], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7981e-01, 1.2971e-02, 3.7391e-03, 3.0025e-03, 4.7650e-04],
+        [2.4219e-02, 9.0337e-01, 3.4169e-02, 1.8274e-02, 1.9968e-02],
+        [1.1078e-02, 5.7617e-02, 8.8683e-01, 3.6036e-02, 8.4410e-03],
+        [4.3880e-03, 1.2914e-02, 2.3659e-02, 9.5802e-01, 1.0167e-03],
+        [8.0980e-03, 2.3113e-02, 3.0783e-03, 1.5950e-03, 9.6412e-01]],
+       device='cuda:0')
+Validating...
+ 12%|                                                                                                                                                   | 25/200 [26:16<3:01:09, 62.11s/it]2.93s/it]
+Computing Metrics on Val dataset
+
+Epoch 24 score:
+SOD f1_metric: 76.38300323486328%
+SOD F1 score: tensor([0.9462, 0.5870, 0.5157, 0.6740, 0.9226], device='cuda:0')
+SOD OA: 0.7780343294143677
+SOD mIoU: tensor(0.6051, device='cuda:0')
+SOD IoU per class: tensor([0.8978, 0.4155, 0.3474, 0.5082, 0.8564], device='cuda:0')
+SOD Precision per class: tensor([0.9102, 0.5863, 0.7612, 0.5744, 0.8789], device='cuda:0')
+SOD Recall per class: tensor([0.9851, 0.5877, 0.3899, 0.8152, 0.9709], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3904, 0.1376, 0.1092, 0.1970, 0.1659], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8513e-01, 2.8005e-03, 7.1273e-03, 1.2565e-03, 3.6835e-03],
+        [1.1769e-01, 5.8772e-01, 4.9764e-02, 1.1289e-01, 1.3193e-01],
+        [7.1485e-02, 2.1866e-01, 3.8994e-01, 3.1854e-01, 1.3772e-03],
+        [2.3001e-02, 4.0002e-02, 1.1926e-01, 8.1519e-01, 2.5554e-03],
+        [3.2234e-03, 2.5080e-02, 7.5472e-04, 0.0000e+00, 9.7094e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0493, 0.4157, 0.4695, 0.3979, 0.0757], device='cuda:0')
+Combined score: 76.38300323486328%
+Train Epoch Loss: 0.110
+Train Cross Entropy Epoch Loss: 0.110
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.379
+Validation Cross Entropy Epoch Loss: 0.379
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6051
+Learning Rate: 9.62e-04
+Early stopping counter: 22/30
+100%|| 16/16 [00:41<00:00,  2.58s/it]
+Train SOD mIoU: 0.9035
+Train SOD IoU per class: tensor([0.9546, 0.8515, 0.8465, 0.9187, 0.9459], device='cuda:0')
+Train SOD Precision per class: tensor([0.9701, 0.9199, 0.9311, 0.9524, 0.9732], device='cuda:0')
+Train SOD Recall per class: tensor([0.9836, 0.9198, 0.9031, 0.9629, 0.9712], device='cuda:0')
+Train SOD True class proportion: tensor([0.2591, 0.2173, 0.1722, 0.1776, 0.1739], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2627, 0.2173, 0.1670, 0.1795, 0.1735], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8359e-01, 1.1689e-02, 2.2763e-03, 2.0008e-03, 4.4199e-04],
+        [2.1341e-02, 9.1976e-01, 2.9980e-02, 1.4602e-02, 1.4315e-02],
+        [8.4605e-03, 5.3305e-02, 9.0311e-01, 2.7523e-02, 7.6009e-03],
+        [2.9863e-03, 1.1359e-02, 2.2120e-02, 9.6290e-01, 6.3536e-04],
+        [7.0880e-03, 1.8340e-02, 2.7482e-03, 6.5996e-04, 9.7116e-01]],
+       device='cuda:0')
+Validating...
+100%|| 16/16 [00:41<00:00,  2.67s/it]
+Computing Metrics on Val dataset
+
+Epoch 25 score:
+SOD f1_metric: 78.67500305175781%
+SOD F1 score: tensor([0.9440, 0.6123, 0.5816, 0.7036, 0.9363], device='cuda:0')
+SOD OA: 0.7952131032943726
+SOD mIoU: tensor(0.6337, device='cuda:0')
+SOD IoU per class: tensor([0.8940, 0.4413, 0.4101, 0.5427, 0.8803], device='cuda:0')
+SOD Precision per class: tensor([0.9152, 0.5838, 0.7609, 0.6373, 0.9032], device='cuda:0')
+SOD Recall per class: tensor([0.9748, 0.6438, 0.4707, 0.7853, 0.9720], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3841, 0.1514, 0.1318, 0.1710, 0.1616], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7475e-01, 7.1867e-03, 1.3337e-02, 1.0236e-03, 3.6978e-03],
+        [1.0338e-01, 6.4375e-01, 6.6637e-02, 8.7801e-02, 9.8429e-02],
+        [7.0079e-02, 2.2480e-01, 4.7074e-01, 2.3288e-01, 1.5002e-03],
+        [2.2931e-02, 6.2515e-02, 1.2579e-01, 7.8530e-01, 3.4602e-03],
+        [1.8288e-03, 2.5488e-02, 6.7431e-04, 0.0000e+00, 9.7201e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0606, 0.4103, 0.4364, 0.3760, 0.0656], device='cuda:0')
+Combined score: 78.67500305175781%
+Train Epoch Loss: 0.097
+Train Cross Entropy Epoch Loss: 0.097
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.347
+Validation Cross Entropy Epoch Loss: 0.347
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6337
+Learning Rate: 9.59e-04
+saving model....
+model saved successfully at ./work_dirs/My_DS48/best_model_My_DS48.pth
+100%|| 16/16 [00:42<00:00,  2.67s/it]
+Train SOD mIoU: 0.8876
+Train SOD IoU per class: tensor([0.9465, 0.8327, 0.8279, 0.9016, 0.9291], device='cuda:0')
+Train SOD Precision per class: tensor([0.9640, 0.9143, 0.9224, 0.9389, 0.9618], device='cuda:0')
+Train SOD Recall per class: tensor([0.9812, 0.9032, 0.8899, 0.9578, 0.9647], device='cuda:0')
+Train SOD True class proportion: tensor([0.2613, 0.2275, 0.1693, 0.1774, 0.1645], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2660, 0.2247, 0.1633, 0.1810, 0.1650], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8124e-01, 1.3313e-02, 2.8210e-03, 2.1208e-03, 5.0967e-04],
+        [2.4714e-02, 9.0320e-01, 3.2102e-02, 1.9775e-02, 2.0209e-02],
+        [1.1489e-02, 5.6189e-02, 8.8987e-01, 3.4253e-02, 8.2032e-03],
+        [4.3216e-03, 1.3879e-02, 2.2969e-02, 9.5784e-01, 9.9127e-04],
+        [7.6232e-03, 2.3055e-02, 3.3850e-03, 1.2791e-03, 9.6466e-01]],
+       device='cuda:0')
+Validating...
+ 14%|▋                                                                                                                                                 | 27/200 [28:16<2:56:29, 61.21s/it]2.94s/it]
+Computing Metrics on Val dataset
+
+Epoch 26 score:
+SOD f1_metric: 75.40599822998047%
+SOD F1 score: tensor([0.9450, 0.5326, 0.5475, 0.6200, 0.9150], device='cuda:0')
+SOD OA: 0.7615495920181274
+SOD mIoU: tensor(0.5856, device='cuda:0')
+SOD IoU per class: tensor([0.8957, 0.3629, 0.3770, 0.4492, 0.8432], device='cuda:0')
+SOD Precision per class: tensor([0.9149, 0.4627, 0.7585, 0.6114, 0.8724], device='cuda:0')
+SOD Recall per class: tensor([0.9772, 0.6273, 0.4284, 0.6288, 0.9619], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3852, 0.1861, 0.1204, 0.1427, 0.1656], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7715e-01, 6.4314e-03, 1.1178e-02, 3.5539e-04, 4.8836e-03],
+        [9.1559e-02, 6.2727e-01, 5.7041e-02, 8.8989e-02, 1.3514e-01],
+        [8.1029e-02, 2.8641e-01, 4.2840e-01, 2.0239e-01, 1.7706e-03],
+        [1.7866e-02, 2.2683e-01, 1.2333e-01, 6.2875e-01, 3.2215e-03],
+        [3.0924e-03, 3.4374e-02, 6.0653e-04, 0.0000e+00, 9.6193e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0508, 0.4698, 0.4509, 0.4524, 0.0859], device='cuda:0')
+Combined score: 75.40599822998047%
+Train Epoch Loss: 0.111
+Train Cross Entropy Epoch Loss: 0.111
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.397
+Validation Cross Entropy Epoch Loss: 0.397
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5856
+Learning Rate: 9.56e-04
+Early stopping counter: 1/30
+100%|| 16/16 [00:41<00:00,  2.56s/it]
+Train SOD mIoU: 0.8829
+Train SOD IoU per class: tensor([0.9387, 0.8343, 0.8084, 0.8986, 0.9347], device='cuda:0')
+Train SOD Precision per class: tensor([0.9588, 0.9156, 0.9071, 0.9416, 0.9660], device='cuda:0')
+Train SOD Recall per class: tensor([0.9782, 0.9038, 0.8814, 0.9517, 0.9665], device='cuda:0')
+Train SOD True class proportion: tensor([0.2587, 0.2253, 0.1552, 0.1817, 0.1792], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2639, 0.2224, 0.1508, 0.1836, 0.1793], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7819e-01, 1.4237e-02, 3.9300e-03, 3.1295e-03, 5.1451e-04],
+        [2.7133e-02, 9.0385e-01, 3.2401e-02, 1.6798e-02, 1.9822e-02],
+        [1.5870e-02, 5.6254e-02, 8.8135e-01, 3.8099e-02, 8.4258e-03],
+        [5.0070e-03, 1.3761e-02, 2.8494e-02, 9.5171e-01, 1.0280e-03],
+        [7.8146e-03, 2.1562e-02, 2.9258e-03, 1.2306e-03, 9.6647e-01]],
+       device='cuda:0')
+Validating...
+ 14%|▌                                                                                                                                                | 28/200 [29:15<2:53:35, 60.55s/it]2.77s/it]
+Computing Metrics on Val dataset
+
+Epoch 27 score:
+SOD f1_metric: 77.8949966430664%
+SOD F1 score: tensor([0.9502, 0.6080, 0.5407, 0.6980, 0.9368], device='cuda:0')
+SOD OA: 0.7884352803230286
+SOD mIoU: tensor(0.6259, device='cuda:0')
+SOD IoU per class: tensor([0.9051, 0.4368, 0.3705, 0.5361, 0.8811], device='cuda:0')
+SOD Precision per class: tensor([0.9279, 0.5557, 0.7680, 0.6145, 0.9149], device='cuda:0')
+SOD Recall per class: tensor([0.9736, 0.6713, 0.4172, 0.8079, 0.9597], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3784, 0.1658, 0.1157, 0.1825, 0.1575], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7357e-01, 1.2573e-02, 1.0701e-02, 7.9830e-04, 2.3562e-03],
+        [7.4991e-02, 6.7129e-01, 5.6660e-02, 1.0997e-01, 8.7089e-02],
+        [6.4033e-02, 2.5996e-01, 4.1717e-01, 2.5796e-01, 8.7843e-04],
+        [2.0120e-02, 5.9919e-02, 1.0911e-01, 8.0786e-01, 2.9866e-03],
+        [3.5634e-03, 3.6253e-02, 4.7558e-04, 0.0000e+00, 9.5971e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0335, 0.3975, 0.4379, 0.3625, 0.0536], device='cuda:0')
+Combined score: 77.8949966430664%
+Train Epoch Loss: 0.112
+Train Cross Entropy Epoch Loss: 0.112
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.382
+Validation Cross Entropy Epoch Loss: 0.382
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6259
+Learning Rate: 9.53e-04
+Early stopping counter: 2/30
+100%|| 16/16 [00:41<00:00,  2.58s/it]
+Train SOD mIoU: 0.8972
+Train SOD IoU per class: tensor([0.9523, 0.8505, 0.8362, 0.9093, 0.9375], device='cuda:0')
+Train SOD Precision per class: tensor([0.9683, 0.9240, 0.9268, 0.9434, 0.9668], device='cuda:0')
+Train SOD Recall per class: tensor([0.9830, 0.9146, 0.8954, 0.9618, 0.9686], device='cuda:0')
+Train SOD True class proportion: tensor([0.2674, 0.2271, 0.1622, 0.1752, 0.1681], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2715, 0.2248, 0.1567, 0.1786, 0.1684], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8302e-01, 1.0971e-02, 2.8597e-03, 2.6263e-03, 5.2755e-04],
+        [2.3055e-02, 9.1455e-01, 2.8521e-02, 1.6728e-02, 1.7145e-02],
+        [9.4488e-03, 5.3143e-02, 8.9536e-01, 3.3425e-02, 8.6230e-03],
+        [4.2741e-03, 1.2254e-02, 2.0785e-02, 9.6180e-01, 8.8684e-04],
+        [6.5510e-03, 2.0181e-02, 3.5208e-03, 1.1200e-03, 9.6863e-01]],
+       device='cuda:0')
+Validating...
+ 14%|▎                                                                                                                                               | 29/200 [30:14<2:51:03, 60.02s/it]2.76s/it]
+Computing Metrics on Val dataset
+
+Epoch 28 score:
+SOD f1_metric: 74.56999969482422%
+SOD F1 score: tensor([0.9450, 0.5605, 0.4470, 0.6901, 0.9114], device='cuda:0')
+SOD OA: 0.7654914855957031
+SOD mIoU: tensor(0.5874, device='cuda:0')
+SOD IoU per class: tensor([0.8958, 0.3894, 0.2879, 0.5268, 0.8371], device='cuda:0')
+SOD Precision per class: tensor([0.9126, 0.5214, 0.8007, 0.5815, 0.8627], device='cuda:0')
+SOD Recall per class: tensor([0.9799, 0.6061, 0.3101, 0.8485, 0.9658], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3873, 0.1596, 0.0825, 0.2025, 0.1681], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7987e-01, 5.2949e-03, 7.2197e-03, 9.3797e-04, 6.6729e-03],
+        [9.7641e-02, 6.0608e-01, 3.2351e-02, 1.2225e-01, 1.4168e-01],
+        [7.5256e-02, 2.9329e-01, 3.1007e-01, 3.1743e-01, 3.9550e-03],
+        [2.8515e-02, 5.3137e-02, 6.7095e-02, 8.4854e-01, 2.7157e-03],
+        [2.9798e-03, 3.0652e-02, 6.0079e-04, 0.0000e+00, 9.6577e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0565, 0.4611, 0.5483, 0.3825, 0.1003], device='cuda:0')
+Combined score: 74.56999969482422%
+Train Epoch Loss: 0.103
+Train Cross Entropy Epoch Loss: 0.103
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.400
+Validation Cross Entropy Epoch Loss: 0.400
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5874
+Learning Rate: 9.50e-04
+Early stopping counter: 3/30
+100%|| 16/16 [00:42<00:00,  2.63s/it]
+Train SOD mIoU: 0.9000
+Train SOD IoU per class: tensor([0.9498, 0.8481, 0.8346, 0.9213, 0.9464], device='cuda:0')
+Train SOD Precision per class: tensor([0.9675, 0.9210, 0.9219, 0.9555, 0.9711], device='cuda:0')
+Train SOD Recall per class: tensor([0.9811, 0.9146, 0.8981, 0.9626, 0.9738], device='cuda:0')
+Train SOD True class proportion: tensor([0.2643, 0.2176, 0.1582, 0.1892, 0.1707], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2680, 0.2161, 0.1541, 0.1905, 0.1712], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8109e-01, 1.2848e-02, 3.4219e-03, 2.0499e-03, 5.9526e-04],
+        [2.4512e-02, 9.1465e-01, 3.0332e-02, 1.4845e-02, 1.5665e-02],
+        [1.0711e-02, 5.4635e-02, 8.9814e-01, 2.8740e-02, 7.7685e-03],
+        [3.7674e-03, 1.1094e-02, 2.1767e-02, 9.6256e-01, 8.1484e-04],
+        [5.6474e-03, 1.7193e-02, 2.4524e-03, 8.9412e-04, 9.7381e-01]],
+       device='cuda:0')
+Validating...
+ 15%|▏                                                                                                                                              | 30/200 [31:14<2:50:25, 60.15s/it]2.87s/it]
+Computing Metrics on Val dataset
+
+Epoch 29 score:
+SOD f1_metric: 75.75399780273438%
+SOD F1 score: tensor([0.9534, 0.5477, 0.5260, 0.6544, 0.9027], device='cuda:0')
+SOD OA: 0.7691035270690918
+SOD mIoU: tensor(0.5908, device='cuda:0')
+SOD IoU per class: tensor([0.9110, 0.3771, 0.3569, 0.4863, 0.8227], device='cuda:0')
+SOD Precision per class: tensor([0.9291, 0.5337, 0.7502, 0.5690, 0.8444], device='cuda:0')
+SOD Recall per class: tensor([0.9791, 0.5624, 0.4050, 0.7699, 0.9696], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3801, 0.1446, 0.1150, 0.1878, 0.1724], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7909e-01, 1.0123e-02, 7.5942e-03, 8.3513e-04, 2.3552e-03],
+        [1.0144e-01, 5.6236e-01, 5.7404e-02, 1.0452e-01, 1.7428e-01],
+        [4.5423e-02, 2.3107e-01, 4.0499e-01, 3.1114e-01, 7.3804e-03],
+        [2.2221e-02, 7.4687e-02, 1.2968e-01, 7.6994e-01, 3.4751e-03],
+        [1.7564e-03, 2.7865e-02, 7.5932e-04, 0.0000e+00, 9.6962e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0388, 0.4710, 0.4778, 0.4350, 0.1237], device='cuda:0')
+Combined score: 75.75399780273438%
+Train Epoch Loss: 0.099
+Train Cross Entropy Epoch Loss: 0.099
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.380
+Validation Cross Entropy Epoch Loss: 0.380
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5908
+Learning Rate: 9.46e-04
+Early stopping counter: 4/30
+100%|| 16/16 [00:41<00:00,  2.58s/it]
+Train SOD mIoU: 0.8975
+Train SOD IoU per class: tensor([0.9499, 0.8464, 0.8325, 0.9144, 0.9445], device='cuda:0')
+Train SOD Precision per class: tensor([0.9666, 0.9196, 0.9279, 0.9456, 0.9718], device='cuda:0')
+Train SOD Recall per class: tensor([0.9821, 0.9140, 0.8901, 0.9652, 0.9712], device='cuda:0')
+Train SOD True class proportion: tensor([0.2625, 0.2221, 0.1577, 0.1777, 0.1800], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2667, 0.2208, 0.1513, 0.1814, 0.1799], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8212e-01, 1.2102e-02, 2.6438e-03, 2.5111e-03, 6.2582e-04],
+        [2.4289e-02, 9.1403e-01, 2.9515e-02, 1.6485e-02, 1.5679e-02],
+        [1.0731e-02, 5.7434e-02, 8.9007e-01, 3.3779e-02, 7.9880e-03],
+        [4.0649e-03, 1.2097e-02, 1.7736e-02, 9.6517e-01, 9.3527e-04],
+        [6.1284e-03, 1.8710e-02, 2.7752e-03, 1.2261e-03, 9.7116e-01]],
+       device='cuda:0')
+Validating...
+ 16%|                                                                                                                                              | 31/200 [32:13<2:48:19, 59.76s/it]2.85s/it]
+Computing Metrics on Val dataset
+
+Epoch 30 score:
+SOD f1_metric: 77.88300323486328%
+SOD F1 score: tensor([0.9431, 0.5610, 0.5832, 0.7089, 0.9257], device='cuda:0')
+SOD OA: 0.7887285351753235
+SOD mIoU: tensor(0.6209, device='cuda:0')
+SOD IoU per class: tensor([0.8923, 0.3898, 0.4116, 0.5490, 0.8617], device='cuda:0')
+SOD Precision per class: tensor([0.9055, 0.5445, 0.7742, 0.6457, 0.8851], device='cuda:0')
+SOD Recall per class: tensor([0.9840, 0.5784, 0.4678, 0.7857, 0.9702], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3919, 0.1458, 0.1287, 0.1689, 0.1646], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8400e-01, 4.2484e-03, 5.1897e-03, 1.5655e-03, 4.9998e-03],
+        [1.4102e-01, 5.7845e-01, 6.6421e-02, 9.4523e-02, 1.1959e-01],
+        [6.4037e-02, 2.4962e-01, 4.6777e-01, 2.1722e-01, 1.3569e-03],
+        [2.6330e-02, 5.5660e-02, 1.2947e-01, 7.8567e-01, 2.8710e-03],
+        [2.5743e-03, 2.6501e-02, 7.1451e-04, 0.0000e+00, 9.7021e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0575, 0.4566, 0.4209, 0.3654, 0.0828], device='cuda:0')
+Combined score: 77.88300323486328%
+Train Epoch Loss: 0.101
+Train Cross Entropy Epoch Loss: 0.101
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.350
+Validation Cross Entropy Epoch Loss: 0.350
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6209
+Learning Rate: 9.42e-04
+Early stopping counter: 5/30
+100%|| 16/16 [00:42<00:00,  2.64s/it]
+Train SOD mIoU: 0.8980
+Train SOD IoU per class: tensor([0.9554, 0.8531, 0.8285, 0.9071, 0.9461], device='cuda:0')
+Train SOD Precision per class: tensor([0.9704, 0.9239, 0.9208, 0.9451, 0.9717], device='cuda:0')
+Train SOD Recall per class: tensor([0.9841, 0.9176, 0.8921, 0.9575, 0.9730], device='cuda:0')
+Train SOD True class proportion: tensor([0.2699, 0.2188, 0.1573, 0.1774, 0.1767], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2737, 0.2173, 0.1524, 0.1798, 0.1769], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8409e-01, 1.0849e-02, 2.4835e-03, 2.0692e-03, 5.0396e-04],
+        [2.2469e-02, 9.1760e-01, 2.9041e-02, 1.5105e-02, 1.5789e-02],
+        [9.7038e-03, 5.3407e-02, 8.9208e-01, 3.6899e-02, 7.9097e-03],
+        [3.8392e-03, 1.2042e-02, 2.5588e-02, 9.5752e-01, 1.0083e-03],
+        [5.5996e-03, 1.7418e-02, 2.8699e-03, 1.1379e-03, 9.7298e-01]],
+       device='cuda:0')
+Validating...
+ 16%|▉                                                                                                                                             | 32/200 [33:17<2:50:35, 60.93s/it]2.89s/it]
+Computing Metrics on Val dataset
+
+Epoch 31 score:
+SOD f1_metric: 74.39700317382812%
+SOD F1 score: tensor([0.9470, 0.4972, 0.5198, 0.6266, 0.9085], device='cuda:0')
+SOD OA: 0.7561733722686768
+SOD mIoU: tensor(0.5740, device='cuda:0')
+SOD IoU per class: tensor([0.8992, 0.3308, 0.3512, 0.4563, 0.8323], device='cuda:0')
+SOD Precision per class: tensor([0.9102, 0.4626, 0.7817, 0.5671, 0.8508], device='cuda:0')
+SOD Recall per class: tensor([0.9867, 0.5374, 0.3894, 0.7001, 0.9746], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3910, 0.1595, 0.1061, 0.1714, 0.1720], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8674e-01, 3.9480e-03, 3.8590e-03, 1.0585e-03, 4.3947e-03],
+        [1.2754e-01, 5.3739e-01, 4.0527e-02, 1.2501e-01, 1.6953e-01],
+        [6.3413e-02, 2.7943e-01, 3.8939e-01, 2.6579e-01, 1.9738e-03],
+        [2.4588e-02, 1.5637e-01, 1.1603e-01, 7.0015e-01, 2.8636e-03],
+        [4.3790e-03, 2.0283e-02, 6.9728e-04, 2.4123e-05, 9.7462e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0561, 0.5223, 0.4773, 0.4508, 0.1138], device='cuda:0')
+Combined score: 74.39700317382812%
+Train Epoch Loss: 0.100
+Train Cross Entropy Epoch Loss: 0.100
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.392
+Validation Cross Entropy Epoch Loss: 0.392
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5740
+Learning Rate: 9.39e-04
+Early stopping counter: 6/30
+100%|| 16/16 [00:41<00:00,  2.58s/it]
+Train SOD mIoU: 0.9056
+Train SOD IoU per class: tensor([0.9567, 0.8568, 0.8441, 0.9202, 0.9503], device='cuda:0')
+Train SOD Precision per class: tensor([0.9734, 0.9233, 0.9317, 0.9514, 0.9732], device='cuda:0')
+Train SOD Recall per class: tensor([0.9823, 0.9224, 0.8998, 0.9656, 0.9759], device='cuda:0')
+Train SOD True class proportion: tensor([0.2754, 0.2174, 0.1589, 0.1794, 0.1688], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2780, 0.2172, 0.1535, 0.1821, 0.1693], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8233e-01, 1.2263e-02, 2.3275e-03, 2.5804e-03, 4.9495e-04],
+        [2.1731e-02, 9.2243e-01, 2.7465e-02, 1.4743e-02, 1.3632e-02],
+        [7.8084e-03, 5.4674e-02, 8.9978e-01, 2.9914e-02, 7.8234e-03],
+        [4.0697e-03, 1.0755e-02, 1.8505e-02, 9.6560e-01, 1.0751e-03],
+        [4.0767e-03, 1.5711e-02, 3.2317e-03, 1.1262e-03, 9.7585e-01]],
+       device='cuda:0')
+Validating...
+ 16%|▋                                                                                                                                            | 33/200 [34:19<2:50:17, 61.19s/it]2.74s/it]
+Computing Metrics on Val dataset
+
+Epoch 32 score:
+SOD f1_metric: 73.39199829101562%
+SOD F1 score: tensor([0.9543, 0.5256, 0.4473, 0.6237, 0.9036], device='cuda:0')
+SOD OA: 0.7502211928367615
+SOD mIoU: tensor(0.5669, device='cuda:0')
+SOD IoU per class: tensor([0.9126, 0.3565, 0.2881, 0.4532, 0.8242], device='cuda:0')
+SOD Precision per class: tensor([0.9260, 0.4912, 0.7373, 0.5342, 0.8482], device='cuda:0')
+SOD Recall per class: tensor([0.9844, 0.5652, 0.3210, 0.7492, 0.9668], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3834, 0.1580, 0.0928, 0.1947, 0.1712], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8440e-01, 4.2120e-03, 7.2421e-03, 1.4421e-03, 2.7025e-03],
+        [1.1173e-01, 5.6522e-01, 2.5806e-02, 1.3171e-01, 1.6553e-01],
+        [3.9550e-02, 2.9218e-01, 3.2102e-01, 3.3819e-01, 9.0580e-03],
+        [2.7542e-02, 9.0194e-02, 1.3052e-01, 7.4923e-01, 2.5193e-03],
+        [5.3416e-03, 2.7081e-02, 6.7890e-04, 9.1899e-05, 9.6681e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0441, 0.5003, 0.5560, 0.4670, 0.1261], device='cuda:0')
+Combined score: 73.39199829101562%
+Train Epoch Loss: 0.098
+Train Cross Entropy Epoch Loss: 0.098
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.404
+Validation Cross Entropy Epoch Loss: 0.404
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5669
+Learning Rate: 9.35e-04
+Early stopping counter: 7/30
+100%|| 16/16 [00:41<00:00,  2.59s/it]
+Train SOD mIoU: 0.9057
+Train SOD IoU per class: tensor([0.9564, 0.8598, 0.8448, 0.9200, 0.9477], device='cuda:0')
+Train SOD Precision per class: tensor([0.9711, 0.9281, 0.9281, 0.9519, 0.9740], device='cuda:0')
+Train SOD Recall per class: tensor([0.9844, 0.9211, 0.9040, 0.9648, 0.9723], device='cuda:0')
+Train SOD True class proportion: tensor([0.2642, 0.2240, 0.1589, 0.1852, 0.1677], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2678, 0.2223, 0.1548, 0.1877, 0.1674], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8443e-01, 1.1221e-02, 1.8566e-03, 2.0634e-03, 4.3388e-04],
+        [2.2352e-02, 9.2107e-01, 2.8891e-02, 1.4575e-02, 1.3112e-02],
+        [7.2498e-03, 5.0473e-02, 9.0396e-01, 3.1157e-02, 7.1625e-03],
+        [4.0579e-03, 1.0757e-02, 1.9550e-02, 9.6480e-01, 8.3835e-04],
+        [5.0009e-03, 1.7869e-02, 3.2771e-03, 1.5534e-03, 9.7230e-01]],
+       device='cuda:0')
+Validating...
+ 17%|▌                                                                                                                                           | 34/200 [35:18<2:47:38, 60.59s/it]2.82s/it]
+Computing Metrics on Val dataset
+
+Epoch 33 score:
+SOD f1_metric: 75.04100036621094%
+SOD F1 score: tensor([0.9433, 0.5322, 0.5024, 0.6733, 0.9099], device='cuda:0')
+SOD OA: 0.7675131559371948
+SOD mIoU: tensor(0.5866, device='cuda:0')
+SOD IoU per class: tensor([0.8926, 0.3626, 0.3355, 0.5075, 0.8347], device='cuda:0')
+SOD Precision per class: tensor([0.9069, 0.5539, 0.7777, 0.5624, 0.8483], device='cuda:0')
+SOD Recall per class: tensor([0.9827, 0.5121, 0.3711, 0.8385, 0.9811], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3908, 0.1269, 0.1017, 0.2069, 0.1737], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8269e-01, 3.1693e-03, 8.1854e-03, 2.2007e-03, 3.7552e-03],
+        [1.4396e-01, 5.1208e-01, 5.7235e-02, 1.1583e-01, 1.7090e-01],
+        [5.7114e-02, 2.1966e-01, 3.7107e-01, 3.4656e-01, 5.5969e-03],
+        [2.6544e-02, 4.8621e-02, 8.3965e-02, 8.3847e-01, 2.3988e-03],
+        [5.1372e-03, 1.2771e-02, 9.5230e-04, 0.0000e+00, 9.8114e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0637, 0.4972, 0.5093, 0.4125, 0.1130], device='cuda:0')
+Combined score: 75.04100036621094%
+Train Epoch Loss: 0.095
+Train Cross Entropy Epoch Loss: 0.095
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.397
+Validation Cross Entropy Epoch Loss: 0.397
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5866
+Learning Rate: 9.31e-04
+Early stopping counter: 8/30
+100%|| 16/16 [00:41<00:00,  2.62s/it]
+Train SOD mIoU: 0.9039
+Train SOD IoU per class: tensor([0.9552, 0.8544, 0.8437, 0.9185, 0.9476], device='cuda:0')
+Train SOD Precision per class: tensor([0.9707, 0.9223, 0.9331, 0.9502, 0.9724], device='cuda:0')
+Train SOD Recall per class: tensor([0.9836, 0.9207, 0.8981, 0.9649, 0.9738], device='cuda:0')
+Train SOD True class proportion: tensor([0.2635, 0.2183, 0.1637, 0.1784, 0.1761], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2670, 0.2179, 0.1575, 0.1812, 0.1764], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8357e-01, 1.1838e-02, 2.1640e-03, 1.9848e-03, 4.4031e-04],
+        [2.2120e-02, 9.2074e-01, 2.7964e-02, 1.4101e-02, 1.5077e-02],
+        [8.6749e-03, 5.3406e-02, 8.9806e-01, 3.1876e-02, 7.9845e-03],
+        [3.8234e-03, 1.1956e-02, 1.8466e-02, 9.6489e-01, 8.6115e-04],
+        [5.1367e-03, 1.6739e-02, 3.2454e-03, 1.1036e-03, 9.7378e-01]],
+       device='cuda:0')
+Validating...
+ 18%|▍                                                                                                                                          | 35/200 [36:21<2:48:56, 61.43s/it]2.89s/it]
+Computing Metrics on Val dataset
+
+Epoch 34 score:
+SOD f1_metric: 75.9729995727539%
+SOD F1 score: tensor([0.9544, 0.5831, 0.4836, 0.6634, 0.9345], device='cuda:0')
+SOD OA: 0.7749850153923035
+SOD mIoU: tensor(0.6033, device='cuda:0')
+SOD IoU per class: tensor([0.9128, 0.4116, 0.3189, 0.4964, 0.8770], device='cuda:0')
+SOD Precision per class: tensor([0.9261, 0.5555, 0.7573, 0.5648, 0.8861], device='cuda:0')
+SOD Recall per class: tensor([0.9844, 0.6136, 0.3552, 0.8038, 0.9884], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3834, 0.1516, 0.0999, 0.1975, 0.1675], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8443e-01, 9.2745e-03, 3.3204e-03, 1.1810e-03, 1.7927e-03],
+        [9.9822e-02, 6.1361e-01, 5.1673e-02, 1.0604e-01, 1.2886e-01],
+        [4.9593e-02, 2.6069e-01, 3.5519e-01, 3.3315e-01, 1.3788e-03],
+        [2.5805e-02, 5.2586e-02, 1.1448e-01, 8.0384e-01, 3.2924e-03],
+        [3.1039e-03, 7.9676e-03, 4.7902e-04, 0.0000e+00, 9.8845e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0424, 0.4429, 0.5248, 0.4221, 0.0706], device='cuda:0')
+Combined score: 75.9729995727539%
+Train Epoch Loss: 0.096
+Train Cross Entropy Epoch Loss: 0.096
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.381
+Validation Cross Entropy Epoch Loss: 0.381
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6033
+Learning Rate: 9.27e-04
+Early stopping counter: 9/30
+100%|| 16/16 [00:41<00:00,  2.57s/it]
+Train SOD mIoU: 0.9110
+Train SOD IoU per class: tensor([0.9584, 0.8649, 0.8597, 0.9266, 0.9454], device='cuda:0')
+Train SOD Precision per class: tensor([0.9719, 0.9320, 0.9330, 0.9570, 0.9728], device='cuda:0')
+Train SOD Recall per class: tensor([0.9857, 0.9231, 0.9163, 0.9668, 0.9711], device='cuda:0')
+Train SOD True class proportion: tensor([0.2569, 0.2240, 0.1686, 0.1754, 0.1751], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2606, 0.2219, 0.1656, 0.1773, 0.1748], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8575e-01, 1.0383e-02, 1.9027e-03, 1.5555e-03, 4.1271e-04],
+        [2.0321e-02, 9.2311e-01, 2.9377e-02, 1.2546e-02, 1.4642e-02],
+        [6.9599e-03, 4.4369e-02, 9.1629e-01, 2.4994e-02, 7.3894e-03],
+        [3.2239e-03, 9.9960e-03, 1.9278e-02, 9.6685e-01, 6.5443e-04],
+        [5.8981e-03, 1.8214e-02, 3.6868e-03, 1.1256e-03, 9.7108e-01]],
+       device='cuda:0')
+Validating...
+ 18%|▏                                                                                                                                         | 36/200 [37:24<2:48:29, 61.64s/it]2.82s/it]
+Computing Metrics on Val dataset
+
+Epoch 35 score:
+SOD f1_metric: 74.96499633789062%
+SOD F1 score: tensor([0.9479, 0.5501, 0.4698, 0.6866, 0.9114], device='cuda:0')
+SOD OA: 0.7648826837539673
+SOD mIoU: tensor(0.5895, device='cuda:0')
+SOD IoU per class: tensor([0.9009, 0.3794, 0.3070, 0.5228, 0.8372], device='cuda:0')
+SOD Precision per class: tensor([0.9249, 0.4968, 0.7672, 0.5979, 0.8594], device='cuda:0')
+SOD Recall per class: tensor([0.9720, 0.6162, 0.3385, 0.8063, 0.9700], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3790, 0.1703, 0.0940, 0.1872, 0.1695], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7203e-01, 1.0373e-02, 1.0899e-02, 7.8061e-04, 5.9186e-03],
+        [9.6711e-02, 6.1620e-01, 3.0802e-02, 1.0736e-01, 1.4893e-01],
+        [5.4036e-02, 3.2080e-01, 3.3852e-01, 2.8276e-01, 3.8870e-03],
+        [2.2786e-02, 6.9559e-02, 9.8360e-02, 8.0631e-01, 2.9891e-03],
+        [3.4428e-03, 2.6090e-02, 4.9281e-04, 0.0000e+00, 9.6997e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0575, 0.4854, 0.5527, 0.4038, 0.1083], device='cuda:0')
+Combined score: 74.96499633789062%
+Train Epoch Loss: 0.093
+Train Cross Entropy Epoch Loss: 0.093
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.404
+Validation Cross Entropy Epoch Loss: 0.404
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5895
+Learning Rate: 9.23e-04
+Early stopping counter: 10/30
+100%|| 16/16 [00:42<00:00,  2.63s/it]
+Train SOD mIoU: 0.9020
+Train SOD IoU per class: tensor([0.9576, 0.8556, 0.8360, 0.9189, 0.9418], device='cuda:0')
+Train SOD Precision per class: tensor([0.9719, 0.9275, 0.9248, 0.9488, 0.9697], device='cuda:0')
+Train SOD Recall per class: tensor([0.9849, 0.9169, 0.8969, 0.9668, 0.9703], device='cuda:0')
+Train SOD True class proportion: tensor([0.2681, 0.2241, 0.1522, 0.1810, 0.1747], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2717, 0.2215, 0.1476, 0.1844, 0.1748], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8492e-01, 1.0640e-02, 2.1838e-03, 1.7694e-03, 4.9043e-04],
+        [2.0955e-02, 9.1693e-01, 2.8861e-02, 1.5990e-02, 1.7268e-02],
+        [8.3062e-03, 5.3469e-02, 8.9692e-01, 3.3858e-02, 7.4432e-03],
+        [3.6010e-03, 1.0294e-02, 1.8407e-02, 9.6682e-01, 8.7538e-04],
+        [5.8685e-03, 1.8424e-02, 4.0519e-03, 1.3125e-03, 9.7034e-01]],
+       device='cuda:0')
+Validating...
+ 18%|                                                                                                                                         | 37/200 [38:24<2:46:22, 61.24s/it]2.89s/it]
+Computing Metrics on Val dataset
+
+Epoch 36 score:
+SOD f1_metric: 75.7979965209961%
+SOD F1 score: tensor([0.9501, 0.5567, 0.4873, 0.7160, 0.9034], device='cuda:0')
+SOD OA: 0.7722805142402649
+SOD mIoU: tensor(0.5989, device='cuda:0')
+SOD IoU per class: tensor([0.9049, 0.3858, 0.3222, 0.5576, 0.8239], device='cuda:0')
+SOD Precision per class: tensor([0.9309, 0.4927, 0.8070, 0.6303, 0.8479], device='cuda:0')
+SOD Recall per class: tensor([0.9700, 0.6399, 0.3491, 0.8286, 0.9667], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3758, 0.1783, 0.0922, 0.1825, 0.1712], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7003e-01, 1.4434e-02, 7.2087e-03, 1.3962e-03, 6.9312e-03],
+        [8.7661e-02, 6.3994e-01, 2.3087e-02, 8.7590e-02, 1.6172e-01],
+        [5.0880e-02, 3.3991e-01, 3.4908e-01, 2.5786e-01, 2.2685e-03],
+        [1.9513e-02, 5.9153e-02, 8.6540e-02, 8.2862e-01, 6.1709e-03],
+        [2.5226e-03, 3.0690e-02, 6.8924e-05, 2.2975e-06, 9.6672e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0527, 0.4698, 0.5138, 0.3613, 0.1180], device='cuda:0')
+Combined score: 75.7979965209961%
+Train Epoch Loss: 0.099
+Train Cross Entropy Epoch Loss: 0.099
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.372
+Validation Cross Entropy Epoch Loss: 0.372
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5989
+Learning Rate: 9.19e-04
+Early stopping counter: 11/30
+100%|| 16/16 [00:42<00:00,  2.63s/it]
+Train SOD mIoU: 0.9006
+Train SOD IoU per class: tensor([0.9482, 0.8580, 0.8403, 0.9176, 0.9392], device='cuda:0')
+Train SOD Precision per class: tensor([0.9658, 0.9258, 0.9257, 0.9514, 0.9717], device='cuda:0')
+Train SOD Recall per class: tensor([0.9811, 0.9213, 0.9011, 0.9627, 0.9656], device='cuda:0')
+Train SOD True class proportion: tensor([0.2621, 0.2302, 0.1518, 0.1778, 0.1781], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2663, 0.2291, 0.1477, 0.1799, 0.1770], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8113e-01, 1.3093e-02, 2.1417e-03, 3.1830e-03, 4.5106e-04],
+        [2.2923e-02, 9.2130e-01, 2.6675e-02, 1.3422e-02, 1.5683e-02],
+        [8.4474e-03, 5.2852e-02, 9.0107e-01, 2.9977e-02, 7.6584e-03],
+        [6.0897e-03, 1.0371e-02, 2.0172e-02, 9.6270e-01, 6.6617e-04],
+        [8.2494e-03, 2.0757e-02, 3.8577e-03, 1.5437e-03, 9.6559e-01]],
+       device='cuda:0')
+Validating...
+ 19%|▉                                                                                                                                        | 38/200 [39:26<2:45:55, 61.45s/it]2.82s/it]
+Computing Metrics on Val dataset
+
+Epoch 37 score:
+SOD f1_metric: 77.06300354003906%
+SOD F1 score: tensor([0.9531, 0.5466, 0.5429, 0.7151, 0.9115], device='cuda:0')
+SOD OA: 0.7837364077568054
+SOD mIoU: tensor(0.6106, device='cuda:0')
+SOD IoU per class: tensor([0.9105, 0.3761, 0.3726, 0.5566, 0.8374], device='cuda:0')
+SOD Precision per class: tensor([0.9193, 0.5152, 0.8533, 0.6168, 0.8685], device='cuda:0')
+SOD Recall per class: tensor([0.9895, 0.5820, 0.3981, 0.8508, 0.9590], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3882, 0.1551, 0.0994, 0.1915, 0.1658], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8955e-01, 6.1057e-03, 2.6800e-03, 4.9505e-04, 1.1733e-03],
+        [1.2412e-01, 5.8204e-01, 3.0174e-02, 1.1344e-01, 1.5022e-01],
+        [5.2316e-02, 2.7763e-01, 3.9808e-01, 2.7044e-01, 1.5302e-03],
+        [2.0089e-02, 5.8486e-02, 6.7488e-02, 8.5083e-01, 3.1084e-03],
+        [2.2825e-03, 3.8008e-02, 6.9843e-04, 1.1487e-06, 9.5901e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0377, 0.4819, 0.4677, 0.3610, 0.1017], device='cuda:0')
+Combined score: 77.06300354003906%
+Train Epoch Loss: 0.103
+Train Cross Entropy Epoch Loss: 0.103
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.361
+Validation Cross Entropy Epoch Loss: 0.361
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6106
+Learning Rate: 9.14e-04
+Early stopping counter: 12/30
+100%|| 16/16 [00:42<00:00,  2.65s/it]
+Train SOD mIoU: 0.9001
+Train SOD IoU per class: tensor([0.9484, 0.8560, 0.8340, 0.9182, 0.9436], device='cuda:0')
+Train SOD Precision per class: tensor([0.9665, 0.9232, 0.9254, 0.9528, 0.9703], device='cuda:0')
+Train SOD Recall per class: tensor([0.9806, 0.9217, 0.8942, 0.9620, 0.9716], device='cuda:0')
+Train SOD True class proportion: tensor([0.2673, 0.2224, 0.1633, 0.1794, 0.1676], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2712, 0.2220, 0.1578, 0.1812, 0.1678], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8064e-01, 1.3639e-02, 3.3582e-03, 1.7994e-03, 5.5952e-04],
+        [2.1791e-02, 9.2167e-01, 2.7750e-02, 1.3333e-02, 1.5457e-02],
+        [1.5508e-02, 5.2814e-02, 8.9419e-01, 3.0042e-02, 7.4498e-03],
+        [4.1762e-03, 1.0357e-02, 2.2499e-02, 9.6200e-01, 9.6736e-04],
+        [5.6661e-03, 1.7476e-02, 3.9754e-03, 1.2337e-03, 9.7165e-01]],
+       device='cuda:0')
+Validating...
+ 20%|▊                                                                                                                                       | 39/200 [40:30<2:47:27, 62.41s/it]2.93s/it]
+Computing Metrics on Val dataset
+
+Epoch 38 score:
+SOD f1_metric: 75.59100341796875%
+SOD F1 score: tensor([0.9447, 0.5583, 0.5070, 0.6766, 0.9095], device='cuda:0')
+SOD OA: 0.7694261074066162
+SOD mIoU: tensor(0.5935, device='cuda:0')
+SOD IoU per class: tensor([0.8953, 0.3873, 0.3396, 0.5113, 0.8340], device='cuda:0')
+SOD Precision per class: tensor([0.9145, 0.5282, 0.7713, 0.5862, 0.8636], device='cuda:0')
+SOD Recall per class: tensor([0.9771, 0.5921, 0.3776, 0.7999, 0.9605], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3854, 0.1539, 0.1043, 0.1894, 0.1670], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.7709e-01, 1.0688e-02, 6.9083e-03, 1.1570e-03, 4.1556e-03],
+        [1.1746e-01, 5.9209e-01, 4.1241e-02, 1.0270e-01, 1.4651e-01],
+        [5.9472e-02, 2.5975e-01, 3.7762e-01, 2.9964e-01, 3.5145e-03],
+        [2.5989e-02, 5.8272e-02, 1.1274e-01, 7.9995e-01, 3.0488e-03],
+        [3.7483e-03, 3.5331e-02, 4.2159e-04, 0.0000e+00, 9.6050e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0532, 0.4687, 0.4945, 0.4069, 0.1096], device='cuda:0')
+Combined score: 75.59100341796875%
+Train Epoch Loss: 0.102
+Train Cross Entropy Epoch Loss: 0.102
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.391
+Validation Cross Entropy Epoch Loss: 0.391
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.5935
+Learning Rate: 9.10e-04
+Early stopping counter: 13/30
+100%|| 16/16 [00:41<00:00,  2.58s/it]
+Train SOD mIoU: 0.9053
+Train SOD IoU per class: tensor([0.9521, 0.8630, 0.8462, 0.9192, 0.9459], device='cuda:0')
+Train SOD Precision per class: tensor([0.9702, 0.9300, 0.9301, 0.9495, 0.9712], device='cuda:0')
+Train SOD Recall per class: tensor([0.9808, 0.9230, 0.9037, 0.9664, 0.9731], device='cuda:0')
+Train SOD True class proportion: tensor([0.2579, 0.2349, 0.1609, 0.1772, 0.1691], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2607, 0.2332, 0.1563, 0.1804, 0.1694], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8084e-01, 1.3900e-02, 2.5267e-03, 2.1741e-03, 5.6214e-04],
+        [1.9490e-02, 9.2302e-01, 2.8004e-02, 1.5007e-02, 1.4483e-02],
+        [1.0369e-02, 4.8932e-02, 9.0368e-01, 2.9860e-02, 7.1584e-03],
+        [4.2851e-03, 1.0764e-02, 1.7575e-02, 9.6641e-01, 9.6196e-04],
+        [4.5603e-03, 1.7549e-02, 3.4811e-03, 1.2906e-03, 9.7312e-01]],
+       device='cuda:0')
+Validating...
+ 20%|▌                                                                                                                                      | 40/200 [41:32<2:46:03, 62.27s/it]2.83s/it]
+Computing Metrics on Val dataset
+
+Epoch 39 score:
+SOD f1_metric: 76.07499694824219%
+SOD F1 score: tensor([0.9434, 0.5754, 0.5151, 0.6709, 0.9230], device='cuda:0')
+SOD OA: 0.7743163704872131
+SOD mIoU: tensor(0.6011, device='cuda:0')
+SOD IoU per class: tensor([0.8929, 0.4039, 0.3469, 0.5048, 0.8570], device='cuda:0')
+SOD Precision per class: tensor([0.9038, 0.5498, 0.7562, 0.5912, 0.8857], device='cuda:0')
+SOD Recall per class: tensor([0.9867, 0.6035, 0.3906, 0.7755, 0.9636], device='cuda:0')
+SOD True class proportion: tensor([0.3607, 0.1373, 0.2131, 0.1388, 0.1502], device='cuda:0')
+SOD Pred class proportion: tensor([0.3938, 0.1507, 0.1101, 0.1821, 0.1634], device='cuda:0')
+SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8673e-01, 5.4384e-03, 2.7316e-03, 9.0497e-04, 4.1967e-03],
+        [1.3718e-01, 6.0355e-01, 4.3301e-02, 9.7406e-02, 1.1857e-01],
+        [7.0329e-02, 2.5227e-01, 3.9060e-01, 2.8508e-01, 1.7212e-03],
+        [2.6898e-02, 5.1116e-02, 1.4265e-01, 7.7555e-01, 3.7908e-03],
+        [2.3147e-03, 3.3425e-02, 6.7661e-04, 3.4462e-06, 9.6358e-01]],
+       device='cuda:0')
+SOD Train-Val IoU gap per class: tensor([0.0592, 0.4591, 0.4993, 0.4144, 0.0889], device='cuda:0')
+Combined score: 76.07499694824219%
+Train Epoch Loss: 0.096
+Train Cross Entropy Epoch Loss: 0.096
+Train Water Consistency Epoch Loss: 0.000
+Validation Epoch Loss: 0.373
+Validation Cross Entropy Epoch Loss: 0.373
+Validation val_edge_consistency_loss: 0.000
+Water edge Accuarcy: 0.0
+Validation SOD mIoU: 0.6011
+Learning Rate: 9.05e-04
+Early stopping counter: 14/30
+100%|| 100/100 [00:19<00:00,  7.17it/s]
+Train SOD mIoU: 0.9111
+Train SOD IoU per class: tensor([0.9586, 0.8654, 0.8529, 0.9271, 0.9517], device='cuda:0')
+Train SOD Precision per class: tensor([0.9735, 0.9301, 0.9373, 0.9540, 0.9726], device='cuda:0')
+Train SOD Recall per class: tensor([0.9842, 0.9255, 0.9046, 0.9704, 0.9779], device='cuda:0')
+Train SOD True class proportion: tensor([0.2655, 0.2260, 0.1641, 0.1755, 0.1689], device='cuda:0')
+Train SOD Pred class proportion: tensor([0.2684, 0.2248, 0.1584, 0.1785, 0.1698], device='cuda:0')
+Train SOD Normalized Confusion Matrix (row=true, col=pred):
+tensor([[9.8424e-01, 1.1820e-02, 1.8287e-03, 1.5674e-03, 5.4516e-04],
+        [2.0705e-02, 9.2553e-01, 2.6351e-02, 1.3152e-02, 1.4257e-02],
+        [8.8724e-03, 5.1158e-02, 9.0457e-01, 2.8503e-02, 6.8922e-03],
+        [2.8104e-03, 9.2450e-03, 1.6651e-02, 9.7042e-01, 8.7457e-04],
+        [2.8075e-03, 1.5097e-02, 3.3857e-03, 8.1342e-04, 9.7790e-01]],
+       device='cuda:0')
+Validating...
+ 44%|▎                                                                                                | 7/16 [00:16<00:23,  2.56s/it]

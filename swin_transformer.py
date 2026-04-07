@@ -538,7 +538,12 @@ class SwinTransformer(nn.Module):
         super().__init__()
         img_size = options['patch_size']
         patch_size = options['swin_hp']['patch_size']
-        in_chans = options.get('n_input_channels', len(options['train_variables']))
+        default_in_chans = (
+            len(options['train_variables'])
+            + (1 if options.get('pol_ratio_channel', False) else 0)
+            + (2 if options.get('month_encoding', False) else 0)
+        )
+        in_chans = options.get('n_input_channels', default_in_chans)
         embed_dim = options['swin_hp']['embed_dim']
         depths = options['swin_hp']['depths']
         num_heads = options['swin_hp']['num_heads']

@@ -1,5 +1,1 @@
 work_dirs/*/*.pth
-
-# Inference visualization outputs (often large image files)
-work_dirs/*/inference_val/
-work_dirs/*/Cross Validation/
